@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Send email to Musa Mutuku
+    // Send email to Musa & Musa Advocates
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #1a365d; color: white; padding: 2rem; text-align: center;">
@@ -120,7 +120,7 @@ export async function POST(request: NextRequest) {
         </div>
 
         <div style="background: #1a365d; color: white; padding: 1.5rem; text-align: center;">
-          <p style="margin: 0; font-size: 1.1rem; font-weight: 600;">⚖️ Musa Mutuku Law Firm</p>
+          <p style="margin: 0; font-size: 1.1rem; font-weight: 600;">⚖️ Musa & Musa Advocates</p>
           <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Professional Legal Services | Nairobi, Kenya</p>
         </div>
       </div>
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
     const confirmationHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <div style="background: #1a365d; color: white; padding: 2rem; text-align: center;">
-          <h2>Musa Mutuku law Firm</h2>
+          <h2>Musa & Musa Advocates</h2>
           <h3>📧 Contact Request Received</h3>
           <p>We have received your message and will respond within 24 hours</p>
         </div>
@@ -148,9 +148,9 @@ export async function POST(request: NextRequest) {
           <div style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
             <p>Dear ${name},</p>
             
-            <p>Thank you for reaching out to Musa Mutuku Law Firm. We have received your message regarding "${subject}" and will review it promptly.</p>
+            <p>Thank you for reaching out to Musa & Musa Advocates. We have received your message regarding "${subject}" and will review it promptly.</p>
             
-            <p>Our team typically responds to all inquiries within 24 hours during business days. If your matter is urgent, please don't hesitate to call us directly at <strong>+254 754 251 399</strong>.</p>
+            <p>Our team typically responds to all inquiries within 24 hours during business days. If your matter is urgent, please don't hesitate to call us directly at <strong>+254 758 251 399</strong>.</p>
             
             <div style="background: #f7fafc; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
               <h3 style="color: #1a365d; margin-top: 0;">Your Message Summary:</h3>
@@ -161,12 +161,12 @@ export async function POST(request: NextRequest) {
             <p>We appreciate your interest in our legal services and look forward to assisting you.</p>
             
             <p>Best regards,<br>
-            <strong>Musa Mutuku Law Firm</strong></p>
+            <strong>Musa & Musa Advocates</strong></p>
           </div>
         </div>
         
         <div style="background: #1a365d; color: white; padding: 1rem; text-align: center;">
-          <p style="margin: 0;">📧 officialjoshuamwendwa@gmail.com | 📞 +254 758 251 399</p>
+          <p style="margin: 0;">📧 officialmutuku@gmail.com | 📞 +254 758 251 399</p>
         </div>
       </div>
     `
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
     await transporter.sendMail({
       from: process.env.SMTP_FROM || process.env.SMTP_USER,
       to: email,
-      subject: "Thank you for contacting Musa Mutuku Law Firm",
+      subject: "Thank you for contacting Musa & Musa Advocates",
       html: confirmationHtml,
     })
 

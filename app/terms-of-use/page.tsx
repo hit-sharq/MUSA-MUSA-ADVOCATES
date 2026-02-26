@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Terms of Use | Musa Mutuku Law Firm",
-  description: "Terms of Use for Musa Mutuku Law Firm website and legal services.",
+  title: "Terms of Use | Musa & Musa Advocates",
+  description: "Terms of Use for Musa & Musa Advocates website and legal services.",
 }
 
 export default function TermsOfUsePage() {
@@ -20,7 +20,7 @@ export default function TermsOfUsePage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">1. Acceptance of Terms</h2>
               <p className="text-gray-700 mb-4">
-                By accessing and using the Musa Mutuku Law Firm website ("Website"), you accept and agree to be bound
+                By accessing and using the Musa & Musa Advocates website ("Website"), you accept and agree to be bound
                 by the terms and provision of this agreement. If you do not agree to abide by the above, please do not
                 use this service.
               </p>
@@ -31,7 +31,7 @@ export default function TermsOfUsePage() {
               <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
                 <p className="text-yellow-800 font-medium">
                   <strong>IMPORTANT:</strong> Use of this website does not create an attorney-client relationship
-                  between you and Musa Mutuku Law Firm.
+                  between you and Musa & Musa Advocates.
                 </p>
               </div>
               <p className="text-gray-700 mb-4">
@@ -101,14 +101,14 @@ export default function TermsOfUsePage() {
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">7. Intellectual Property</h2>
               <p className="text-gray-700 mb-4">
                 All content on this website, including text, graphics, logos, images, and software, is the property of
-                Musa Mutuku Law Firm and is protected by copyright and other intellectual property laws.
+                Musa & Musa Advocates and is protected by copyright and other intellectual property laws.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">8. Limitation of Liability</h2>
               <p className="text-gray-700 mb-4">
-                In no event shall Musa Mutuku Law Firm or its suppliers be liable for any damages (including, without
+                In no event shall Musa & Musa Advocates or its suppliers be liable for any damages (including, without
                 limitation, damages for loss of data or profit, or due to business interruption) arising out of the use
                 or inability to use the materials on this website.
               </p>
@@ -133,7 +133,7 @@ export default function TermsOfUsePage() {
             <section className="mb-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">11. Professional Responsibility</h2>
               <p className="text-gray-700 mb-4">
-                Musa Mutuku Law Firm is licensed to practice law in Kenya and is subject to the rules and regulations
+                Musa & Musa Advocates is licensed to practice law in Kenya and is subject to the rules and regulations
                 of the Law Society of Kenya. We maintain professional liability insurance and adhere to all applicable
                 ethical standards.
               </p>
@@ -154,7 +154,7 @@ export default function TermsOfUsePage() {
               </p>
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-gray-700">
-                  <strong>Musa Mutuku Law Firm</strong>
+                  <strong>Musa & Musa Advocates</strong>
                 </p>
                 <p className="text-gray-700">Email: officialmutuku@gmail.com</p>
                 <p className="text-gray-700">Phone: +254 758 251 399</p>

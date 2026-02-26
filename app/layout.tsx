@@ -6,9 +6,8 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Musa Mutuku - Experienced Legal Representation",
-  description: "Professional legal services with experienced representation you can trust.",
-    generator: 'v0.dev'
+  title: "Musa & Musa Advocates - Experienced Legal Representation",
+  description: "Premier law firm in Nairobi, Kenya. Comprehensive legal services with integrity, professionalism, and dedication to justice.",
 }
 
 export default function RootLayout({
@@ -21,7 +20,7 @@ export default function RootLayout({
   <head>
     <link rel="icon" href="/favicon.ico" />
   </head>
-  <body className={inter.className}>
+  <body className={inter.className} suppressHydrationWarning>
     <ClerkProvider>{children}</ClerkProvider>
   </body>
 </html>

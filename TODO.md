@@ -21,7 +21,13 @@
 - [x] 8. Update app/(public)/team/page.tsx - Change "Our Team" to "Our Attorneys"
 - [x] 9. Update app/(public)/practice-areas/page.tsx - Minor branding updates
 
-### Phase 6: Testing
-- [ ] 10. Run build to verify no errors
-- [ ] 11. Review all pages for consistency
+### Phase 6: Additional Updates
+- [x] 10. Update app/privacy-policy/page.tsx - Already had correct firm name
+- [x] 11. Update app/terms-of-use/page.tsx - Updated firm name
+- [x] 12. Update app/api/contact/route.ts - Updated email templates
+- [x] 13. Update README.md - Updated project name
+
+### Phase 7: Testing
+- [ ] 14. Run build to verify no errors
+- [ ] 15. Review all pages for consistency
  -->

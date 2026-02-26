@@ -14,8 +14,8 @@ export default async function PracticeAreasPage() {
       <div className="container">
         <h1 className="section-title">Practice Areas</h1>
         <p className="section-subtitle">
-          Comprehensive legal services tailored to meet your specific needs. With years of experience and a commitment
-          to excellence, our experienced team provides expert representation across various areas of law.
+          Comprehensive legal services tailored to meet your specific needs. With experience and a commitment
+          to excellence, our dedicated team provides expert representation across various areas of law.
         </p>
 
         <div className="grid grid-2" style={{ gap: "2rem" }}>
