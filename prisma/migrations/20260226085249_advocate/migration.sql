@@ -75,6 +75,7 @@ CREATE TABLE "contact_requests" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT,
+    "company" TEXT,
     "subject" TEXT NOT NULL,
     "message" TEXT NOT NULL,
     "read" BOOLEAN NOT NULL DEFAULT false,
