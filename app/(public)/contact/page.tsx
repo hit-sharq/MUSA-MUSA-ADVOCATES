@@ -483,7 +483,7 @@ export default function ContactPage() {
               If you're facing an urgent legal matter that requires immediate attention, don't wait. Our emergency line
               is available 24/7.
             </p>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }} className="emergency-buttons">
               <a
                 href="tel:+254711000999"
                 style={{
@@ -561,6 +561,39 @@ export default function ContactPage() {
       </div>
 
       <style jsx>{`
+        @media (max-width: 768px) {
+          .contact-grid {
+            gap: 2rem !important;
+          }
+          
+          .form-grid,
+          .form-grid-2 {
+            grid-template-columns: 1fr !important;
+          }
+          
+          .emergency-buttons {
+            flex-direction: column;
+            align-items: center;
+          }
+          
+          .emergency-buttons a {
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
+          }
+          
+          .faq-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .emergency-buttons a {
+            font-size: 1rem !important;
+            padding: 0.875rem 1.5rem !important;
+          }
+        }
+        
         @keyframes spin {
           0% { transform: translateY(-50%) rotate(0deg); }
           100% { transform: translateY(-50%) rotate(360deg); }

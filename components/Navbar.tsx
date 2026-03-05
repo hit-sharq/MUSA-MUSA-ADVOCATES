@@ -19,6 +19,17 @@ export default function Navbar() {
     }
   }, [isSignedIn])
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMenuOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <header className="header">
       <div className="container">
@@ -81,16 +92,47 @@ export default function Navbar() {
           </ul>
 
           <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div style={{ display: isMenuOpen ? "none" : "block" }}>
+            <div style={{ display: isMenuOpen ? "none" : "block" }} className="navbar-search">
               <SearchBar />
             </div>
 
-            <button className="mobile-menu-btn" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              ☰
+            <button 
+              className={`mobile-menu-btn ${isMenuOpen ? "active" : ""}`} 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? "✕" : "☰"}
             </button>
           </div>
         </nav>
       </div>
+      
+      {/* Mobile overlay */}
+      {isMenuOpen && <div className="mobile-overlay" onClick={() => setIsMenuOpen(false)}></div>}
+      
+      <style jsx>{`
+        .mobile-menu-btn.active {
+          background: #0a2540;
+          color: white;
+        }
+        
+        @media (max-width: 768px) {
+          .navbar-search {
+            display: none !important;
+          }
+        }
+        
+        .mobile-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 999;
+        }
+      `}</style>
     </header>
   )
 }

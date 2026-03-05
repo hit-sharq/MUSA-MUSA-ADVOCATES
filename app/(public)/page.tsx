@@ -58,15 +58,16 @@ export default async function HomePage() {
             gap: "4rem",
             maxWidth: "1400px",
             margin: "0 auto"
-          }}>
-            <div>
+          }} className="hero-grid">
+            <div className="hero-content">
               {/* Firm Tagline */}
               <div style={{ 
                 display: "flex", 
                 gap: "1rem", 
                 marginBottom: "1.5rem",
-                flexWrap: "wrap"
-              }}>
+                flexWrap: "wrap",
+                justifyContent: "flex-start"
+              }} className="hero-tags">
                 <span style={{
                   background: "rgba(189, 221, 252, 0.15)",
                   color: "#BDDDFC",
@@ -109,7 +110,7 @@ export default async function HomePage() {
                 A premier law firm committed to delivering exceptional legal services with integrity, professionalism, and an unwavering dedication to justice.
               </p>
               
-              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "flex-start" }} className="hero-buttons">
                 <Link href="/contact" className="cta-button" style={{
                   background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)",
                   color: "#0a2540",
@@ -144,8 +145,9 @@ export default async function HomePage() {
                 gap: "2rem", 
                 marginTop: "3rem",
                 paddingTop: "2rem",
-                borderTop: "1px solid rgba(255,255,255,0.15)"
-              }}>
+                borderTop: "1px solid rgba(255,255,255,0.15)",
+                justifyContent: "flex-start"
+              }} className="hero-values">
                 <div style={{ textAlign: "center" }}>
                   <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#BDDDFC" }}>✦</div>
                   <div style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.7)" }}>Integrity</div>
@@ -162,7 +164,7 @@ export default async function HomePage() {
             </div>
             
             {/* Hero Image Section */}
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative" }} className="hero-image-container">
               <div style={{
                 position: "absolute",
                 top: "-20px",
@@ -192,19 +194,69 @@ export default async function HomePage() {
               <div style={{
                 position: "absolute",
                 bottom: "30px",
-                left: "-30px",
+                left: "-20px",
                 background: "#ffffff",
                 padding: "1.25rem 1.5rem",
                 borderRadius: "10px",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
                 zIndex: 2
-              }}>
+              }} className="hero-badge">
                 <div style={{ fontSize: "0.75rem", color: "#64748b", marginBottom: "0.25rem", fontWeight: 600 }}>LICENSED BY</div>
                 <div style={{ fontSize: "0.9rem", color: "#0a2540", fontWeight: 700 }}>Law Society of Kenya</div>
               </div>
             </div>
           </div>
         </div>
+        
+        <style jsx>{`
+          @media (max-width: 1024px) {
+            .hero-grid {
+              grid-template-columns: 1fr 1fr !important;
+              gap: 3rem !important;
+            }
+          }
+          
+          @media (max-width: 768px) {
+            .hero-grid {
+              grid-template-columns: 1fr !important;
+              gap: 2.5rem !important;
+              text-align: center;
+            }
+            
+            .hero-content {
+              order: 2;
+            }
+            
+            .hero-image-container {
+              order: 1;
+              max-width: 400px;
+              margin: 0 auto;
+            }
+            
+            .hero-tags, .hero-buttons, .hero-values {
+              justify-content: center !important;
+            }
+            
+            .hero-values {
+              justify-content: center !important;
+              gap: 1.5rem !important;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .hero-image-container {
+              max-width: 300px;
+            }
+            
+            .hero-badge {
+              left: 0 !important;
+              right: 0 !important;
+              margin: 0 auto;
+              bottom: 20px !important;
+              max-width: 200px;
+            }
+          }
+        `}</style>
       </section>
 
       {/* About Preview */}
@@ -215,8 +267,8 @@ export default async function HomePage() {
             gridTemplateColumns: "1fr 1fr", 
             gap: "4rem",
             alignItems: "center"
-          }}>
-            <div style={{ position: "relative" }}>
+          }} className="about-grid">
+            <div style={{ position: "relative" }} className="about-image-container">
               <div style={{
                 position: "absolute",
                 top: "20px",
@@ -252,13 +304,13 @@ export default async function HomePage() {
                 boxShadow: "0 10px 30px rgba(10, 37, 64, 0.3)",
                 zIndex: 2,
                 textAlign: "center"
-              }}>
+              }} className="about-badge">
                 <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "#BDDDFC" }}>✦</div>
                 <div style={{ fontSize: "0.9rem", color: "#ffffff", fontWeight: 500 }}>Excellence</div>
               </div>
             </div>
             
-            <div>
+            <div className="about-content">
               <div style={{
                 display: "inline-block",
                 background: "rgba(189, 221, 252, 0.15)",
@@ -338,6 +390,51 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+        
+        <style jsx>{`
+          @media (max-width: 768px) {
+            .about-grid {
+              grid-template-columns: 1fr !important;
+              gap: 2.5rem !important;
+            }
+            
+            .about-image-container {
+              order: 1;
+              max-width: 400px;
+              margin: 0 auto;
+            }
+            
+            .about-content {
+              order: 2;
+              text-align: center;
+            }
+            
+            .about-content ul {
+              text-align: left;
+            }
+            
+            .about-badge {
+              right: 0 !important;
+              bottom: 20px !important;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .about-image-container {
+              max-width: 300px;
+            }
+            
+            .about-badge {
+              position: relative !important;
+              right: auto !important;
+              bottom: auto !important;
+              margin-top: -30px !important;
+              margin-left: auto;
+              margin-right: 1rem;
+              display: inline-block;
+            }
+          }
+        `}</style>
       </section>
 
       {/* Practice Areas Preview */}
