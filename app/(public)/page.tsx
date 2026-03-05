@@ -51,14 +51,7 @@ export default async function HomePage() {
         }}></div>
         
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: "1fr 1fr", 
-            alignItems: "center", 
-            gap: "4rem",
-            maxWidth: "1400px",
-            margin: "0 auto"
-          }} className="hero-grid">
+          <div className="hero-grid">
             <div className="hero-content">
               {/* Firm Tagline */}
               <div style={{ 
@@ -207,67 +200,12 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        
-        <style jsx>{`
-          @media (max-width: 1024px) {
-            .hero-grid {
-              grid-template-columns: 1fr 1fr !important;
-              gap: 3rem !important;
-            }
-          }
-          
-          @media (max-width: 768px) {
-            .hero-grid {
-              grid-template-columns: 1fr !important;
-              gap: 2.5rem !important;
-              text-align: center;
-            }
-            
-            .hero-content {
-              order: 2;
-            }
-            
-            .hero-image-container {
-              order: 1;
-              max-width: 400px;
-              margin: 0 auto;
-            }
-            
-            .hero-tags, .hero-buttons, .hero-values {
-              justify-content: center !important;
-            }
-            
-            .hero-values {
-              justify-content: center !important;
-              gap: 1.5rem !important;
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .hero-image-container {
-              max-width: 300px;
-            }
-            
-            .hero-badge {
-              left: 0 !important;
-              right: 0 !important;
-              margin: 0 auto;
-              bottom: 20px !important;
-              max-width: 200px;
-            }
-          }
-        `}</style>
       </section>
 
       {/* About Preview */}
       <section className="section" style={{ background: "#ffffff" }}>
         <div className="container">
-          <div style={{ 
-            display: "grid", 
-            gridTemplateColumns: "1fr 1fr", 
-            gap: "4rem",
-            alignItems: "center"
-          }} className="about-grid">
+          <div className="about-grid">
             <div style={{ position: "relative" }} className="about-image-container">
               <div style={{
                 position: "absolute",
@@ -390,51 +328,6 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-        
-        <style jsx>{`
-          @media (max-width: 768px) {
-            .about-grid {
-              grid-template-columns: 1fr !important;
-              gap: 2.5rem !important;
-            }
-            
-            .about-image-container {
-              order: 1;
-              max-width: 400px;
-              margin: 0 auto;
-            }
-            
-            .about-content {
-              order: 2;
-              text-align: center;
-            }
-            
-            .about-content ul {
-              text-align: left;
-            }
-            
-            .about-badge {
-              right: 0 !important;
-              bottom: 20px !important;
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .about-image-container {
-              max-width: 300px;
-            }
-            
-            .about-badge {
-              position: relative !important;
-              right: auto !important;
-              bottom: auto !important;
-              margin-top: -30px !important;
-              margin-left: auto;
-              margin-right: 1rem;
-              display: inline-block;
-            }
-          }
-        `}</style>
       </section>
 
       {/* Practice Areas Preview */}

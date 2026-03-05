@@ -341,7 +341,7 @@ p {
     margin-bottom: 0;
   }
   
-  /* About page grid layouts */
+/* About page grid layouts */
   .about-page .section > .container > div[style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
     gap: 2rem !important;
@@ -350,6 +350,113 @@ p {
   /* Mission Vision section */
   .about-page section:nth-of-type(3) .container > div[style*="grid-template-columns"] {
     grid-template-columns: 1fr !important;
+  }
+}
+
+/* Hero Grid Responsive Styles */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+  .hero-grid {
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+  
+  .hero-content {
+    order: 2;
+  }
+  
+  .hero-image-container {
+    order: 1;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .hero-tags, .hero-buttons, .hero-values {
+    justify-content: center !important;
+  }
+  
+  .hero-values {
+    gap: 1.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-image-container {
+    max-width: 300px;
+  }
+  
+  .hero-badge {
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 auto;
+    bottom: 20px !important;
+    max-width: 200px;
+  }
+}
+
+/* About Section Grid */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .about-image-container {
+    order: 1;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .about-content {
+    order: 2;
+    text-align: center;
+  }
+  
+  .about-content ul {
+    text-align: left;
+  }
+  
+  .about-badge {
+    right: 0 !important;
+    bottom: 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-image-container {
+    max-width: 300px;
+  }
+  
+  .about-badge {
+    position: relative !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin-top: -30px !important;
+    margin-left: auto;
+    margin-right: 1rem;
+    display: inline-block;
   }
 }
 
