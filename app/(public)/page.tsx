@@ -573,6 +573,7 @@ export default async function HomePage() {
                   border: "1px solid #e2e8f0"
                 }}>
                   <div style={{ 
+                    position: "relative",
                     width: "100%",
                     height: "220px",
                     overflow: "hidden",
@@ -581,9 +582,8 @@ export default async function HomePage() {
                     <Image
                       src={member.image || "/placeholder.svg?height=200&width=200"}
                       alt={member.name}
-                      width={280}
-                      height={220}
-                      style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                      fill
+                      style={{ objectFit: "cover" }}
                     />
                   </div>
                   <div style={{ padding: "1.5rem", textAlign: "center" }}>

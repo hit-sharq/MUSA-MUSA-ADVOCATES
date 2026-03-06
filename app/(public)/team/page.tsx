@@ -59,8 +59,9 @@ export default function TeamPage() {
                   <Image
                     src={member.image || "/placeholder.svg?height=200&width=200"}
                     alt={member.name}
-                    fill
-                    className="team-card-image"
+                    width={200}
+                    height={200}
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
                 <div className="team-card-content">
@@ -127,8 +128,9 @@ export default function TeamPage() {
               <Image
                 src={selectedMember.image || "/placeholder.svg?height=250&width=250"}
                 alt={selectedMember.name}
-                fill
-                className="slide-panel-image"
+                width={250}
+                height={250}
+                style={{ objectFit: "cover" }}
               />
             </div>
             <div className="slide-panel-body">
@@ -172,9 +174,13 @@ export default function TeamPage() {
         .team-card-image-wrapper {
           position: relative;
           width: 100%;
-          height: 220px;
+          aspect-ratio: 1;
           overflow: hidden;
           background: #f8fafc;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 1rem;
         }
 
         .team-card-image {
@@ -287,7 +293,8 @@ export default function TeamPage() {
         .slide-panel-image-wrapper {
           position: relative;
           width: 100%;
-          height: 280px;
+          aspect-ratio: 1;
+          max-height: 350px;
           flex-shrink: 0;
           background: #f8fafc;
         }
