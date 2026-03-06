@@ -1,33 +1,16 @@
-<!-- # Implementation Tasks: Card Styling & Slide-in Panels
+<!-- # TODO - Careers Page Implementation
 
-## Task List
-- [x] 1. Practice Areas Page - Add card styling with slide-in panel
-- [x] 2. Blog Page - Add card styling with slide-in panel
-- [x] 3. Team Page - Add card styling with slide-in panel
+## Steps:
+1. [x] Plan for Careers page
+2. [x] Add Career model to Prisma schema
+3. [x] Run Prisma migration
+4. [x] Create public careers page (app/(public)/careers/page.tsx)
+5. [x] Create API route for careers (app/api/careers/route.ts)
+6. [x] Create admin careers page (app/admin/careers/page.tsx)
+7. [x] Create admin careers new page (app/admin/careers/new/page.tsx)
+8. [x] Create admin careers edit page (app/admin/careers/edit/[id]/page.tsx)
+9. [x] Create admin API routes for careers
+10. [x] Add Careers link to Navbar
 
-## Implementation Details
-
-### Practice Areas Page (app/(public)/practice-areas/page.tsx) ✅
-- Converted to client component with useState
-- Added card grid with icon, title, truncated description
-- Added "Read More" button that opens slide-in panel with full details
-- Added hover effects on cards (translateY + shadow)
-
-### Blog Page (app/(public)/blog/page.tsx) ✅
-- Converted to client component with useState
-- Added card grid with image, date, title, excerpt
-- Added "Read More" button that opens slide-in panel with full content
-- Added hover effects on cards (translateY + shadow + image scale)
-
-### Team Page (app/(public)/team/page.tsx) ✅
-- Converted to client component with useState
-- Added card grid with photo, name, title, truncated bio
-- Added "Read More" button that opens slide-in panel with full bio
-- Added hover effects on cards (translateY + shadow + image scale)
-
-## Shared Styling Pattern Applied:
-- Grid: `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))`
-- Card: white background, 12px border-radius, shadow, hover translateY(-8px)
-- Image: 150-220px height, object-fit cover, scale(1.05) on hover
-- Description: -webkit-line-clamp: 3 for truncation
-- Slide-in Panel: Fixed right, 450-500px width, overlay backdrop, slideInFromRight animation -->
+## Status: Completed
+ -->
