@@ -35,7 +35,6 @@ export default async function HomePage() {
         position: "relative",
         overflow: "hidden"
       }}>
-        {/* Animated background pattern */}
         <div style={{
           position: "absolute",
           top: 0,
@@ -53,7 +52,6 @@ export default async function HomePage() {
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <div className="hero-grid">
             <div className="hero-content">
-              {/* Firm Tagline */}
               <div style={{ 
                 display: "flex", 
                 gap: "1rem", 
@@ -62,7 +60,7 @@ export default async function HomePage() {
                 justifyContent: "flex-start"
               }} className="hero-tags">
                 <span style={{
-                  background: "rgba(189, 221, 252, 0.15)",
+                  background: "rgba(189 252, , 221,0.15)",
                   color: "#BDDDFC",
                   padding: "0.5rem 1rem",
                   borderRadius: "4px",
@@ -132,7 +130,6 @@ export default async function HomePage() {
                 </Link>
               </div>
               
-              {/* Core Values */}
               <div style={{ 
                 display: "flex", 
                 gap: "2rem", 
@@ -156,7 +153,6 @@ export default async function HomePage() {
               </div>
             </div>
             
-            {/* Hero Image Section */}
             <div style={{ position: "relative" }} className="hero-image-container">
               <div style={{
                 position: "absolute",
@@ -183,7 +179,6 @@ export default async function HomePage() {
                   zIndex: 1
                 }}
               />
-              {/* Floating badge */}
               <div style={{
                 position: "absolute",
                 bottom: "30px",
@@ -231,7 +226,6 @@ export default async function HomePage() {
                   zIndex: 1
                 }}
               />
-              {/* Experience badge */}
               <div style={{
                 position: "absolute",
                 bottom: "30px",
@@ -533,33 +527,92 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Team Preview */}
+      {/* Team Preview - Card Style with Events Pattern */}
       {teamMembers.length > 0 && (
         <section className="section" style={{ background: "#f8fafc" }}>
           <div className="container">
-            <h2 className="section-title">Meet Our Attorneys</h2>
-            <p className="section-subtitle">Our dedicated team of legal professionals is here to serve you</p>
+            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+              <div style={{
+                display: "inline-block",
+                background: "rgba(189, 221, 252, 0.15)",
+                color: "#0a2540",
+                padding: "0.5rem 1rem",
+                borderRadius: "4px",
+                fontSize: "0.8rem",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                marginBottom: "1rem"
+              }}>
+                OUR TEAM
+              </div>
+              <h2 style={{ 
+                fontSize: "clamp(1.8rem, 3vw, 2.5rem)", 
+                fontWeight: 700, 
+                color: "#0a2540",
+                marginBottom: "1rem"
+              }}>
+                Meet Our Attorneys
+              </h2>
+              <p style={{ 
+                fontSize: "1.05rem", 
+                color: "#64748b",
+                maxWidth: "600px",
+                margin: "0 auto"
+              }}>
+                Our dedicated team of attorneys is ready to fight for your rights
+              </p>
+            </div>
 
-            <div className="grid grid-3">
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "24px" }}>
               {teamMembers.map((member) => (
-                <div key={member.id} className="card team-card">
-                  <Image
-                    src={member.image || "/placeholder.svg?height=200&width=200"}
-                    alt={member.name}
-                    width={180}
-                    height={180}
-                    className="team-image"
-                    style={{ width: "180px", height: "180px" }}
-                  />
-                  <h3>{member.name}</h3>
-                  <p style={{ color: "#0a2540", fontWeight: "600", marginBottom: "1rem" }}>{member.title}</p>
-                  <p style={{ fontSize: "0.95rem", lineHeight: "1.6" }}>{member.bio}</p>
+                <div key={member.id} style={{ 
+                  background: "#ffffff",
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
+                  border: "1px solid #e2e8f0"
+                }}>
+                  <div style={{ 
+                    width: "100%",
+                    height: "220px",
+                    overflow: "hidden",
+                    background: "#f8fafc"
+                  }}>
+                    <Image
+                      src={member.image || "/placeholder.svg?height=200&width=200"}
+                      alt={member.name}
+                      width={280}
+                      height={220}
+                      style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                    />
+                  </div>
+                  <div style={{ padding: "1.5rem", textAlign: "center" }}>
+                    <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#0a2540", marginBottom: "0.5rem" }}>{member.name}</h3>
+                    <p style={{ color: "#BDDDFC", fontWeight: 600, marginBottom: "1rem", fontSize: "1rem" }}>{member.title}</p>
+                    <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#666", marginBottom: "1rem", textAlign: "left", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{member.bio}</p>
+                    <Link href="/team" style={{
+                      color: "#0a2540",
+                      fontWeight: 600,
+                      fontSize: "0.9rem",
+                      textDecoration: "none"
+                    }}>
+                      Read More →
+                    </Link>
+                  </div>
                 </div>
               ))}
             </div>
 
             <div style={{ textAlign: "center", marginTop: "3rem" }}>
-              <Link href="/team" className="btn btn-primary">
+              <Link href="/team" style={{
+                background: "#0a2540",
+                color: "#ffffff",
+                padding: "1rem 2rem",
+                borderRadius: "6px",
+                textDecoration: "none",
+                fontWeight: 600,
+                display: "inline-block"
+              }}>
                 View All Attorneys
               </Link>
             </div>
@@ -567,7 +620,6 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Testimonials Section */}
       <TestimonialsSection />
 
       {/* Recent Blog Posts */}
@@ -613,7 +665,6 @@ export default async function HomePage() {
         position: "relative",
         overflow: "hidden"
       }}>
-        {/* Background pattern */}
         <div style={{
           position: "absolute",
           top: 0,
