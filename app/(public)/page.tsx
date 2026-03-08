@@ -1,7 +1,21 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import Image from "next/image"
 import { prisma } from "@/lib/prisma"
 import TestimonialsSection from "@/components/TestimonialsSection"
+
+export const metadata: Metadata = {
+  title: "Musa & Musa Advocates - Premier Law Firm in Nairobi, Kenya",
+  description: "Experienced legal representation in Nairobi, Kenya. Specializing in civil litigation, criminal defense, family law, corporate law, and more. Trusted advocates for justice.",
+  keywords: "law firm, lawyers, advocates, Nairobi, Kenya, legal services, civil litigation, criminal defense, family law, corporate law",
+  openGraph: {
+    title: "Musa & Musa Advocates - Premier Law Firm in Nairobi",
+    description: "Experienced legal representation in Nairobi, Kenya. Specializing in civil litigation, criminal defense, family law, corporate law, and more.",
+    type: "website",
+    locale: "en_KE",
+    siteName: "Musa & Musa Advocates",
+  },
+}
 
 async function getHomeData() {
   const [practiceAreas, teamMembers, recentPosts] = await Promise.all([

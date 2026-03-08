@@ -18,7 +18,6 @@ interface BlogPost {
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null)
 
   useEffect(() => {
     fetchBlogPosts()
@@ -45,117 +44,59 @@ export default function BlogPage() {
   }
 
   return (
-    <div className="section">
-      <div className="container">
-        <h1 className="section-title">Legal Insights & Updates</h1>
-        <p className="section-subtitle">
-          Stay informed with our latest legal insights, case studies, and updates on important legal developments that
-          may affect you.
-        </p>
-
-        {loading ? (
-          <div className="text-center" style={{ padding: "4rem" }}>
-            <div className="loading" style={{ margin: "0 auto" }}></div>
-            <p style={{ marginTop: "1rem", color: "#64748b" }}>Loading blog posts...</p>
-          </div>
-        ) : (
-          <div className="blog-grid">
-            {posts.map((post) => (
-              <article 
-                key={post.id} 
-                className="blog-card"
-                onClick={() => setSelectedPost(post)}
-              >
-                <div className="blog-image-wrapper">
-                  <Image
-                    src={post.image || "/placeholder.svg?height=200&width=400"}
-                    alt={post.title}
-                    fill
-                    className="blog-card-image"
-                  />
-                </div>
-                <div className="blog-card-content">
-                  <div className="blog-card-date">
-                    {formatDate(post.createdAt)}
-                  </div>
-                  <h3 className="blog-card-title">{post.title}</h3>
-                  <p className="blog-card-excerpt">
-                    {post.summary || post.content.substring(0, 120) + "..."}
-                  </p>
-                  <button 
-                    className="read-more-btn"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedPost(post)
-                    }}
-                  >
-                    Read More
-                  </button>
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-
-        {posts.length === 0 && !loading && (
-          <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
-            <h3>Blog Posts Coming Soon</h3>
-            <p>We are currently working on our first blog posts. Check back soon for legal insights and updates.</p>
-          </div>
-        )}
-
-        <div
-          style={{
-            background: "#f7fafc",
-            padding: "3rem 2rem",
-            borderRadius: "15px",
-            textAlign: "center",
-            marginTop: "4rem",
-          }}
-        >
-          <h3 style={{ color: "#1a365d", marginBottom: "1rem" }}>Stay Updated</h3>
-          <p style={{ marginBottom: "2rem", color: "#666" }}>
-            Subscribe to our newsletter to receive the latest legal insights and updates directly in your inbox.
+    <>
+      <div className="section">
+        <div className="container">
+          <h1 className="section-title">Legal Insights & Updates</h1>
+          <p className="section-subtitle">
+            Stay informed with our latest legal insights, case studies, and updates on important legal developments that
+            may affect you.
           </p>
-          <a href="/contact" className="btn btn-primary">
-            Contact Us to Subscribe
-          </a>
+
+          {loading ? (
+            <div className="text-center" style={{ padding: "4rem" }}>
+              <div className="loading" style={{ margin: "0 auto" }}></div>
+              <p style={{ marginTop: "1rem", color: "#64748b" }}>Loading blog posts...</p>
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
+              <h3>Blog Posts Coming Soon</h3>
+              <p>We are currently working on our first blog posts. Check back soon for legal insights and updates.</p>
+            </div>
+          ) : (
+            <div className="blog-grid">
+              {posts.map((post) => (
+                <article key={post.id} className="blog-card">
+                  <div className="blog-image-wrapper">
+                    <Image
+                      src={post.image || "/placeholder.svg?height=200&width=400"}
+                      alt={post.title}
+                      fill
+                      className="blog-card-image"
+                    />
+                  </div>
+                  <div className="blog-card-content">
+                    <div className="blog-card-date">{formatDate(post.createdAt)}</div>
+                    <h3 className="blog-card-title">{post.title}</h3>
+                    <p className="blog-card-excerpt">
+                      {post.summary || post.content.substring(0, 120) + "..."}
+                    </p>
+                    <Link href={`/blog/${post.slug}`} className="read-more-btn">
+                      Read More
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
+
+          <div className="blog-cta">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to our newsletter to receive the latest legal insights and updates directly in your inbox.</p>
+            <a href="/contact" className="btn btn-primary">Contact Us to Subscribe</a>
+          </div>
         </div>
       </div>
-
-      {/* Slide-in Panel */}
-      {selectedPost && (
-        <div className="slide-overlay" onClick={() => setSelectedPost(null)}>
-          <div className="slide-panel" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="slide-close-btn"
-              onClick={() => setSelectedPost(null)}
-            >
-              ×
-            </button>
-            <div className="slide-panel-image-wrapper">
-              <Image
-                src={selectedPost.image || "/placeholder.svg?height=250&width=500"}
-                alt={selectedPost.title}
-                fill
-                className="slide-panel-image"
-              />
-            </div>
-            <div className="slide-panel-body">
-              <div className="slide-panel-date">{formatDate(selectedPost.createdAt)}</div>
-              <h2 className="slide-panel-title">{selectedPost.title}</h2>
-              <div className="slide-panel-content">
-                {selectedPost.content.split('\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-              <Link href={`/blog/${selectedPost.slug}`} className="slide-panel-cta">
-                View Full Article
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
 
       <style jsx>{`
         .blog-grid {
@@ -170,7 +111,6 @@ export default function BlogPage() {
           overflow: hidden;
           box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
           transition: all 0.3s ease;
-          cursor: pointer;
           border: 1px solid #e2e8f0;
         }
 
@@ -228,147 +168,32 @@ export default function BlogPage() {
           color: #d32f2f;
           font-weight: 600;
           font-size: 0.9rem;
-          background: none;
-          border: none;
-          cursor: pointer;
+          text-decoration: none;
           transition: color 0.3s ease;
-          padding: 0;
         }
 
         .read-more-btn:hover {
           color: #b71c1c;
         }
 
-        /* Slide-in Panel Styles */
-        .slide-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
-          z-index: 1000;
-          animation: fadeIn 0.3s ease;
+        .blog-cta {
+          background: #f7fafc;
+          padding: 3rem 2rem;
+          border-radius: 15px;
+          text-align: center;
+          margin-top: 4rem;
         }
 
-        .slide-panel {
-          position: fixed;
-          top: 0;
-          right: 0;
-          width: 500px;
-          max-width: 90vw;
-          height: 100vh;
-          background: white;
-          z-index: 1001;
-          overflow-y: auto;
-          animation: slideInFromRight 0.4s ease;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .slide-close-btn {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          background: rgba(255, 255, 255, 0.95);
-          border: none;
-          border-radius: 50%;
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-          z-index: 10;
-          transition: all 0.3s ease;
-        }
-
-        .slide-close-btn:hover {
-          background: white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .slide-panel-image-wrapper {
-          position: relative;
-          height: 220px;
-          flex-shrink: 0;
-        }
-
-        .slide-panel-image {
-          object-fit: cover;
-        }
-
-        .slide-panel-body {
-          padding: 2rem;
-          flex: 1;
-          overflow-y: auto;
-        }
-
-        .slide-panel-date {
-          font-size: 0.875rem;
-          color: #888;
-          margin-bottom: 0.75rem;
-          font-weight: 500;
-        }
-
-        .slide-panel-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #0a2540;
-          margin-bottom: 1.5rem;
-          line-height: 1.3;
-        }
-
-        .slide-panel-content {
-          font-size: 1rem;
-          line-height: 1.8;
-          color: #333;
-          margin-bottom: 2rem;
-        }
-
-        .slide-panel-content p {
+        .blog-cta h3 {
+          color: #1a365d;
           margin-bottom: 1rem;
         }
 
-        .slide-panel-cta {
-          display: inline-block;
-          background: #0a2540;
-          color: white;
-          padding: 0.875rem 1.5rem;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 600;
-          transition: all 0.3s ease;
-        }
-
-        .slide-panel-cta:hover {
-          background: #1a3a5c;
-          transform: translateY(-2px);
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes slideInFromRight {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-
-        @media (max-width: 768px) {
-          .blog-grid {
-            grid-template-columns: 1fr;
-          }
-
-          .slide-panel {
-            width: 90vw;
-            max-width: 90vw;
-          }
+        .blog-cta p {
+          margin-bottom: 2rem;
+          color: #666;
         }
       `}</style>
-    </div>
+    </>
   )
 }
