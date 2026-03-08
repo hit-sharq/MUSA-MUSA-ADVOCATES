@@ -380,9 +380,7 @@ export default function ContactPage() {
                     <p style={{ margin: 0, lineHeight: "1.6" }}>
                       Musa & Musa Advocates
                       <br />
-                      ABC Place, 5th Floor
-                      <br />
-                      Waiyaki Way, Westlands
+                      6076 Rhapta Road
                       <br />
                       Nairobi, Kenya
                     </p>
@@ -423,41 +421,21 @@ export default function ContactPage() {
               <h3 style={{ color: "#1a365d", marginBottom: "1rem" }}>Find Our Office</h3>
               <div
                 style={{
-                  background: "linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%)",
-                  height: "250px",
+                  height: "300px",
                   borderRadius: "10px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "#666",
-                  border: "2px dashed #cbd5e0",
-                  position: "relative",
                   overflow: "hidden",
                 }}
               >
-                <div style={{ textAlign: "center", zIndex: 1 }}>
-                  <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🗺️</div>
-                  <h4 style={{ color: "#1a365d", marginBottom: "0.5rem" }}>Interactive Map</h4>
-                  <p style={{ margin: 0, fontSize: "0.9rem" }}>
-                    ABC Place, Waiyaki Way
-                    <br />
-                    Westlands, Nairobi
-                  </p>
-                  <button
-                    style={{
-                      marginTop: "1rem",
-                      padding: "0.5rem 1rem",
-                      background: "#1a365d",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "5px",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => window.open("https://maps.google.com/?q=ABC+Place+Waiyaki+Way+Nairobi", "_blank")}
-                  >
-                    Open in Google Maps
-                  </button>
-                </div>
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.819469367092!2d36.79876907347002!3d-1.256827998707519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1715e2e96eed%3A0x8064a5c24a30b2d!2sRhapta%20Rd%2C%20Nairobi!5e0!3m2!1sen!2ske!4v1706745600000!5m2!1sen!2ske"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Office Location Map"
+                ></iframe>
               </div>
             </div>
           </div>

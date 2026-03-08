@@ -24,7 +24,7 @@ export default function Footer() {
               </a>
               <div className="footer-contact-item">
                 <span className="contact-icon">📍</span>
-                <span>Nairobi, Kenya</span>
+                <span>6076 Rhapta Road, Nairobi</span>
               </div>
             </div>
           </div>

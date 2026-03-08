@@ -52,26 +52,7 @@ export default async function HomePage() {
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <div className="hero-grid">
             <div className="hero-content">
-              <div style={{ 
-                display: "flex", 
-                gap: "1rem", 
-                marginBottom: "1.5rem",
-                flexWrap: "wrap",
-                justifyContent: "flex-start"
-              }} className="hero-tags">
-                <span style={{
-                  background: "rgba(189 252, , 221,0.15)",
-                  color: "#BDDDFC",
-                  padding: "0.5rem 1rem",
-                  borderRadius: "4px",
-                  fontSize: "0.85rem",
-                  fontWeight: 600,
-                  letterSpacing: "0.1em",
-                  border: "1px solid rgba(189, 221, 252, 0.3)"
-                }}>LICENSED & REGULATED</span>
-              </div>
-              
-              <h1 style={{ 
+              <h1 style={{
                 fontSize: "clamp(2.5rem, 5vw, 4rem)", 
                 fontWeight: 700,
                 color: "#ffffff",
