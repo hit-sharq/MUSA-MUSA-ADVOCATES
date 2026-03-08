@@ -165,7 +165,7 @@ export default async function HomePage() {
                 opacity: 0.2
               }}></div>
               <Image
-                src="/Moses.jpg"
+                src="/favicon.ico"
                 alt="Musa & Musa Advocates - Legal Excellence"
                 width={500}
                 height={600}
@@ -179,19 +179,6 @@ export default async function HomePage() {
                   zIndex: 1
                 }}
               />
-              <div style={{
-                position: "absolute",
-                bottom: "30px",
-                left: "-20px",
-                background: "#ffffff",
-                padding: "1.25rem 1.5rem",
-                borderRadius: "10px",
-                boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
-                zIndex: 2
-              }} className="hero-badge">
-                <div style={{ fontSize: "0.75rem", color: "#64748b", marginBottom: "0.25rem", fontWeight: 600 }}>LICENSED BY</div>
-                <div style={{ fontSize: "0.9rem", color: "#0a2540", fontWeight: 700 }}>Law Society of Kenya</div>
-              </div>
             </div>
           </div>
         </div>
