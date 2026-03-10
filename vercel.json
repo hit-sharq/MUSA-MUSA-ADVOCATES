@@ -1,0 +1,14 @@
+{
+  "headers": [
+    {
+      "source": "/((?!api|admin|.*\\.).*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "index, follow"
+        }
+      ]
+    }
+  ]
+}
+
