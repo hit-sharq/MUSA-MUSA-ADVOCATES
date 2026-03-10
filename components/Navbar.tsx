@@ -57,15 +57,19 @@ export default function Navbar() {
                 Practice Areas
               </Link>
             </li>
-
+            <li>
+              <Link href="/team" onClick={() => setIsMenuOpen(false)}>
+                Our Team
+              </Link>
+            </li>
             <li>
               <Link href="/blog" onClick={() => setIsMenuOpen(false)}>
                 Blog
               </Link>
             </li>
             <li>
-              <Link href="/gallery" onClick={() => setIsMenuOpen(false)}>
-                Gallery
+              <Link href="/careers" onClick={() => setIsMenuOpen(false)}>
+                Careers
               </Link>
             </li>
             <li>

@@ -46,7 +46,6 @@ export default function Footer() {
             <ul className="footer-links">
               <li><Link href="/about">About Us</Link></li>
               <li><Link href="/practice-areas">Practice Areas</Link></li>
-              <li><Link href="/team">Our Team</Link></li>
               <li><Link href="/blog">Legal Blog</Link></li>
               <li><Link href="/gallery">Gallery</Link></li>
               <li><Link href="/careers">Careers</Link></li>
