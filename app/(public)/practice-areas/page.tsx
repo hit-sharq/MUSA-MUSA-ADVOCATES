@@ -21,6 +21,10 @@ export const metadata: Metadata = {
     title: "Practice Areas - Musa & Musa Advocates",
     description: "Explore our comprehensive legal services in Nairobi, Kenya.",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 export default function PracticeAreasPage() {

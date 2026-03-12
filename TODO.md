@@ -1,16 +1,33 @@
-<!-- # SEO Improvements Implementation
+<!-- # Fix Noindex Issue - Steps
 
-## Completed
-- [x] Analyzed current SEO implementation
-- [x] Add canonical URLs to all pages (layout.tsx, about, practice-areas)
-- [x] Add Twitter card meta tags (layout.tsx, about, practice-areas)
-- [x] Add JSON-LD structured data (Organization & LegalService schema)
-- [x] Make sitemap dates dynamic from database
-- [x] Improved robots.txt with specific bot rules
+## Status: [IN PROGRESS]
 
-## In Progress
-- [ ] Add BreadcrumbList structured data
+### 1. [ ] Setup
+- Create env var NEXT_PUBLIC_SITE_URL=https://musadvocates.co.ke
 
-## Planned
-- [ ] Add hreflang tags for international SEO
- --> -->
+### 2. [ ] Core Config Updates
+- [ ] Update app/layout.tsx (domain consistency, env var)
+- [ ] Update app/robots.ts (use env var)
+- [ ] Update app/sitemap.ts (strict published:true filters)
+
+### 3. [ ] Metadata Fixes
+- [ ] app/admin/layout.tsx: Add robots: {noindex: true}
+- [ ] All public page.tsx: Add explicit robots: {index: true, follow: true}
+
+### 4. [ ] Dynamic Pages
+- [ ] app/(public)/blog/[slug]/page.tsx
+- [ ] app/(public)/practice-areas/[id]/page.tsx (if exists)
+- [ ] Similar for team/careers
+
+### 5. [ ] Config Check
+- [ ] vercel.json: Headers/rewrites
+
+### 6. [ ] Test & Deploy
+- [ ] npm run build && npm run start
+- [ ] curl -I https://musadvocates.co.ke/ | grep robots
+- [ ] Validate sitemap/robots.txt
+- [ ] Resubmit GSC sitemap
+- [ ] Monitor GSC indexing report
+
+**Next: Update layout.tsx**
+ -->

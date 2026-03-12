@@ -23,6 +23,10 @@ export const metadata: Metadata = {
     title: "About Us - Musa & Musa Advocates",
     description: "Learn about Musa & Musa Advocates, a premier law firm in Nairobi, Kenya.",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
 }
 
 async function getAboutData() {
