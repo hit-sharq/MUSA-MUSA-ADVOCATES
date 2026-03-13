@@ -1,33 +1,31 @@
-<!-- # Fix Noindex Issue - Steps
+<!-- # TODO: Fix Google Indexing Redirect Error
 
-## Status: [IN PROGRESS]
+## Steps (Approved Plan Breakdown)
 
-### 1. [ ] Setup
-- Create env var NEXT_PUBLIC_SITE_URL=https://musadvocates.co.ke
+### 1. [✅] Align domains to www.musadvocates.co.ke in all SEO files
+   - Edit app/layout.tsx (metadataBase, canonical, OG, jsonLd)
+   - Edit app/sitemap.ts (baseUrl)
+   - Edit app/robots.ts (baseUrl)
 
-### 2. [ ] Core Config Updates
-- [ ] Update app/layout.tsx (domain consistency, env var)
-- [ ] Update app/robots.ts (use env var)
-- [ ] Update app/sitemap.ts (strict published:true filters)
+### 2. [✅] Verify/create /about route
+   - Check app/(public)/about/page.tsx
+   - Create if missing (redirect or content)
 
-### 3. [ ] Metadata Fixes
-- [ ] app/admin/layout.tsx: Add robots: {noindex: true}
-- [ ] All public page.tsx: Add explicit robots: {index: true, follow: true}
+### 3. [✅] Update public/sitemap.xml
+   - Fresh lastmod dates
 
-### 4. [ ] Dynamic Pages
-- [ ] app/(public)/blog/[slug]/page.tsx
-- [ ] app/(public)/practice-areas/[id]/page.tsx (if exists)
-- [ ] Similar for team/careers
+### 4. [✅] Test locally
+   - `npm run build && npm run start`
+   - Check http://localhost:3000/sitemap.xml
+   - Verify no redirect loops (curl -I)
 
-### 5. [ ] Config Check
-- [ ] vercel.json: Headers/rewrites
+### 5. [ ] Deploy & Configure
+   - Vercel: Set NEXT_PUBLIC_SITE_URL=https://www.musadvocates.co.ke
+   - Add redirect rule naked -> www
 
-### 6. [ ] Test & Deploy
-- [ ] npm run build && npm run start
-- [ ] curl -I https://musadvocates.co.ke/ | grep robots
-- [ ] Validate sitemap/robots.txt
-- [ ] Resubmit GSC sitemap
-- [ ] Monitor GSC indexing report
+### 6. [ ] Validate
+   - Google Search Console: Submit sitemap, request indexing
+   - Test pages with Googlebot UA
 
-**Next: Update layout.tsx**
+**Progress: 0/6 complete**
  -->

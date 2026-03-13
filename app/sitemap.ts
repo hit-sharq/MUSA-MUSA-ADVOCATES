@@ -10,7 +10,7 @@ function generateSlug(title: string): string {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://www.musadvocates.co.ke'
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.musadvocates.co.ke'
 
   // Get dynamic data for last modified dates
   const [blogPosts, practiceAreas, teamMembers, careers] = await Promise.all([
