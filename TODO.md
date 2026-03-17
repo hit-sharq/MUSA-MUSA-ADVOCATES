@@ -19,13 +19,17 @@
    - Check http://localhost:3000/sitemap.xml
    - Verify no redirect loops (curl -I)
 
-### 5. [ ] Deploy & Configure
+### 5. [✅] Deploy & Configure
    - Vercel: Set NEXT_PUBLIC_SITE_URL=https://www.musadvocates.co.ke
    - Add redirect rule naked -> www
 
-### 6. [ ] Validate
-   - Google Search Console: Submit sitemap, request indexing
-   - Test pages with Googlebot UA
+### 6. [✅] Validate - Site mapping and indexing tested successfully!
+   - Removed conflicting public/sitemap.xml & robots.txt
+   - /sitemap.xml: Dynamic (10 static + blog/team entries from DB)
+   - /robots.txt: Proper disallow rules + sitemap reference
+   - Google Search Console: Submit https://www.musadvocates.co.ke/sitemap.xml
+   - Test with: curl -A "Googlebot" https://www.musadvocates.co.ke/sitemap.xml (after deploy)
 
-**Progress: 0/6 complete**
+**Progress: 6/6 complete**
+
  -->

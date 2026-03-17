@@ -102,16 +102,16 @@ model testimonials {
 }
 
 model Career {
-  id          String   @id @default(cuid())
-  title       String
-  department  String
-  location    String
-  type        String   @default("Full-time")
-  description String
+  id           String   @id @default(cuid())
+  title        String
+  department   String
+  location     String
+  type         String   @default("Full-time")
+  description  String
   requirements String
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   @@map("careers")
 }
