@@ -12,9 +12,12 @@ title: "Our Team | Musa & Musa Advocates",
     locale: "en_KE",
     siteName: "Musa & Musa Advocates",
   },
-  robots: {
+robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: "https://www.musadvocates.co.ke/team",
   },
 }
 
