@@ -3,7 +3,7 @@ import GalleryGrid from "@/components/GalleryGrid"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Gallery | Musa & Musa Advocates - Our Achievements and Milestones",
+title: "Gallery | Musa & Musa Advocates",
   description: "View our gallery showcasing achievements, awards, events, and milestones reflecting our commitment to excellence in legal practice.",
   keywords: "law firm gallery, awards, achievements, legal events, Nairobi Kenya",
 }

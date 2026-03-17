@@ -4,7 +4,7 @@ import Link from "next/link"
 import { prisma } from "@/lib/prisma"
 
 export const metadata: Metadata = {
-  title: "About Us | Musa & Musa Advocates - Premier Law Firm in Nairobi",
+title: "About Us | Musa & Musa Advocates",
   description: "Learn about Musa & Musa Advocates, a premier law firm in Nairobi, Kenya. Our mission is to provide accessible, high-quality legal services with integrity and excellence.",
   keywords: "about us, law firm, Nairobi, Kenya, legal services, advocates, Musa Musa",
   alternates: {

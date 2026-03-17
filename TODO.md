@@ -1,35 +1,13 @@
-<!-- # TODO: Fix Google Indexing Redirect Error
+<!-- # SEO/GEO Fixes - Musa & Musa Advocates
+Approved Plan Execution Tracker
 
-## Steps (Approved Plan Breakdown)
+## Steps:
+- [x] 1. Analyzed files & confirmed issues (title too long ~70→42 chars, desc ~155→132 chars)
+- [x] 2. Edit app/(public)/page.tsx metadata
+- [x] 3. Test locally: npm run dev → inspect source (✓ Server running)
+- [x] 4. Phase 2: Optimize 4 more pages ✓ (titles now 36-42 chars)
+- [ ] 5. Deploy to Vercel & re-scan SEO
+- [ ] 6. Monitor Google Search Console
 
-### 1. [✅] Align domains to www.musadvocates.co.ke in all SEO files
-   - Edit app/layout.tsx (metadataBase, canonical, OG, jsonLd)
-   - Edit app/sitemap.ts (baseUrl)
-   - Edit app/robots.ts (baseUrl)
-
-### 2. [✅] Verify/create /about route
-   - Check app/(public)/about/page.tsx
-   - Create if missing (redirect or content)
-
-### 3. [✅] Update public/sitemap.xml
-   - Fresh lastmod dates
-
-### 4. [✅] Test locally
-   - `npm run build && npm run start`
-   - Check http://localhost:3000/sitemap.xml
-   - Verify no redirect loops (curl -I)
-
-### 5. [✅] Deploy & Configure
-   - Vercel: Set NEXT_PUBLIC_SITE_URL=https://www.musadvocates.co.ke
-   - Add redirect rule naked -> www
-
-### 6. [✅] Validate - Site mapping and indexing tested successfully!
-   - Removed conflicting public/sitemap.xml & robots.txt
-   - /sitemap.xml: Dynamic (10 static + blog/team entries from DB)
-   - /robots.txt: Proper disallow rules + sitemap reference
-   - Google Search Console: Submit https://www.musadvocates.co.ke/sitemap.xml
-   - Test with: curl -A "Googlebot" https://www.musadvocates.co.ke/sitemap.xml (after deploy)
-
-**Progress: 6/6 complete**
-
+**Next**: npm run build → Deploy to Vercel → Re-scan SEO tools
  -->

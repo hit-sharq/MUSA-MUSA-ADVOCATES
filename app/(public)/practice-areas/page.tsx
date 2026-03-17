@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import PracticeAreasClient from "./PracticeAreasClient"
 
 export const metadata: Metadata = {
-  title: "Practice Areas | Musa & Musa Advocates - Legal Services in Nairobi",
+title: "Practice Areas | Musa & Musa Advocates",
   description: "Explore our comprehensive legal services in Nairobi, Kenya. Specializing in civil litigation, criminal defense, family law, corporate law, property law, and more.",
   keywords: "practice areas, legal services, Nairobi, Kenya, civil litigation, criminal defense, family law, corporate law, property law, lawyers, advocates",
   alternates: {
