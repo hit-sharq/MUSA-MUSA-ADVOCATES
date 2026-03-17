@@ -12,9 +12,12 @@ export const metadata: Metadata = {
     locale: "en_KE",
     siteName: "Musa & Musa Advocates",
   },
-  robots: {
+robots: {
     index: true,
     follow: true,
+  },
+  alternates: {
+    canonical: "https://www.musadvocates.co.ke/contact",
   },
 }
 
