@@ -1,5 +1,4 @@
-"use client"
-
+import type { Metadata } from "next"
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -14,6 +13,18 @@ interface BlogPost {
   published: boolean
   createdAt: string
 }
+
+export const metadata = {
+  title: "Blog | Musa & Musa Advocates",
+  description: "Latest legal insights, case studies, and updates from Musa & Musa Advocates law firm in Nairobi, Kenya.",
+  alternates: {
+    canonical: "https://www.musadvocates.co.ke/blog",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+} satisfies Metadata
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
