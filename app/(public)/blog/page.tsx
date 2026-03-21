@@ -1,4 +1,4 @@
-import type { Metadata } from "next"
+
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -24,7 +24,7 @@ export const metadata = {
     index: true,
     follow: true,
   },
-} satisfies Metadata
+} as const
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPost[]>([])
