@@ -3,12 +3,10 @@
     {
       "source": "/((?!api|admin).*)",
       "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "index, follow"
-        }
+        {"key": "X-Robots-Tag", "value": "index, follow"},
+        {"key": "Cache-Control", "value": "public, s-maxage=3600, max-age=300"},
+        {"key": "Vary", "value": "Accept-Encoding, User-Agent"}
       ]
     }
   ]
 }
-
