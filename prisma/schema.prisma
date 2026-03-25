@@ -24,6 +24,7 @@ model User {
 
 model PracticeArea {
   id          String   @id @default(cuid())
+  slug        String   @unique
   title       String
   description String
   icon        String?
@@ -36,6 +37,7 @@ model PracticeArea {
 
 model TeamMember {
   id        String   @id @default(cuid())
+  slug      String   @unique
   name      String
   title     String
   bio       String
@@ -103,6 +105,7 @@ model testimonials {
 
 model Career {
   id           String   @id @default(cuid())
+  slug         String   @unique
   title        String
   department   String
   location     String

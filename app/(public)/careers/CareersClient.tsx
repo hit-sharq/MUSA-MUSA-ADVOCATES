@@ -5,6 +5,7 @@ import Link from "next/link"
 
 interface Career {
   id: string
+  slug: string
   title: string
   department: string
   location: string
@@ -17,7 +18,6 @@ interface Career {
 export default function CareersClient() {
   const [careers, setCareers] = useState<Career[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedCareer, setSelectedCareer] = useState<Career | null>(null)
 
   useEffect(() => {
     fetchCareers()
@@ -52,32 +52,22 @@ export default function CareersClient() {
         ) : (
           <div className="careers-grid">
             {careers.map((career) => (
-              <article 
-                key={career.id} 
-                className="career-card"
-                onClick={() => setSelectedCareer(career)}
-              >
-                <div className="career-card-content">
-                  <h3 className="career-card-title">{career.title}</h3>
-                  <div className="career-card-meta">
-                    <span className="career-badge department">{career.department}</span>
-                    <span className="career-badge type">{career.type}</span>
+              <Link key={career.id} href={`/careers/${career.slug}`} style={{ textDecoration: "none" }}>
+                <article className="career-card">
+                  <div className="career-card-content">
+                    <h3 className="career-card-title">{career.title}</h3>
+                    <div className="career-card-meta">
+                      <span className="career-badge department">{career.department}</span>
+                      <span className="career-badge type">{career.type}</span>
+                    </div>
+                    <p className="career-card-location">📍 {career.location}</p>
+                    <p className="career-card-description">
+                      {career.description.substring(0, 150)}...
+                    </p>
+                    <span className="read-more-btn">View Details</span>
                   </div>
-                  <p className="career-card-location">📍 {career.location}</p>
-                  <p className="career-card-description">
-                    {career.description.substring(0, 150)}...
-                  </p>
-                  <button 
-                    className="read-more-btn"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedCareer(career)
-                    }}
-                  >
-                    View Details
-                  </button>
-                </div>
-              </article>
+                </article>
+              </Link>
             ))}
           </div>
         )}
@@ -125,49 +115,6 @@ export default function CareersClient() {
           </div>
         </div>
 
-        {/* Slide-in Panel */}
-        {selectedCareer && (
-          <div className="slide-overlay" onClick={() => setSelectedCareer(null)}>
-            <div className="slide-panel" onClick={(e) => e.stopPropagation()}>
-              <button 
-                className="slide-close-btn"
-                onClick={() => setSelectedCareer(null)}
-              >
-                ×
-              </button>
-              <div className="slide-panel-body">
-                <h2 className="slide-panel-name">{selectedCareer.title}</h2>
-                <div className="career-card-meta" style={{ marginBottom: "1.5rem" }}>
-                  <span className="career-badge department">{selectedCareer.department}</span>
-                  <span className="career-badge type">{selectedCareer.type}</span>
-                </div>
-                <p className="career-card-location" style={{ marginBottom: "1.5rem" }}>📍 {selectedCareer.location}</p>
-                
-                <div className="slide-panel-section">
-                  <h4>Job Description</h4>
-                  <div className="slide-panel-text">
-                    {selectedCareer.description.split('\n').map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="slide-panel-section">
-                  <h4>Requirements</h4>
-                  <div className="slide-panel-text">
-                    {selectedCareer.requirements.split('\n').map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
-                  </div>
-                </div>
-                
-                <Link href="/contact" className="slide-panel-cta">
-                  Apply Now
-                </Link>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
 
       <style jsx>{`
@@ -257,125 +204,9 @@ export default function CareersClient() {
           color: #b71c1c;
         }
 
-        /* Slide-in Panel Styles */
-        .slide-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
-          z-index: 1000;
-          animation: fadeIn 0.3s ease;
-        }
-
-        .slide-panel {
-          position: fixed;
-          top: 0;
-          right: 0;
-          width: 500px;
-          max-width: 90vw;
-          height: 100vh;
-          background: white;
-          z-index: 1001;
-          overflow-y: auto;
-          animation: slideInFromRight 0.4s ease;
-        }
-
-        .slide-close-btn {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          background: rgba(255, 255, 255, 0.95);
-          border: none;
-          border-radius: 50%;
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-          z-index: 10;
-          transition: all 0.3s ease;
-        }
-
-        .slide-close-btn:hover {
-          background: white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .slide-panel-body {
-          padding: 2rem;
-          text-align: left;
-        }
-
-        .slide-panel-name {
-          font-size: 1.75rem;
-          font-weight: 700;
-          color: #0a2540;
-          margin-bottom: 0.5rem;
-          line-height: 1.3;
-        }
-
-        .slide-panel-section {
-          margin-bottom: 1.5rem;
-        }
-
-        .slide-panel-section h4 {
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: #0a2540;
-          margin-bottom: 0.75rem;
-        }
-
-        .slide-panel-text {
-          font-size: 0.95rem;
-          line-height: 1.7;
-          color: #333;
-        }
-
-        .slide-panel-text p {
-          margin-bottom: 0.5rem;
-        }
-
-        .slide-panel-cta {
-          display: inline-block;
-          background: linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%);
-          color: #0a2540;
-          padding: 0.875rem 1.5rem;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 700;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(189, 221, 252, 0.4);
-          margin-top: 1rem;
-        }
-
-        .slide-panel-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(189, 221, 252, 0.6);
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes slideInFromRight {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-
         @media (max-width: 768px) {
           .careers-grid {
             grid-template-columns: 1fr;
-          }
-
-          .slide-panel {
-            width: 90vw;
-            max-width: 90vw;
           }
         }
       `}</style>

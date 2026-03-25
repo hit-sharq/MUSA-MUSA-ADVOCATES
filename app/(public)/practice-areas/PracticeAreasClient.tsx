@@ -1,10 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import Image from "next/image"
+import Link from "next/link"
 
 interface PracticeArea {
   id: string
+  slug: string
   title: string
   description: string
   icon: string | null
@@ -14,7 +15,6 @@ interface PracticeArea {
 export default function PracticeAreasClient() {
   const [practiceAreas, setPracticeAreas] = useState<PracticeArea[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedArea, setSelectedArea] = useState<PracticeArea | null>(null)
 
   useEffect(() => {
     fetchPracticeAreas()
@@ -49,26 +49,16 @@ export default function PracticeAreasClient() {
         ) : (
           <div className="practice-areas-grid">
             {practiceAreas.map((area) => (
-              <article 
-                key={area.id} 
-                className="practice-area-card"
-                onClick={() => setSelectedArea(area)}
-              >
-                <div className="practice-area-icon">
-                  {area.icon || "⚖️"}
-                </div>
-                <h3 className="practice-area-title">{area.title}</h3>
-                <p className="practice-area-description">{area.description}</p>
-                <button 
-                  className="read-more-btn"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setSelectedArea(area)
-                  }}
-                >
-                  Read More
-                </button>
-              </article>
+              <Link key={area.id} href={`/practice-areas/${area.slug}`} style={{ textDecoration: "none" }}>
+                <article className="practice-area-card">
+                  <div className="practice-area-icon">
+                    {area.icon || "⚖️"}
+                  </div>
+                  <h3 className="practice-area-title">{area.title}</h3>
+                  <p className="practice-area-description">{area.description}</p>
+                  <span className="read-more-btn">Read More</span>
+                </article>
+              </Link>
             ))}
           </div>
         )}
@@ -103,28 +93,6 @@ export default function PracticeAreasClient() {
           </a>
         </div>
       </div>
-
-      {/* Slide-in Panel */}
-      {selectedArea && (
-        <div className="slide-overlay" onClick={() => setSelectedArea(null)}>
-          <div className="slide-panel" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="slide-close-btn"
-              onClick={() => setSelectedArea(null)}
-            >
-              ×
-            </button>
-            <div className="slide-panel-icon">
-              {selectedArea.icon || "⚖️"}
-            </div>
-            <h2 className="slide-panel-title">{selectedArea.title}</h2>
-            <p className="slide-panel-description">{selectedArea.description}</p>
-            <a href="/contact" className="slide-panel-cta">
-              Get Consultation
-            </a>
-          </div>
-        </div>
-      )}
 
       <style jsx>{`
         .practice-areas-grid {
@@ -192,114 +160,9 @@ export default function PracticeAreasClient() {
           color: #b71c1c;
         }
 
-        /* Slide-in Panel Styles */
-        .slide-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.7);
-          z-index: 1000;
-          animation: fadeIn 0.3s ease;
-        }
-
-        .slide-panel {
-          position: fixed;
-          top: 0;
-          right: 0;
-          width: 450px;
-          max-width: 90vw;
-          height: 100vh;
-          background: white;
-          padding: 3rem 2rem;
-          box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-          z-index: 1001;
-          overflow-y: auto;
-          animation: slideInFromRight 0.4s ease;
-        }
-
-        .slide-close-btn {
-          position: absolute;
-          top: 16px;
-          right: 16px;
-          background: rgba(255, 255, 255, 0.9);
-          border: none;
-          border-radius: 50%;
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 24px;
-          cursor: pointer;
-          color: #666;
-          transition: background 0.3s ease;
-        }
-
-        .slide-close-btn:hover {
-          background: white;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .slide-panel-icon {
-          font-size: 4rem;
-          text-align: center;
-          margin-bottom: 1.5rem;
-        }
-
-        .slide-panel-title {
-          font-size: 1.75rem;
-          font-weight: 700;
-          color: #0a2540;
-          margin-bottom: 1.5rem;
-          text-align: center;
-        }
-
-        .slide-panel-description {
-          font-size: 1rem;
-          line-height: 1.8;
-          color: #333;
-          margin-bottom: 2rem;
-          text-align: center;
-        }
-
-        .slide-panel-cta {
-          display: inline-block;
-          background: linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%);
-          color: #0a2540;
-          padding: 1rem 2rem;
-          border-radius: 50px;
-          text-decoration: none;
-          font-weight: 700;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 15px rgba(189, 221, 252, 0.4);
-        }
-
-        .slide-panel-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(189, 221, 252, 0.6);
-        }
-
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        @keyframes slideInFromRight {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-
         @media (max-width: 768px) {
           .practice-areas-grid {
             grid-template-columns: 1fr;
-          }
-
-          .slide-panel {
-            width: 90vw;
-            max-width: 90vw;
-            padding: 2.5rem 1.5rem;
           }
         }
       `}</style>
