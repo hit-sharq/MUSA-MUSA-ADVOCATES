@@ -10,9 +10,20 @@ const nextConfig = {
     unoptimized: true,
     domains: ['res.cloudinary.com', 'images.clerk.dev'],
   },
+  async headers() {
+    return [
+      {
+        source: '/((?!api|admin).*)',
+        headers: [
+          { key: 'X-Robots-Tag', value: 'index, follow' },
+          { key: 'Cache-Control', value: 'public, s-maxage=3600, max-age=300' },
+          { key: 'Vary', value: 'Accept-Encoding, User-Agent' },
+        ],
+      },
+    ]
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Don't resolve 'fs' module on the client to prevent this error on build --> Error: Can't resolve 'fs'
       config.resolve.fallback = {
         fs: false,
         net: false,
