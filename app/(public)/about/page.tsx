@@ -30,21 +30,16 @@ title: "About Us | Musa & Musa Advocates",
 }
 
 async function getAboutData() {
-  const [teamMembers, practiceAreas] = await Promise.all([
-    prisma.teamMember.findMany({
-      orderBy: { order: "asc" },
-    }),
-    prisma.practiceArea.findMany({
-      take: 6,
-      orderBy: { order: "asc" },
-    }),
-  ])
+  const practiceAreas = await prisma.practiceArea.findMany({
+    take: 6,
+    orderBy: { order: "asc" },
+  })
 
-  return { teamMembers, practiceAreas }
+  return { practiceAreas }
 }
 
 export default async function AboutPage() {
-  const { teamMembers, practiceAreas } = await getAboutData()
+  const { practiceAreas } = await getAboutData()
 
   return (
     <div className="about-page">
@@ -443,86 +438,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Team Section */}
-      {teamMembers.length > 0 && (
-        <section className="section" style={{ background: "#f8fafc" }}>
-          <div className="container">
-            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-              <span style={{
-                background: "rgba(189, 221, 252, 0.15)",
-                color: "#0a2540",
-                padding: "0.5rem 1rem",
-                borderRadius: "4px",
-                fontSize: "0.8rem",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                display: "inline-block",
-                marginBottom: "1rem"
-              }}>OUR TEAM</span>
-              <h2 style={{ 
-                fontSize: "clamp(1.8rem, 3vw, 2.5rem)", 
-                fontWeight: 700, 
-                color: "#0a2540",
-                marginBottom: "1rem"
-              }}>
-                Meet Our Legal Team
-              </h2>
-              <p style={{ 
-                fontSize: "1.05rem", 
-                color: "#64748b",
-                maxWidth: "600px",
-                margin: "0 auto"
-              }}>
-                Our dedicated team of legal professionals is committed to your success
-              </p>
-            </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
-              {teamMembers.map((member) => (
-                <div key={member.id} style={{ 
-                  background: "#ffffff",
-                  borderRadius: "12px",
-                  padding: "2rem",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-                  border: "1px solid #e2e8f0",
-                  textAlign: "center"
-                }}>
-                  <Image
-                    src={member.image || "/placeholder.svg?height=150&width=150"}
-                    alt={member.name}
-                    width={120}
-                    height={120}
-                    style={{ 
-                      borderRadius: "50%", 
-                      width: "120px", 
-                      height: "120px",
-                      objectFit: "cover",
-                      marginBottom: "1.5rem"
-                    }}
-                  />
-                  <h3 style={{ color: "#0a2540", marginBottom: "0.5rem", fontWeight: 600 }}>{member.name}</h3>
-                  <p style={{ color: "#BDDDFC", fontWeight: 600, marginBottom: "1rem", fontSize: "0.9rem" }}>{member.title}</p>
-                  <p style={{ color: "#64748b", fontSize: "0.9rem", lineHeight: 1.6 }}>{member.bio}</p>
-                </div>
-              ))}
-            </div>
-
-            <div style={{ textAlign: "center", marginTop: "3rem" }}>
-              <Link href="/team" style={{
-                background: "#0a2540",
-                color: "#ffffff",
-                padding: "1rem 2rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: 600,
-                display: "inline-block"
-              }}>
-                View Full Team
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Why Choose Us */}
       <section className="section" style={{ background: "#ffffff" }}>

@@ -482,9 +482,13 @@ p {
   height: fit-content;
 }
 
+.card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
 }
 
 @media (max-width: 640px) {
@@ -637,7 +641,8 @@ p {
   background: #1a3a5c;
   border-color: #1a3a5c;
   transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 0 20px rgba(189, 221, 252, 0.5);
+  animation: pulseGlow 1.5s infinite;
 }
 
 .btn-secondary {
@@ -1766,6 +1771,27 @@ p {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(189, 221, 252, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(189, 221, 252, 0.8); }
 }
 
 .fade-in {
