@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -12,31 +12,18 @@ interface BlogPost {
   summary: string | null
   image: string | null
   published: boolean
-  createdAt: string
+  createdAt: Date
+  updatedAt?: Date
 }
 
-export default function BlogClient() {
-  const [posts, setPosts] = useState<BlogPost[]>([])
-  const [loading, setLoading] = useState(true)
+interface BlogClientProps {
+  posts: BlogPost[]
+}
+
+export default function BlogClient({ posts }: BlogClientProps) {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null)
 
-  useEffect(() => {
-    fetchBlogPosts()
-  }, [])
-
-  const fetchBlogPosts = async () => {
-    try {
-      const response = await fetch("/api/blog-posts")
-      const data = await response.json()
-      setPosts(data)
-    } catch (error) {
-      console.error("Error fetching blog posts:", error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const formatDate = (date: string) => {
+  const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -53,14 +40,14 @@ export default function BlogClient() {
           may affect you.
         </p>
 
-        {loading ? (
-          <div className="text-center" style={{ padding: "4rem" }}>
-            <div className="loading" style={{ margin: "0 auto" }}></div>
-            <p style={{ marginTop: "1rem", color: "#64748b" }}>Loading blog posts...</p>
+        {posts.length === 0 ? (
+          <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
+            <h3>Blog Posts Coming Soon</h3>
+            <p>We are currently working on our first blog posts. Check back soon for legal insights and updates.</p>
           </div>
         ) : (
           <div className="blog-grid">
-            {posts.map((post) => (
+            {posts.map((post: BlogPost) => (
               <article 
                 key={post.id} 
                 className="blog-card"
@@ -94,13 +81,6 @@ export default function BlogClient() {
                 </div>
               </article>
             ))}
-          </div>
-        )}
-
-        {posts.length === 0 && !loading && (
-          <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
-            <h3>Blog Posts Coming Soon</h3>
-            <p>We are currently working on our first blog posts. Check back soon for legal insights and updates.</p>
           </div>
         )}
 
