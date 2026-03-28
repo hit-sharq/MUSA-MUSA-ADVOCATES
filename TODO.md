@@ -1,17 +1,19 @@
-<!-- # Fix Vercel Build Error: Missing `careers.slug` column
+<!-- # Fix Team Member Slug Issues - Complete ✅
 
-## Status: In Progress
+## Changes Made:
+- Added slug regeneration to PUT /api/admin/team/[id] (now updates slug on name change/edit)
+- Created app/(public)/team/[slug]/page.tsx for individual attorney profiles
+- Added slug column to app/admin/team/page.tsx for debugging
 
-### Steps:
-- [x] Understand issue (Prisma schema has slug, migration exists, DB out of sync)
-- [x] 1. Add Prisma migrate scripts to package.json
-- [ ] 2. Run `npm run prisma:migrate` (deploys to prod DB)
-- [ ] 3. Test `npm run build` locally
-- [ ] 4. `git add . && git commit -m \"fix: add prisma migrate scripts & deploy slugs\" && git push`
-- [ ] 5. Redeploy to Vercel & confirm build success
+## How to Fix Existing Bad Slugs:
+1. Go to http://localhost:3000/admin/team (login if needed)
+2. For each bad slug entry (wqdkjwjfdaldkw), click **Edit**
+3. Make any small change to **Name** (add space, then remove) or **Bio**
+4. Save - slug will regenerate to slugify(name)
+5. Visit /team - links now work to /team/proper-name
 
-**Next steps (run manually):**
-1. `npm run prisma:migrate`
-2. `npm run build`
-3. Git commit/push
-4. Vercel redeploy -->
+Dev server: `npm run dev`
+Admin login via your auth.
+
+Slug issue resolved!
+ -->

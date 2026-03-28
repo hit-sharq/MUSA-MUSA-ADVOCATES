@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
+import { slugify } from "@/lib/slugify"
 
 export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
@@ -29,9 +30,18 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 
     const { name, title, bio, image, order } = await request.json()
 
+    // Regenerate slug based on name (handles name changes and fixes bad slugs)
+    const baseSlug = slugify(name)
+    let slug = baseSlug
+    let counter = 1
+    while (await prisma.teamMember.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter++}`
+    }
+
     const teamMember = await prisma.teamMember.update({
       where: { id: params.id },
       data: {
+        slug,
         name,
         title,
         bio,
