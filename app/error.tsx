@@ -54,7 +54,7 @@ export default function Error({
               <a href="tel:+254758251399" className="btn btn-primary">
                 📞 Call Now: +254 758 251 399
               </a>
-              <a href="mailto:officialmutuku@gmail.com" className="btn btn-secondary">
+              <a href="mailto:info@musadvocates.co.ke" className="btn btn-secondary">
                 📧 Email Us
               </a>
             </div>

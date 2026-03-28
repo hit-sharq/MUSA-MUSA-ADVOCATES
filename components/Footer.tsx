@@ -14,9 +14,9 @@ export default function Footer() {
               Experienced Legal Representation You Can Trust. Providing professional legal services with integrity and dedication for over 15 years.
             </p>
             <div className="footer-contact">
-              <a href="mailto:officialmutuku@gmail.com" className="footer-contact-item">
+              <a href="mailto:info@musadvocates.co.ke" className="footer-contact-item">
                 <span className="contact-icon">✉️</span>
-                <span>officialmutuku@gmail.com</span>
+                <span>info@musadvocates.co.ke</span>
               </a>
               <a href="tel:+254758251399" className="footer-contact-item">
                 <span className="contact-icon">📞</span>

@@ -3,8 +3,8 @@ import ContactClient from "./ContactClient"
 
 export const metadata: Metadata = {
   title: "Contact Us | Musa & Musa Advocates - Free Consultation",
-  description: "Contact Musa & Musa Advocates in Nairobi, Kenya. Schedule your free consultation today. Call +254 758 251 399 or email officialmutuku@gmail.com.",
-  keywords: "contact, law firm, Nairobi, Kenya, legal consultation, lawyers, advocates",
+  description: "Contact Musa & Musa Advocates in Nairobi, Kenya. Schedule your free consultation today. Call +254 758 251 399 or email info@musadvocates.co.ke.",
+  keywords: "contact, law firm, Nairobi, Kenya, legal consultation, awyers, advocates",
   openGraph: {
     title: "Contact Us - Musa & Musa Advocates",
     description: "Contact Musa & Musa Advocates in Nairobi, Kenya. Schedule your free consultation today.",

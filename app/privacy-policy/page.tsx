@@ -145,7 +145,7 @@ export default function PrivacyPolicyPage() {
                 <p className="text-gray-700">
                   <strong>Musa & Musa Advocates</strong>
                 </p>
-                <p className="text-gray-700">Email: officialmutuku@gmail.com</p>
+                <p className="text-gray-700">Email: info@musadvocates.co.ke</p>
                 <p className="text-gray-700">Phone: +254 758 251 399</p>
                 <p className="text-gray-700">Address: Nairobi, Kenya</p>
               </div>

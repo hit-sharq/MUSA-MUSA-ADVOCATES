@@ -66,7 +66,7 @@ export default function RootLayout({
     logo: `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.musadvocates.co.ke"}/logo.png`,
     image: `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.musadvocates.co.ke"}/og-image.jpg`,
     telephone: "+254758251399",
-    email: "officialmutuku@gmail.com",
+    email: "info@musadvocates.co.ke",
     address: {
       "@type": "PostalAddress",
       streetAddress: "6076 Rhapta Road",

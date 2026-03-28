@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
                 day: 'numeric',
                 hour: '2-digit',
                 minute: '2-digit',
-                timeZoneName: 'short'
+                timeZoneName: 'short' 
               })}<br>
               <strong style="color: #2f855a;">🆔 Request ID:</strong> ${contactRequest.id}
             </div>
@@ -129,7 +129,7 @@ export async function POST(request: NextRequest) {
     // Send email
     await transporter.sendMail({
       from: `"${name}" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_EMAIL || "officialmutuku@gmail.com",
+      to: process.env.CONTACT_EMAIL || "info@musadvocates.co.ke",
       subject: `New Contact Request: ${subject}`,
       html: emailHtml,
       replyTo: email,
@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
         </div>
         
         <div style="background: #1a365d; color: white; padding: 1rem; text-align: center;">
-          <p style="margin: 0;">📧 officialmutuku@gmail.com | 📞 +254 758 251 399</p>
+          <p style="margin: 0;">📧 info@musadvocates.co.ke | 📞 +254 758 251 399</p>
         </div>
       </div>
     `

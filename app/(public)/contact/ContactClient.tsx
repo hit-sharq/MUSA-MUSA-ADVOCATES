@@ -42,8 +42,8 @@ export default function ContactClient() {
                   <div>
                     <h4 style={{ color: "#1a365d", marginBottom: "0.5rem" }}>Email</h4>
                     <p style={{ margin: 0, marginBottom: "0.25rem" }}>
-                      <a href="mailto:officialmutuku@gmail.com" style={{ color: "#1a365d", textDecoration: "none" }}>
-                        officialmutuku@gmail.com
+                      <a href="mailto:info@musadvocates.co.ke" style={{ color: "#1a365d", textDecoration: "none" }}>
+                        info@musadvocates.co.ke
                       </a>
                     </p>
                     <p style={{ margin: 0, color: "#666", fontSize: "0.9rem" }}>
@@ -196,7 +196,7 @@ export default function ContactClient() {
                 📞 Emergency: +254 758 251 399
               </a>
               <a
-                href="mailto:officialmutuku@gmail.com"
+                href="mailto:info@musadvocates.co.ke"
                 style={{
                   background: "rgba(255,255,255,0.2)",
                   color: "white",
