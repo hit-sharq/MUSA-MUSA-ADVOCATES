@@ -6,8 +6,12 @@
     "build": "next build",
     "start": "next start -p 5000 -H 0.0.0.0",
     "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "prisma:db-push": "prisma db push",
+    "prisma:studio": "prisma studio",
     "postinstall": "prisma generate",
-    "prebuild": "prisma generate"
+    "prebuild": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@clerk/nextjs": "latest",
