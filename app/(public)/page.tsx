@@ -345,43 +345,16 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "1.5rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "24px" }}>
             {practiceAreas.map((area) => (
-              <div key={area.id} style={{ 
-                background: "#ffffff",
-                borderRadius: "12px",
-                padding: "2rem",
-                boxShadow: "0 4px 6px rgba(0,0,0,0.05)",
-                transition: "all 0.3s ease",
-                border: "1px solid #e2e8f0"
-              }}>
-                <div style={{ 
-                  width: "60px", 
-                  height: "60px", 
-                  background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)", 
-                  borderRadius: "10px", 
-                  display: "flex", 
-                  alignItems: "center", 
-                  justifyContent: "center",
-                  marginBottom: "1.5rem",
-                  fontSize: "1.75rem"
-                }}>
-                  {area.icon || "⚖️"}
-                </div>
-                <h3 style={{ fontSize: "1.25rem", marginBottom: "1rem", color: "#0a2540", fontWeight: 600 }}>{area.title}</h3>
-                <p style={{ color: "#64748b", lineHeight: 1.7, fontSize: "0.95rem", marginBottom: "1rem" }}>{area.description}</p>
-                <Link href="/practice-areas" style={{
-                  color: "#0a2540",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  fontSize: "0.9rem",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.5rem"
-                }}>
-                  Learn More →
-                </Link>
-              </div>
+              <Link key={area.id} href={`/practice-areas/${area.slug}`} style={{ textDecoration: "none", height: "100%" }}>
+                <article className="practice-card">
+                  <div className="practice-area-icon">{area.icon || "⚖️"}</div>
+                  <h3 className="practice-area-title">{area.title}</h3>
+                  <p className="practice-area-description">{area.description}</p>
+                  <span className="read-more-btn">Read More</span>
+                </article>
+              </Link>
             ))}
           </div>
 

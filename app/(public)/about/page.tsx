@@ -93,7 +93,7 @@ export default async function AboutPage() {
               maxWidth: "600px",
               margin: "0 auto 2rem"
             }}>
-              A premier law firm committed to delivering exceptional legal services with integrity, professionalism, and an unwavering dedication to justice.
+              A leading law firm committed to delivering exceptional legal services with integrity, professionalism, and an unwavering dedication to justice. We meticulously pursue outcomes that reflect fairness and clarity for every client we represent.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <Link href="/contact" style={{
@@ -157,15 +157,16 @@ export default async function AboutPage() {
                 Trusted Legal Counsel in Kenya
               </h2>
               <p style={{ fontSize: "1.05rem", marginBottom: "1.5rem", color: "#64748b", lineHeight: 1.8 }}>
-                Musa & Musa Advocates is a distinguished law firm based in Nairobi, Kenya, 
-                dedicated to providing exceptional legal services across a wide range of practice areas. 
-                Our commitment to professional excellence and client satisfaction has established us 
-                as a trusted legal partner for individuals, families, and businesses.
+                At Musa & Musa Advocates, the Legal Practice is defined by meticulous responsibility, precision, and trust. Our work is predicated on a simple principle of providing clear, strategic legal counsel to protect our Clients' interests and as well, advance their objectives.
               </p>
               <p style={{ marginBottom: "2rem", color: "#64748b", lineHeight: 1.8 }}>
-                We believe in building lasting relationships with our clients through transparent communication, 
-                strategic thinking, and relentless advocacy. Our team works together to ensure that every client 
-                receives personalized attention and the best possible legal representation.
+                Based in the heart of Nairobi, the firm advises and partners with corporations, financial institutions, public bodies, and private clients across a broad range of complex legal matters. Our team of seasoned advocates brings deep experience in Corporate and Commercial Law, Dispute Resolution, Real Estate, Conveyancing, Banking and Finance, and Regulatory Advisory. As a common practice, we approach every matter with careful attention to details, rigorous analysis, and a practical understanding of Kenya's ever evolving legal and commercial landscape.
+              </p>
+              <p style={{ marginBottom: "2rem", color: "#64748b", lineHeight: 1.8 }}>
+                Our Clients trust us with matters that demand sound judgment, discretion, and exacting legal standards. We take that responsibility seriously, delivering thoughtful advice and strong representation at every stage.
+              </p>
+              <p style={{ marginBottom: "2rem", color: "#64748b", lineHeight: 1.8, fontWeight: 600 }}>
+                Accordingly, our guiding values remain constant: Duty. Trust. Precision. Justice.
               </p>
               
               <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
