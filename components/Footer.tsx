@@ -210,6 +210,9 @@ export default function Footer() {
               <p className="text-white/40 text-xs mt-1">
                 Licensed to practice law in Kenya | Subject to Law Society of Kenya regulations
               </p>
+              <p className="text-white/40 text-xs mt-1">
+                System managed by <a href="https://lumyn-tech.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-brand/80 hover:text-brand transition-colors">Lumyn Tech</a>
+              </p>
             </div>
             <div className="flex items-center gap-6 text-sm">
               <Link href="/privacy-policy" className="text-white/60 hover:text-brand transition-colors">
