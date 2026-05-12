@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { motion } from "framer-motion"
 
 interface Career {
   id: string
@@ -40,177 +41,103 @@ export default function CareersClient() {
       <div className="container">
         <h1 className="section-title">Careers</h1>
         <p className="section-subtitle">
-          Join our team of dedicated legal professionals. We offer opportunities for growth, 
+          Join our team of dedicated legal professionals. We offer opportunities for growth,
           professional development, and the chance to work on challenging legal matters.
         </p>
 
         {loading ? (
           <div className="text-center" style={{ padding: "4rem" }}>
-            <div className="loading" style={{ margin: "0 auto" }}></div>
-            <p style={{ marginTop: "1rem", color: "#64748b" }}>Loading career opportunities...</p>
+            <div className="spinner mx-auto mb-4" />
+            <p className="text-navy/70">Loading career opportunities...</p>
           </div>
         ) : (
-          <div className="careers-grid">
-            {careers.map((career) => (
-              <Link key={career.id} href={`/careers/${career.slug}`} style={{ textDecoration: "none" }}>
-                <article className="career-card">
-                  <div className="career-card-content">
-                    <h3 className="career-card-title">{career.title}</h3>
-                    <div className="career-card-meta">
-                      <span className="career-badge department">{career.department}</span>
-                      <span className="career-badge type">{career.type}</span>
-                    </div>
-                    <p className="career-card-location">📍 {career.location}</p>
-                    <p className="career-card-description">
-                      {career.description.substring(0, 150)}...
-                    </p>
-                    <span className="read-more-btn">View Details</span>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {careers.map((career, index) => (
+              <motion.div
+                key={career.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300"
+              >
+                <div className="p-8">
+                  <div className="flex gap-2 mb-4">
+                    <span className="px-3 py-1 rounded-full bg-brand/10 text-brand-800 text-xs font-semibold">
+                      {career.department}
+                    </span>
+                    <span className="px-3 py-1 rounded-full bg-navy/10 text-navy text-xs font-semibold">
+                      {career.type}
+                    </span>
                   </div>
-                </article>
-              </Link>
+                  <h3 className="text-xl font-bold text-navy mb-2 group-hover:text-brand-800 transition-colors">
+                    {career.title}
+                  </h3>
+                  <p className="text-brand-800 text-sm mb-3 flex items-center gap-2">
+                    📍 {career.location}
+                  </p>
+                  <p className="text-navy/70 text-sm leading-relaxed line-clamp-3 mb-6">
+                    {career.description}
+                  </p>
+<Link
+  href={`/careers/${career.slug}`}
+  className="inline-flex items-center text-brand-800 font-semibold text-sm group"
+>
+  <span>View Details</span>
+  <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+</Link>
+                </div>
+              </motion.div>
             ))}
           </div>
         )}
 
         {careers.length === 0 && !loading && (
-          <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
-            <h3>No Current Openings</h3>
-            <p>
-              We don't have any open positions at the moment. Please check back later or 
+          <div className="card text-center py-16">
+            <h3 className="text-navy mb-3">No Current Openings</h3>
+            <p className="text-gray-600 max-w-md mx-auto mb-6">
+              We don&apos;t have any open positions at the moment. Please check back later or
               submit your resume for future consideration.
             </p>
-            <Link href="/contact" className="cta-button" style={{ marginTop: "1rem" }}>
+            <Link href="/contact" className="inline-block bg-gradient-to-r from-navy to-navy-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
               Submit Your Resume
             </Link>
           </div>
         )}
 
-        <div
-          style={{
-            background: "linear-gradient(135deg, #0a2540 0%, #1a3a5c 100%)",
-            color: "white",
-            padding: "3rem 2rem",
-            borderRadius: "15px",
-            textAlign: "center",
-            marginTop: "4rem",
-          }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+          className="mt-20 text-center"
         >
-          <h3 style={{ fontSize: "2rem", marginBottom: "1rem", color: "white" }}>Why Join Us?</h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "2rem", marginTop: "2rem" }}>
-            <div>
-              <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>💼</div>
-              <h4 style={{ color: "white", marginBottom: "0.5rem" }}>Professional Growth</h4>
-              <p style={{ opacity: 0.9, fontSize: "0.9rem" }}>Continuous learning and career advancement opportunities</p>
-            </div>
-            <div>
-              <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>⚖️</div>
-              <h4 style={{ color: "white", marginBottom: "0.5rem" }}>Challenging Work</h4>
-              <p style={{ opacity: 0.9, fontSize: "0.9rem" }}>Work on diverse and intellectually stimulating legal cases</p>
-            </div>
-            <div>
-              <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🤝</div>
-              <h4 style={{ color: "white", marginBottom: "0.5rem" }}>Team Culture</h4>
-              <p style={{ opacity: 0.9, fontSize: "0.9rem" }}>Collaborative and supportive work environment</p>
+          <div className="relative inline-block">
+            <div className="absolute -top-10 -right-10 w-full h-full bg-gradient-to-br from-brand to-brand-800 rounded-3xl opacity-20 blur-xl" />
+            <div className="relative bg-gradient-to-br from-navy to-navy-800 rounded-3xl p-10 text-white max-w-4xl">
+              <h3 className="text-2xl font-bold mb-6">Why Join Us?</h3>
+              <div className="grid md:grid-cols-3 gap-8">
+                <div>
+                  <div className="text-3xl mb-2">💼</div>
+                  <h4 className="font-bold mb-2">Professional Growth</h4>
+                  <p className="opacity-80 text-sm">Continuous learning and career advancement opportunities</p>
+                </div>
+                <div>
+                  <div className="text-3xl mb-2">⚖️</div>
+                  <h4 className="font-bold mb-2">Challenging Work</h4>
+                  <p className="opacity-80 text-sm">Work on diverse and intellectually stimulating legal cases</p>
+                </div>
+                <div>
+                  <div className="text-3xl mb-2">🤝</div>
+                  <h4 className="font-bold mb-2">Team Culture</h4>
+                  <p className="opacity-80 text-sm">Collaborative and supportive work environment</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
+        </motion.div>
       </div>
-
-      <style jsx>{`
-        .careers-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-          gap: 24px;
-        }
-
-        .career-card {
-          background: white;
-          border-radius: 12px;
-          overflow: hidden;
-          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-          transition: all 0.3s ease;
-          cursor: pointer;
-          border: 1px solid #e2e8f0;
-        }
-
-        .career-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .career-card-content {
-          padding: 1.5rem;
-        }
-
-        .career-card-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #0a2540;
-          margin-bottom: 1rem;
-          line-height: 1.3;
-        }
-
-        .career-card-meta {
-          display: flex;
-          gap: 0.5rem;
-          flex-wrap: wrap;
-          margin-bottom: 1rem;
-        }
-
-        .career-badge {
-          display: inline-block;
-          padding: 0.25rem 0.75rem;
-          border-radius: 20px;
-          font-size: 0.75rem;
-          font-weight: 600;
-        }
-
-        .career-badge.department {
-          background: #e0f2fe;
-          color: #0369a1;
-        }
-
-        .career-badge.type {
-          background: #dcfce7;
-          color: #15803d;
-        }
-
-        .career-card-location {
-          color: #64748b;
-          font-size: 0.9rem;
-          margin-bottom: 1rem;
-        }
-
-        .career-card-description {
-          font-size: 0.9rem;
-          line-height: 1.6;
-          color: #666;
-          margin-bottom: 1rem;
-        }
-
-        .read-more-btn {
-          color: #d32f2f;
-          font-weight: 600;
-          font-size: 0.9rem;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: color 0.3s ease;
-          padding: 0;
-        }
-
-        .read-more-btn:hover {
-          color: #b71c1c;
-        }
-
-        @media (max-width: 768px) {
-          .careers-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   )
 }
-

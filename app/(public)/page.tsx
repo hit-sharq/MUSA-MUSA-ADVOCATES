@@ -1,691 +1,728 @@
-import type { Metadata } from "next"
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { prisma } from "@/lib/prisma"
+import { motion, AnimatePresence } from "framer-motion"
+import { Shield, Scale, Gavel, FileText, Users, Heart } from "lucide-react"
 import TestimonialsSection from "@/components/TestimonialsSection"
+import Navbar from "@/components/Navbar"
 
-export const metadata: Metadata = {
-title: "Musa & Musa Advocates | Nairobi Law Firm",
-description: "Premier law firm in Nairobi, Kenya. Expert legal services: litigation, corporate, family law & more. Free consultation.",
-  keywords: "law firm, lawyers, advocates, Nairobi, Kenya, legal services, civil litigation, criminal defense, family law, corporate law",
-  openGraph: {
-title: "Musa & Musa Advocates | Nairobi Law Firm",
-description: "Premier law firm in Nairobi, Kenya. Expert legal services: litigation, corporate, family law & more.",
-    type: "website",
-    locale: "en_KE",
-    siteName: "Musa & Musa Advocates",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+interface PracticeArea {
+  id: string
+  title: string
+  description: string
+  slug: string
 }
 
-async function getHomeData() {
-  const [practiceAreas, teamMembers, recentPosts] = await Promise.all([
-    prisma.practiceArea.findMany({
-      take: 6,
-      orderBy: { order: "asc" },
-    }),
-    prisma.teamMember.findMany({
-      take: 3,
-      orderBy: { order: "asc" },
-    }),
-    prisma.blogPost.findMany({
-      where: { published: true },
-      take: 3,
-      orderBy: { createdAt: "desc" },
-    }),
-  ])
-
-  return { practiceAreas, teamMembers, recentPosts }
+interface TeamMember {
+  id: string
+  name: string
+  title: string
+  bio: string
+  image?: string | null
 }
 
-export default async function HomePage() {
-  const { practiceAreas, teamMembers, recentPosts } = await getHomeData()
+interface BlogPost {
+  id: string
+  title: string
+  slug: string
+  summary: string
+  image?: string | null
+  createdAt: string
+  published: boolean
+}
+
+export default function HomePage() {
+  const [practiceAreas, setPracticeAreas] = useState<PracticeArea[]>([])
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
+  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [areasRes, teamRes, postsRes] = await Promise.all([
+          fetch("/api/practice-areas"),
+          fetch("/api/team-members"),
+          fetch("/api/blog-posts"),
+        ])
+
+        if (areasRes.ok) {
+          const areas = await areasRes.json()
+          setPracticeAreas(areas.slice(0, 6))
+        }
+        if (teamRes.ok) {
+          const team = await teamRes.json()
+          setTeamMembers(team.slice(0, 3))
+        }
+        if (postsRes.ok) {
+          const posts = await postsRes.json()
+          setRecentPosts(posts.filter((p: BlogPost) => p.published).slice(0, 3))
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchData()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-20">
+        <div className="text-center">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            className="w-12 h-12 border-4 border-brand/30 border-t-brand rounded-full mx-auto mb-4"
+          />
+          <p className="text-navy/70">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
-      {/* Hero Section */}
-      <section className="hero" style={{
-        background: "linear-gradient(135deg, #0a2540 0%, #1a365d 50%, #0a2540 100%)",
-        padding: "6rem 0",
-        position: "relative",
-        overflow: "hidden"
-      }}>
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `
-            radial-gradient(circle at 20% 80%, rgba(189, 221, 252, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(189, 221, 252, 0.08) 0%, transparent 50%),
-            url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L50 100 L0 50Z' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3C/svg%3E")
-          `,
-          backgroundSize: "cover, cover, 60px 60px"
-        }}></div>
-        
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div className="hero-grid">
-            <div className="hero-content">
-              <h1 style={{
-                fontSize: "clamp(2.5rem, 5vw, 4rem)", 
-                fontWeight: 700,
-                color: "#ffffff",
-                marginBottom: "1rem",
-                lineHeight: 1.1,
-                textShadow: "0 2px 20px rgba(0,0,0,0.3)"
-              }}>
-                MUSA & MUSA <span style={{ color: "#BDDDFC" }}>ADVOCATES</span>
-              </h1>
-              
-              <p style={{ 
-                fontSize: "1.4rem", 
-                fontWeight: 600, 
-                letterSpacing: "0.15em",
-                color: "#BDDDFC",
-                marginBottom: "2rem",
-                textTransform: "uppercase"
-              }}>DUTY. TRUST. PRECISION. JUSTICE</p>
-              
-              <p style={{ 
-                fontSize: "1.1rem", 
-                color: "rgba(255,255,255,0.85)",
-                marginBottom: "2.5rem",
-                maxWidth: "550px",
-                lineHeight: 1.7
-              }}>
+      <Navbar />
+
+      {/* HERO SECTION */}
+      <section className="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden bg-gradient-to-br from-navy via-navy-200 to-navy pt-20">
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, 30, 0],
+              y: [0, -30, 0],
+              scale: [1, 1.1, 1],
+            }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-800/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, -20, 0],
+              y: [0, 20, 0],
+              scale: [1, 1.15, 1],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <div
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: "60px 60px",
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="max-w-2xl"
+            >
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-8">
+                <Shield className="w-4 h-4 text-brand" />
+                <span className="text-sm font-semibold text-brand-800 uppercase tracking-wider">
+                  Excellence in Legal Practice
+                </span>
+              </div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6"
+              >
+                <span className="block">MUSA & MUSA</span>
+                <span className="block text-brand">ADVOCATES</span>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-lg md:text-xl text-white/70 font-semibold tracking-widest uppercase mb-8"
+              >
+                Duty • Trust • Precision • Justice
+              </motion.p>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-lg md:text-xl text-white/80 leading-relaxed max-w-xl mb-10"
+              >
                 A premier law firm committed to delivering exceptional legal services with integrity, professionalism, and an unwavering dedication to justice.
-              </p>
-              
-              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap", justifyContent: "flex-start" }} className="hero-buttons">
-                <Link href="/contact" className="cta-button" style={{
-                  background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)",
-                  color: "#0a2540",
-                  padding: "1rem 2rem",
-                  borderRadius: "6px",
-                  textDecoration: "none",
-                  fontWeight: 700,
-                  fontSize: "1rem",
-                  display: "inline-block",
-                  boxShadow: "0 4px 15px rgba(189, 221, 252, 0.3)"
-                }}>
-                  Schedule Consultation
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="flex flex-wrap gap-4 mb-16"
+              >
+                <Link
+                  href="/contact"
+                  className="group relative inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-brand to-brand-800 text-navy font-bold rounded-xl shadow-lg hover:shadow-brand/50 transition-all duration-300 overflow-hidden"
+                >
+                  <span className="relative z-10">Schedule Consultation</span>
+                  <motion.span
+                    className="relative z-10"
+                    whileHover={{ x: 4 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  >
+                    →
+                  </motion.span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 </Link>
-                <Link href="/practice-areas" style={{
-                  background: "transparent",
-                  color: "#ffffff",
-                  padding: "1rem 2rem",
-                  borderRadius: "6px",
-                  textDecoration: "none",
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  display: "inline-block",
-                  border: "2px solid rgba(255,255,255,0.5)"
-                }}>
-                  Our Practice Areas
+
+                <Link
+                  href="/practice-areas"
+                  className="inline-flex items-center gap-3 px-8 py-4 text-white font-semibold border-2 border-white/30 hover:border-brand rounded-xl hover:bg-white/5 backdrop-blur-sm transition-all duration-300"
+                >
+                  <span>Our Practice Areas</span>
                 </Link>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                className="flex items-center gap-12 pt-8 border-t border-white/10"
+              >
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-brand mb-1">✦</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wider font-medium">Integrity</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-brand mb-1">⚖</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wider font-medium">Justice</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-brand mb-1">★</div>
+                  <div className="text-xs text-white/60 uppercase tracking-wider font-medium">Excellence</div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1, ease: "easeOut", delay: 0.3 }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative">
+                <div className="absolute -top-8 -right-8 w-full h-full bg-gradient-to-br from-brand to-brand-800 rounded-3xl opacity-20 blur-xl" />
+                <div className="absolute -bottom-4 -left-4 w-48 h-48 bg-brand/20 rounded-full blur-2xl" />
+
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
+                  <Image
+                    src="/Musa.jpg"
+                    alt="Musa & Musa Advocates"
+                    width={600}
+                    height={700}
+                    className="w-full h-auto object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
+                </div>
+
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.8, duration: 0.6 }}
+                  className="absolute -bottom-8 -right-8 bg-gradient-to-br from-navy to-navy-200 text-white px-6 py-4 rounded-2xl shadow-xl border border-brand/20"
+                >
+                  <div className="text-2xl font-bold text-brand mb-0.5">✦</div>
+                  <div className="text-sm font-semibold">Excellence</div>
+                </motion.div>
               </div>
-              
-              <div style={{ 
-                display: "flex", 
-                gap: "2rem", 
-                marginTop: "3rem",
-                paddingTop: "2rem",
-                borderTop: "1px solid rgba(255,255,255,0.15)",
-                justifyContent: "flex-start"
-              }} className="hero-values">
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#BDDDFC" }}>✦</div>
-                  <div style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.7)" }}>Integrity</div>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#BDDDFC" }}>⚖</div>
-                  <div style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.7)" }}>Justice</div>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                  <div style={{ fontSize: "1.8rem", fontWeight: 700, color: "#BDDDFC" }}>★</div>
-                  <div style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.7)" }}>Excellence</div>
-                </div>
-              </div>
-            </div>
-            
-            <div style={{ position: "relative" }} className="hero-image-container">
-              <div style={{
-                position: "absolute",
-                top: "-20px",
-                right: "-20px",
-                width: "100%",
-                height: "100%",
-                background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)",
-                borderRadius: "20px",
-                opacity: 0.2
-              }}></div>
-              <Image
-                src="/favicon.ico"
-                alt="Musa & Musa Advocates - Legal Excellence"
-                width={500}
-                height={600}
-                style={{ 
-                  borderRadius: "15px", 
-                  width: "100%", 
-                  maxWidth: "500px",
-                  height: "auto", 
-                  boxShadow: "0 25px 50px rgba(0, 0, 0, 0.4)",
-                  position: "relative",
-                  zIndex: 1
-                }}
-              />
-            </div>
+            </motion.div>
           </div>
         </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
 
-      {/* About Preview */}
-      <section className="section" style={{ background: "#ffffff" }}>
-        <div className="container">
-          <div className="about-grid">
-            <div style={{ position: "relative" }} className="about-image-container">
-              <div style={{
-                position: "absolute",
-                top: "20px",
-                left: "20px",
-                width: "100%",
-                height: "100%",
-                background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)",
-                borderRadius: "15px",
-                opacity: 0.3
-              }}></div>
-              <Image
-                src="/Musa.jpg"
-                alt="Musa & Musa Advocates Office"
-                width={500}
-                height={400}
-                style={{ 
-                  borderRadius: "15px", 
-                  width: "100%", 
-                  height: "auto", 
-                  boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
-                  position: "relative",
-                  zIndex: 1
-                }}
-              />
-              <div style={{
-                position: "absolute",
-                bottom: "30px",
-                right: "-20px",
-                background: "#0a2540",
-                padding: "1.5rem 2rem",
-                borderRadius: "10px",
-                boxShadow: "0 10px 30px rgba(10, 37, 64, 0.3)",
-                zIndex: 2,
-                textAlign: "center"
-              }} className="about-badge">
-                <div style={{ fontSize: "2.5rem", fontWeight: 700, color: "#BDDDFC" }}>✦</div>
-                <div style={{ fontSize: "0.9rem", color: "#ffffff", fontWeight: 500 }}>Excellence</div>
+      {/* ABOUT SECTION */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="grid lg:grid-cols-2 gap-16 items-center"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative"
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <Image
+                  src="/Musa.jpg"
+                  alt="Musa & Musa Advocates Office"
+                  width={600}
+                  height={450}
+                  className="w-full h-auto object-cover"
+                />
               </div>
-            </div>
-            
-            <div className="about-content">
-              <div style={{
-                display: "inline-block",
-                background: "rgba(189, 221, 252, 0.15)",
-                color: "#0a2540",
-                padding: "0.5rem 1rem",
-                borderRadius: "4px",
-                fontSize: "0.8rem",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                marginBottom: "1rem"
-              }}>
-                ABOUT OUR FIRM
+              <div className="absolute -bottom-8 -right-8 bg-gradient-to-br from-brand to-brand-800 p-6 rounded-2xl shadow-2xl border border-white/10">
+                <div className="text-4xl font-bold text-white mb-1">✦</div>
+                <div className="text-white font-semibold">15+ Years</div>
+                <div className="text-brand text-sm">of Excellence</div>
               </div>
-              
-              <h2 style={{ 
-                fontSize: "clamp(1.8rem, 3vw, 2.5rem)", 
-                fontWeight: 700, 
-                color: "#0a2540",
-                marginBottom: "1.5rem",
-                lineHeight: 1.2
-              }}>
-                A Tradition of <span style={{ color: "#BDDDFC" }}>Legal Excellence</span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6">
+                <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+                  About Our Firm
+                </span>
+              </div>
+
+              <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
+                A Tradition of <span className="text-brand-800">Legal Excellence</span>
               </h2>
-              
-              <p style={{ fontSize: "1.05rem", marginBottom: "1.5rem", color: "#64748b", lineHeight: 1.8 }}>
-                Musa & Musa Advocates is a premier law firm based in Nairobi, Kenya, dedicated to providing 
-                exceptional legal services with integrity, professionalism, and a client-centered approach.
+
+              <p className="text-lg text-navy/70 leading-relaxed mb-5">
+                Musa & Musa Advocates is a premier law firm based in Nairobi, Kenya, dedicated to providing exceptional legal services with integrity, professionalism, and a client-centered approach.
               </p>
-              <p style={{ marginBottom: "2rem", color: "#64748b", lineHeight: 1.8 }}>
-                Our team of experienced advocates is committed to delivering personalized legal solutions 
-                tailored to meet the unique needs of each client. Whether you need assistance with corporate law, 
-                criminal defense, family law, or any other legal matter, we are here to help.
+
+              <p className="text-lg text-navy/70 leading-relaxed mb-8">
+                Our team of experienced advocates is committed to delivering personalized legal solutions tailored to meet the unique needs of each client.
               </p>
-              
-              <ul style={{ listStyle: "none", padding: 0, marginBottom: "2rem" }}>
+
+              <div className="grid grid-cols-2 gap-5 mb-10">
                 {[
-                  { icon: "✓", text: "Experienced Legal Team" },
-                  { icon: "✓", text: "Client-Focused Approach" },
-                  { icon: "✓", text: "Proven Track Record" },
-                  { icon: "✓", text: "Professional Ethics" }
+                  { icon: "✓", title: "Experienced Team" },
+                  { icon: "✓", title: "Client-Focused" },
+                  { icon: "✓", title: "Proven Track Record" },
+                  { icon: "✓", title: "Ethical Standards" },
                 ].map((item, i) => (
-                  <li key={i} style={{ 
-                    display: "flex", 
-                    alignItems: "center", 
-                    gap: "0.75rem", 
-                    marginBottom: "1rem", 
-                    color: "#0a2540", 
-                    fontWeight: 500 
-                  }}>
-                    <span style={{ 
-                      color: "#ffffff", 
-                      background: "#0a2540",
-                      width: "24px",
-                      height: "24px",
-                      borderRadius: "50%",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "0.8rem"
-                    }}>{item.icon}</span> 
-                    {item.text}
-                  </li>
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand to-brand-800 flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-sm font-bold">{item.icon}</span>
+                    </div>
+                    <span className="font-semibold text-navy">{item.title}</span>
+                  </div>
                 ))}
-              </ul>
-              
-              <Link href="/about" style={{
-                background: "#0a2540",
-                color: "#ffffff",
-                padding: "1rem 2rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: 600,
-                display: "inline-block"
-              }}>
-                Learn More About Us
+              </div>
+
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-navy to-navy-200 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 group"
+              >
+                <span>Learn More About Us</span>
+                <motion.span
+                  className="inline-block"
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  →
+                </motion.span>
               </Link>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Practice Areas Preview */}
-      <section className="section" style={{ background: "#f8fafc" }}>
-        <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div style={{
-              display: "inline-block",
-              background: "rgba(189, 221, 252, 0.15)",
-              color: "#0a2540",
-              padding: "0.5rem 1rem",
-              borderRadius: "4px",
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              letterSpacing: "0.1em",
-              marginBottom: "1rem"
-            }}>
-              OUR PRACTICE AREAS
+      {/* PRACTICE AREAS */}
+      <section className="py-24 bg-gradient-to-b from-white to-brand/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
+              <Scale className="w-4 h-4 text-brand-800" />
+              <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+                Our Practice Areas
+              </span>
             </div>
-            <h2 style={{ 
-              fontSize: "clamp(1.8rem, 3vw, 2.5rem)", 
-              fontWeight: 700, 
-              color: "#0a2540",
-              marginBottom: "1rem"
-            }}>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">
               Comprehensive Legal Services
             </h2>
-            <p style={{ 
-              fontSize: "1.05rem", 
-              color: "#64748b",
-              maxWidth: "600px",
-              margin: "0 auto"
-            }}>
+
+            <p className="text-xl text-navy/70 max-w-2xl mx-auto">
               We provide expert legal representation across a wide range of practice areas
             </p>
-          </div>
+          </motion.div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "24px" }}>
-            {practiceAreas.map((area) => (
-              <Link key={area.id} href={`/practice-areas/${area.slug}`} style={{ textDecoration: "none", height: "100%" }}>
-                <article className="practice-card">
-                  <div className="practice-area-icon">{area.icon || "⚖️"}</div>
-                  <h3 className="practice-area-title">{area.title}</h3>
-                  <p className="practice-area-description">{area.description}</p>
-                  <span className="read-more-btn">Read More</span>
-                </article>
-              </Link>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {practiceAreas.map((area, index) => (
+              <motion.div
+                key={area.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+              >
+                <Link href={`/practice-areas/${area.slug}`} className="group block h-full">
+                  <div className="h-full bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-brand/10 hover:border-brand/30 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand/20 to-brand/10 flex items-center justify-center text-brand-800 mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <Scale className="w-8 h-8" />
+                    </div>
+                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-brand-800 transition-colors">
+                      {area.title}
+                    </h3>
+                    <p className="text-navy/70 leading-relaxed line-clamp-3">
+                      {area.description}
+                    </p>
+                    <div className="mt-6 inline-flex items-center text-brand-800 font-semibold text-sm group-hover:gap-2 transition-all">
+                      <span>Learn More</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: "3rem" }}>
-            <Link href="/practice-areas" style={{
-              background: "#0a2540",
-              color: "#ffffff",
-              padding: "1rem 2rem",
-              borderRadius: "6px",
-              textDecoration: "none",
-              fontWeight: 600,
-              display: "inline-block"
-            }}>
-              View All Practice Areas
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-16"
+          >
+            <Link
+              href="/practice-areas"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-navy to-navy-200 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300"
+            >
+              <span>View All Practice Areas</span>
+              <span>→</span>
             </Link>
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="section" style={{ background: "#ffffff" }}>
-        <div className="container">
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div style={{
-              display: "inline-block",
-              background: "rgba(189, 221, 252, 0.15)",
-              color: "#0a2540",
-              padding: "0.5rem 1rem",
-              borderRadius: "4px",
-              fontSize: "0.8rem",
-              fontWeight: 600,
-              letterSpacing: "0.1em",
-              marginBottom: "1rem"
-            }}>
-              WHY CHOOSE US
+      {/* WHY CHOOSE US */}
+      <section className="py-24 bg-brand/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
+              <Shield className="w-4 h-4 text-brand-800" />
+              <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+                Why Choose Us
+              </span>
             </div>
-            <h2 style={{ 
-              fontSize: "clamp(1.8rem, 3vw, 2.5rem)", 
-              fontWeight: 700, 
-              color: "#0a2540",
-              marginBottom: "1rem"
-            }}>
+
+            <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">
               Excellence in Legal Representation
             </h2>
-            <p style={{ 
-              fontSize: "1.05rem", 
-              color: "#64748b",
-              maxWidth: "600px",
-              margin: "0 auto"
-            }}>
+
+            <p className="text-xl text-navy/70 max-w-2xl mx-auto">
               We combine expertise with dedication to deliver exceptional legal outcomes
             </p>
-          </div>
+          </motion.div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "2rem" }}>
-            <div style={{ 
-              background: "#ffffff",
-              borderRadius: "12px",
-              padding: "2rem",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-              border: "1px solid #e2e8f0",
-              textAlign: "center"
-            }}>
-              <div style={{ 
-                width: "70px", 
-                height: "70px", 
-                background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)", 
-                borderRadius: "12px", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                margin: "0 auto 1.5rem",
-                fontSize: "1.75rem"
-              }}>
-                🎯
-              </div>
-              <h3 style={{ fontSize: "1.25rem", marginBottom: "1rem", color: "#0a2540", fontWeight: 600 }}>Client-Centered Approach</h3>
-              <p style={{ color: "#64748b", lineHeight: 1.7 }}>We prioritize our clients' needs and work tirelessly to achieve the best possible outcomes for every case.</p>
-            </div>
-            <div style={{ 
-              background: "#ffffff",
-              borderRadius: "12px",
-              padding: "2rem",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-              border: "1px solid #e2e8f0",
-              textAlign: "center"
-            }}>
-              <div style={{ 
-                width: "70px", 
-                height: "70px", 
-                background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)", 
-                borderRadius: "12px", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                margin: "0 auto 1.5rem",
-                fontSize: "1.75rem"
-              }}>
-                💼
-              </div>
-              <h3 style={{ fontSize: "1.25rem", marginBottom: "1rem", color: "#0a2540", fontWeight: 600 }}>Experienced Advocates</h3>
-              <p style={{ color: "#64748b", lineHeight: 1.7 }}>Our team brings years of combined experience in various areas of Kenyan law.</p>
-            </div>
-            <div style={{ 
-              background: "#ffffff",
-              borderRadius: "12px",
-              padding: "2rem",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-              border: "1px solid #e2e8f0",
-              textAlign: "center"
-            }}>
-              <div style={{ 
-                width: "70px", 
-                height: "70px", 
-                background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)", 
-                borderRadius: "12px", 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                margin: "0 auto 1.5rem",
-                fontSize: "1.75rem"
-              }}>
-                🏆
-              </div>
-              <h3 style={{ fontSize: "1.25rem", marginBottom: "1rem", color: "#0a2540", fontWeight: 600 }}>Proven Track Record</h3>
-              <p style={{ color: "#64748b", lineHeight: 1.7 }}>We have successfully handled numerous cases across Kenya with outstanding results.</p>
-            </div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: <Users className="w-6 h-6" />,
+                title: "Client-Centered Approach",
+                description: "We prioritize our clients' needs and work tirelessly to achieve the best possible outcomes.",
+              },
+              {
+                icon: <Scale className="w-6 h-6" />,
+                title: "Experienced Advocates",
+                description: "Our team brings years of combined experience in various areas of Kenyan law.",
+              },
+              {
+                icon: <Gavel className="w-6 h-6" />,
+                title: "Proven Track Record",
+                description: "Successfully handled numerous cases across Kenya with outstanding results.",
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                whileHover={{ y: -6 }}
+                className="bg-white rounded-3xl p-10 shadow-lg border border-brand/10 hover:border-brand/30 hover:shadow-2xl transition-all duration-300"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand to-brand-800 flex items-center justify-center text-white mb-6 shadow-lg">
+                  {item.icon}
+                </div>
+                <h3 className="text-2xl font-bold text-navy mb-4">{item.title}</h3>
+                <p className="text-navy/70 leading-relaxed">{item.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Team Preview - Card Style with Events Pattern */}
+      {/* TEAM SECTION */}
       {teamMembers.length > 0 && (
-        <section className="section" style={{ background: "#f8fafc" }}>
-          <div className="container">
-            <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-              <div style={{
-                display: "inline-block",
-                background: "rgba(189, 221, 252, 0.15)",
-                color: "#0a2540",
-                padding: "0.5rem 1rem",
-                borderRadius: "4px",
-                fontSize: "0.8rem",
-                fontWeight: 600,
-                letterSpacing: "0.1em",
-                marginBottom: "1rem"
-              }}>
-                OUR TEAM
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
+                <Users className="w-4 h-4 text-brand-800" />
+                <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+                  Our Legal Team
+                </span>
               </div>
-              <h2 style={{ 
-                fontSize: "clamp(1.8rem, 3vw, 2.5rem)", 
-                fontWeight: 700, 
-                color: "#0a2540",
-                marginBottom: "1rem"
-              }}>
+
+              <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">
                 Meet Our Attorneys
               </h2>
-              <p style={{ 
-                fontSize: "1.05rem", 
-                color: "#64748b",
-                maxWidth: "600px",
-                margin: "0 auto"
-              }}>
+
+              <p className="text-xl text-navy/70 max-w-2xl mx-auto">
                 Our dedicated team of attorneys is ready to fight for your rights
               </p>
-            </div>
+            </motion.div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "24px" }}>
-              {teamMembers.map((member) => (
-                <div key={member.id} style={{ 
-                  background: "#ffffff",
-                  borderRadius: "12px",
-                  overflow: "hidden",
-                  boxShadow: "0 4px 15px rgba(0,0,0,0.05)",
-                  border: "1px solid #e2e8f0"
-                }}>
-                  <div style={{ 
-                    position: "relative",
-                    width: "100%",
-                    height: "220px",
-                    overflow: "hidden",
-                    background: "#f8fafc"
-                  }}>
+            <div className="grid md:grid-cols-3 gap-8">
+              {teamMembers.map((member, index) => (
+                <motion.div
+                  key={member.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.15 }}
+                  whileHover={{ y: -10 }}
+                  className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300"
+                >
+                  <div className="relative h-72 overflow-hidden">
                     <Image
-                      src={member.image || "/placeholder.svg?height=200&width=200"}
+                      src={member.image || "/placeholder.svg?height=300&width=300"}
                       alt={member.name}
                       fill
-                      style={{ objectFit: "cover" }}
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
                   </div>
-                  <div style={{ padding: "1.5rem", textAlign: "center" }}>
-                    <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "#0a2540", marginBottom: "0.5rem" }}>{member.name}</h3>
-                    <p style={{ color: "#BDDDFC", fontWeight: 600, marginBottom: "1rem", fontSize: "1rem" }}>{member.title}</p>
-                    <p style={{ fontSize: "0.9rem", lineHeight: 1.6, color: "#666", marginBottom: "1rem", textAlign: "left", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{member.bio}</p>
-                    <Link href="/team" style={{
-                      color: "#0a2540",
-                      fontWeight: 600,
-                      fontSize: "0.9rem",
-                      textDecoration: "none"
-                    }}>
-                      Read More →
-                    </Link>
+                  <div className="p-8 -mt-16 relative">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-brand/10">
+                      <h3 className="text-2xl font-bold text-navy mb-2">
+                        {member.name}
+                      </h3>
+                      <p className="text-brand-800 font-semibold mb-3">
+                        {member.title}
+                      </p>
+                      <p className="text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4">
+                        {member.bio}
+                      </p>
+                      <Link
+                        href="/team"
+                        className="inline-flex items-center text-brand-800 font-semibold text-sm group/link"
+                      >
+                        <span>View Profile</span>
+                        <span className="ml-2 group-hover/link:translate-x-1 transition-transform">→</span>
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <div style={{ textAlign: "center", marginTop: "3rem" }}>
-              <Link href="/team" style={{
-                background: "#0a2540",
-                color: "#ffffff",
-                padding: "1rem 2rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: 600,
-                display: "inline-block"
-              }}>
-                View All Attorneys
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="text-center mt-16"
+            >
+              <Link
+                href="/team"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-navy to-navy-200 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300"
+              >
+                <span>View All Attorneys</span>
+                <span>→</span>
               </Link>
-            </div>
+            </motion.div>
           </div>
         </section>
       )}
 
+      {/* TESTIMONIALS */}
       <TestimonialsSection />
 
-      {/* Recent Blog Posts */}
+      {/* BLOG */}
       {recentPosts.length > 0 && (
-        <section className="section" style={{ background: "#f8fafc" }}>
-          <div className="container">
-            <h2 className="section-title">Latest Legal Insights</h2>
-            <p className="section-subtitle">Stay informed with our latest legal insights and updates</p>
+        <section className="py-24 bg-gradient-to-b from-brand/5 to-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-16"
+            >
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
+                <FileText className="w-4 h-4 text-brand-800" />
+                <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+                  Legal Insights
+                </span>
+              </div>
 
-            <div className="grid grid-3">
-              {recentPosts.map((post) => (
-                <div key={post.id} className="card blog-card">
-                  <Image
-                    src={post.image || "/placeholder.svg?height=200&width=300"}
-                    alt={post.title}
-                    width={300}
-                    height={200}
-                    className="blog-image"
-                  />
-                  <div className="blog-meta">{new Date(post.createdAt).toLocaleDateString()}</div>
-                  <h3 style={{ fontSize: "1.2rem", marginBottom: "0.75rem" }}>{post.title}</h3>
-                  <p style={{ color: "#64748b", fontSize: "0.95rem" }}>{post.summary}</p>
-                  <Link href={`/blog/${post.slug}`} className="btn btn-secondary" style={{ marginTop: "1rem", padding: "0.5rem 1rem", fontSize: "0.9rem" }}>
-                    Read More
-                  </Link>
-                </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">
+                Latest Legal Insights
+              </h2>
+
+              <p className="text-xl text-navy/70 max-w-2xl mx-auto">
+                Stay informed with our latest legal insights and updates
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8">
+              {recentPosts.map((post, index) => (
+                <motion.article
+                  key={post.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -8 }}
+                  className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300"
+                >
+                  <div className="relative h-56 overflow-hidden">
+                    <Image
+                      src={post.image || "/placeholder.svg?height=300&width=500"}
+                      alt={post.title}
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
+                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-navy">
+                      {new Date(post.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </div>
+                  </div>
+                  <div className="p-8">
+                    <h3 className="text-xl font-bold text-navy mb-3 line-clamp-2 group-hover:text-brand-800 transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-navy/70 text-sm leading-relaxed line-clamp-3 mb-6">
+                      {post.summary}
+                    </p>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center text-brand-800 font-semibold group/link"
+                    >
+                      <span>Read Article</span>
+                      <span className="ml-2 group-hover/link:translate-x-1 transition-transform">→</span>
+                    </Link>
+                  </div>
+                </motion.article>
               ))}
             </div>
 
-            <div style={{ textAlign: "center", marginTop: "3rem" }}>
-              <Link href="/blog" className="btn btn-primary">
-                View All Posts
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.6 }}
+              className="text-center mt-16"
+            >
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-navy to-navy-200 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300"
+              >
+                <span>View All Articles</span>
+                <span>→</span>
               </Link>
-            </div>
+            </motion.div>
           </div>
         </section>
       )}
 
-      {/* CTA Section */}
-      <section style={{ 
-        background: "linear-gradient(135deg, #0a2540 0%, #1a365d 50%, #0a2540 100%)", 
-        padding: "5rem 0",
-        position: "relative",
-        overflow: "hidden"
-      }}>
-        <div style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `
-            radial-gradient(circle at 10% 90%, rgba(189, 221, 252, 0.15) 0%, transparent 40%),
-            radial-gradient(circle at 90% 10%, rgba(189, 221, 252, 0.1) 0%, transparent 40%)
-          `
-        }}></div>
-        
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ textAlign: "center", maxWidth: "700px", margin: "0 auto" }}>
-            <h2 style={{ 
-              fontSize: "clamp(2rem, 4vw, 2.75rem)", 
-              fontWeight: 700, 
-              color: "#ffffff",
-              marginBottom: "1.5rem"
-            }}>
-              Ready to Discuss Your Legal Matters?
+      {/* CTA SECTION */}
+      <section className="relative py-32 bg-gradient-to-br from-navy via-navy-200 to-navy overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            className="absolute top-1/2 left-1/4 w-96 h-96 bg-brand/20 rounded-full blur-3xl"
+            animate={{
+              x: [0, 40, 0],
+              y: [0, -40, 0],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              Ready to Discuss Your
+              <br />
+              <span className="text-brand">Legal Matters?</span>
             </h2>
-            <p style={{ 
-              fontSize: "1.15rem", 
-              color: "rgba(255,255,255,0.85)",
-              marginBottom: "2.5rem",
-              lineHeight: 1.7
-            }}>
+
+            <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
               Contact us today for a consultation and let our experienced team help you achieve the best possible outcome for your case.
             </p>
-            <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link href="/contact" style={{
-                background: "linear-gradient(135deg, #BDDDFC 0%, #8BC4F9 100%)",
-                color: "#0a2540",
-                padding: "1rem 2.5rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: 700,
-                fontSize: "1rem",
-                display: "inline-block",
-                boxShadow: "0 4px 15px rgba(189, 221, 252, 0.3)"
-              }}>
-                Schedule Consultation
+
+            <div className="flex flex-wrap justify-center gap-5">
+              <Link
+                href="/contact"
+                className="group relative inline-flex items-center gap-4 px-10 py-5 bg-gradient-to-r from-brand to-brand-800 text-navy font-bold text-lg rounded-xl shadow-2xl hover:shadow-brand/50 transition-all duration-300 overflow-hidden"
+              >
+                <span className="relative z-10">Schedule Consultation</span>
+                <motion.span
+                  className="relative z-10"
+                  whileHover={{ x: 4 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                >
+                  →
+                </motion.span>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </Link>
-              <Link href="/about" style={{
-                background: "transparent",
-                color: "#ffffff",
-                padding: "1rem 2.5rem",
-                borderRadius: "6px",
-                textDecoration: "none",
-                fontWeight: 600,
-                fontSize: "1rem",
-                display: "inline-block",
-                border: "2px solid rgba(255,255,255,0.5)"
-              }}>
-                Learn More About Us
+
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-4 px-10 py-5 text-white font-semibold border-2 border-white/20 hover:border-brand hover:bg-white/5 rounded-xl backdrop-blur-sm transition-all duration-300"
+              >
+                <span>Learn More About Us</span>
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
+
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
     </>
   )
 }
-

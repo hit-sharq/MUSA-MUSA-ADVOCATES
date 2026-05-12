@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react"
 
 interface Testimonial {
   id: string
@@ -16,6 +18,7 @@ interface Testimonial {
 export default function TestimonialsSection() {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   useEffect(() => {
     fetchTestimonials()
@@ -26,7 +29,7 @@ export default function TestimonialsSection() {
       const response = await fetch("/api/testimonials")
       if (response.ok) {
         const data = await response.json()
-        setTestimonials(data.slice(0, 6)) // Show only first 6
+        setTestimonials(data.slice(0, 6))
       }
     } catch (error) {
       console.error("Error fetching testimonials:", error)
@@ -37,19 +40,29 @@ export default function TestimonialsSection() {
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} style={{ color: i < rating ? "#ffd700" : "#e0e0e0" }}>
-        ⭐
-      </span>
+      <Star
+        key={i}
+        className={`w-5 h-5 ${
+          i < rating ? "text-amber-400 fill-amber-400" : "text-gray-300"
+        }`}
+      />
     ))
   }
 
   if (isLoading) {
     return (
-      <section className="section" style={{ background: "#f7fafc" }}>
-        <div className="container">
-          <h2 className="section-title">What Our Clients Say</h2>
-          <div style={{ textAlign: "center", padding: "2rem" }}>
-            <p>Loading testimonials...</p>
+      <section className="py-24 bg-gradient-to-b from-brand/5 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6">
+              <Star className="w-4 h-4 text-brand-800" />
+              <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+                Client Testimonials
+              </span>
+            </div>
+            <div className="flex justify-center items-center h-40">
+              <div className="spinner" />
+            </div>
           </div>
         </div>
       </section>
@@ -57,107 +70,189 @@ export default function TestimonialsSection() {
   }
 
   if (testimonials.length === 0) {
-    return null // Don't show section if no testimonials
+    return null
   }
 
+  // Featured testimonial (first one)
+  const featured = testimonials[0]
+  const rest = testimonials.slice(1)
+
   return (
-    <section className="section" style={{ background: "#f7fafc" }}>
-      <div className="container">
-        <h2 className="section-title">What Our Clients Say</h2>
-        <p className="section-subtitle">
-          Don't just take our word for it - hear from clients who have experienced our legal expertise firsthand
-        </p>
+    <section id="testimonials" className="py-24 bg-gradient-to-b from-brand/5 to-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-5">
+        <div className="absolute top-20 left-20 w-64 h-64 bg-brand rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-64 h-64 bg-brand-800 rounded-full blur-3xl" />
+      </div>
 
-        <div className="grid grid-3" style={{ gap: "2rem" }}>
-          {testimonials.map((testimonial) => (
-            <div
-              key={testimonial.id}
-              className="card"
-              style={{
-                position: "relative",
-                padding: "2rem",
-                background: testimonial.featured ? "linear-gradient(135deg, #fff 0%, #f8fafc 100%)" : "white",
-                border: testimonial.featured ? "2px solid #d4af37" : "1px solid #e2e8f0",
-              }}
-            >
-              {testimonial.featured && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "-10px",
-                    right: "20px",
-                    background: "#d4af37",
-                    color: "white",
-                    padding: "0.25rem 0.75rem",
-                    borderRadius: "12px",
-                    fontSize: "0.75rem",
-                    fontWeight: "600",
-                  }}
-                >
-                  Featured
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: { opacity: 0, y: 30 },
+            visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+          }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
+            <Star className="w-4 h-4 text-brand-800 fill-brand-800" />
+            <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
+              What Our Clients Say
+            </span>
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">
+            Trusted by Clients Across Kenya
+          </h2>
+
+          <p className="text-xl text-navy/70 max-w-2xl mx-auto">
+            Don&apos;t just take our word for it - hear from clients who have experienced our legal expertise firsthand
+          </p>
+        </motion.div>
+
+        {/* Featured Testimonial */}
+        {featured && (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0, y: 40 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 0.1, 0.25, 1] } },
+            }}
+            className="mb-16"
+          >
+            <div className="relative max-w-4xl mx-auto">
+              {/* Gradient background card */}
+              <div className="absolute inset-0 bg-gradient-to-br from-brand/10 to-brand/5 rounded-3xl transform rotate-1 scale-105" />
+
+              <div className="relative bg-white rounded-3xl p-10 md:p-14 shadow-2xl border border-brand/10">
+                {/* Quote icon */}
+                <div className="absolute -top-8 left-10 w-16 h-16 bg-gradient-to-br from-brand to-brand-800 rounded-2xl flex items-center justify-center shadow-lg">
+                  <Quote className="w-8 h-8 text-white" />
                 </div>
-              )}
 
-              <div style={{ marginBottom: "1.5rem" }}>
-                <div style={{ fontSize: "3rem", color: "#d4af37", lineHeight: "1" }}>"</div>
-                <p style={{ fontStyle: "italic", color: "#555", lineHeight: "1.6", margin: "0.5rem 0" }}>
-                  {testimonial.content}
-                </p>
-                <div style={{ fontSize: "3rem", color: "#d4af37", lineHeight: "1", textAlign: "right" }}>"</div>
-              </div>
-
-              <div style={{ marginBottom: "1rem" }}>{renderStars(testimonial.rating)}</div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                {testimonial.image ? (
-                  <Image
-                    src={testimonial.image || "/placeholder.svg"}
-                    alt={testimonial.clientName}
-                    width={50}
-                    height={50}
-                    style={{ borderRadius: "50%", objectFit: "cover" }}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      background: "#1a365d",
-                      color: "white",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "1.2rem",
-                      fontWeight: "600",
-                    }}
-                  >
-                    {testimonial.clientName ? testimonial.clientName.charAt(0) : "?"}
+                <div className="pt-8">
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-6">
+                    {renderStars(featured.rating)}
                   </div>
-                )}
-                <div>
-                  <div style={{ fontWeight: "600", color: "#1a365d" }}>{testimonial.clientName || "Anonymous"}</div>
-                  {testimonial.clientTitle && (
-                    <div style={{ fontSize: "0.9rem", color: "#666" }}>{testimonial.clientTitle}</div>
-                  )}
+
+                  {/* Quote */}
+                  <blockquote className="text-xl md:text-2xl text-navy/90 leading-relaxed font-serif italic mb-8">
+                    &ldquo;{featured.content}&rdquo;
+                  </blockquote>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-5">
+                    {featured.image ? (
+                      <div className="relative w-16 h-16 rounded-full overflow-hidden border-4 border-brand/20">
+                        <Image
+                          src={featured.image}
+                          alt={featured.clientName}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-navy to-navy-200 flex items-center justify-center text-2xl font-bold text-white border-4 border-brand/20">
+                        {featured.clientName?.charAt(0) || "?"}
+                      </div>
+                    )}
+                    <div>
+                      <div className="text-lg font-bold text-navy">
+                        {featured.clientName || "Anonymous Client"}
+                      </div>
+                      {featured.clientTitle && (
+                        <div className="text-base text-brand-800">{featured.clientTitle}</div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
+          </motion.div>
+        )}
 
-        {testimonials.length >= 6 && (
-          <div style={{ textAlign: "center", marginTop: "3rem" }}>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                // Could expand to show more testimonials
-                alert("More testimonials feature coming soon!")
-              }}
-            >
-              View More Testimonials
+        {/* Other Testimonials Grid */}
+        {rest.length > 0 && (
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+              },
+            }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {rest.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+                }}
+                whileHover={{ y: -8 }}
+                className="bg-white rounded-3xl p-8 shadow-lg border border-brand/10 hover:border-brand/30 hover:shadow-2xl transition-all duration-300"
+              >
+                <div className="flex gap-1 mb-5">
+                  {renderStars(testimonial.rating)}
+                </div>
+
+                <blockquote className="text-navy/90 leading-relaxed mb-6 line-clamp-4">
+                  &ldquo;{testimonial.content}&rdquo;
+                </blockquote>
+
+                <div className="flex items-center gap-4 border-t border-brand/10 pt-5">
+                  {testimonial.image ? (
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-brand/20">
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.clientName}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-navy to-navy-200 flex items-center justify-center text-lg font-bold text-white border-2 border-brand/20">
+                      {testimonial.clientName?.charAt(0) || "?"}
+                    </div>
+                  )}
+                  <div>
+                    <div className="font-semibold text-navy">
+                      {testimonial.clientName || "Anonymous"}
+                    </div>
+                    {testimonial.clientTitle && (
+                      <div className="text-sm text-brand-800">{testimonial.clientTitle}</div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* View More Button */}
+        {testimonials.length >= 4 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6 }}
+            className="text-center mt-16"
+          >
+            <button className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-navy to-navy-200 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 group">
+              <span>Read More Success Stories</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
             </button>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

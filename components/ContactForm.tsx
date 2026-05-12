@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({
@@ -56,77 +57,50 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="card" style={{ position: "relative" }}>
+    <div className="card relative">
       {isSubmitting && (
-        <div className="loading-overlay">
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                border: "4px solid #f3f3f3",
-                borderTop: "4px solid #1a365d",
-                borderRadius: "50%",
-                animation: "spin 1s linear infinite",
-                margin: "0 auto 1rem",
-              }}
-            ></div>
-            <p style={{ color: "#1a365d", fontWeight: "600" }}>Sending your message...</p>
+        <div className="absolute inset-0 bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 rounded-xl">
+          <div className="text-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+              className="w-10 h-10 border-4 border-brand/30 border-t-brand rounded-full mx-auto mb-3"
+            />
+            <p className="text-navy font-semibold">Sending your message...</p>
           </div>
         </div>
       )}
 
-      <div className={isSubmitting ? "form-disabled" : ""}>
-        <div style={{ marginBottom: "2rem" }}>
-          <h3 style={{ color: "#1a365d", marginBottom: "0.5rem" }}>Send Us a Message</h3>
-          <p style={{ color: "#666" }}>Fill out the form below and we'll get back to you within 24 hours.</p>
+      <div className={isSubmitting ? "opacity-60 pointer-events-none" : ""}>
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-navy mb-2">Send Us a Message</h3>
+          <p className="text-gray-600">Fill out the form below and we&apos;ll get back to you within 24 hours.</p>
         </div>
 
-        {/* Success Message */}
         {submitStatus === "success" && (
-          <div
-            style={{
-              background: "linear-gradient(135deg, #48bb78 0%, #38a169 100%)",
-              color: "white",
-              padding: "1.5rem",
-              borderRadius: "10px",
-              marginBottom: "2rem",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>✅</div>
-            <h4 style={{ marginBottom: "0.5rem" }}>Message Sent Successfully!</h4>
-            <p style={{ margin: 0, opacity: 0.9 }}>
-              Thank you for contacting us. We'll review your message and respond within 24 hours.
+          <div className="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl mb-6 text-center">
+            <div className="text-3xl mb-2">✅</div>
+            <h4 className="text-xl font-bold mb-2">Message Sent Successfully!</h4>
+            <p className="opacity-90">
+              Thank you for contacting us. We&apos;ll review your message and respond within 24 hours.
             </p>
           </div>
         )}
 
-        {/* Error Message */}
         {submitStatus === "error" && (
-          <div
-            style={{
-              background: "linear-gradient(135deg, #f56565 0%, #e53e3e 100%)",
-              color: "white",
-              padding: "1.5rem",
-              borderRadius: "10px",
-              marginBottom: "2rem",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>❌</div>
-            <h4 style={{ marginBottom: "0.5rem" }}>Error Sending Message</h4>
-            <p style={{ margin: 0, opacity: 0.9 }}>
-              {errorMessage ||
-                "There was an error sending your message. Please try again or contact us directly."}
+          <div className="bg-gradient-to-r from-red-500 to-red-600 text-white p-6 rounded-xl mb-6 text-center">
+            <div className="text-3xl mb-2">❌</div>
+            <h4 className="text-xl font-bold mb-2">Error Sending Message</h4>
+            <p className="opacity-90">
+              {errorMessage || "There was an error sending your message. Please try again or contact us directly."}
             </p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="form">
-          <div className="grid grid-2" style={{ gap: "1rem" }}>
-            <div className="form-group">
-              <label htmlFor="name" className="form-label">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="name" className="block text-sm font-semibold text-navy/80 mb-2">
                 Full Name *
               </label>
               <input
@@ -136,14 +110,14 @@ export default function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="form-input"
+                className="w-full px-4 py-3 rounded-lg border border-brand/20 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all bg-white"
                 placeholder="Enter your full name"
                 disabled={isSubmitting}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="email" className="form-label">
+            <div>
+              <label htmlFor="email" className="block text-sm font-semibold text-navy/80 mb-2">
                 Email Address *
               </label>
               <input
@@ -153,16 +127,16 @@ export default function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="form-input"
+                className="w-full px-4 py-3 rounded-lg border border-brand/20 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all bg-white"
                 placeholder="Enter your email address"
                 disabled={isSubmitting}
               />
             </div>
           </div>
 
-          <div className="grid grid-2" style={{ gap: "1rem" }}>
-            <div className="form-group">
-              <label htmlFor="phone" className="form-label">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="phone" className="block text-sm font-semibold text-navy/80 mb-2">
                 Phone Number
               </label>
               <input
@@ -171,14 +145,14 @@ export default function ContactForm() {
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="form-input"
+                className="w-full px-4 py-3 rounded-lg border border-brand/20 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all bg-white"
                 placeholder="+254 700 000 000"
                 disabled={isSubmitting}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="company" className="form-label">
+            <div>
+              <label htmlFor="company" className="block text-sm font-semibold text-navy/80 mb-2">
                 Company/Organization
               </label>
               <input
@@ -187,15 +161,15 @@ export default function ContactForm() {
                 name="company"
                 value={formData.company}
                 onChange={handleChange}
-                className="form-input"
+                className="w-full px-4 py-3 rounded-lg border border-brand/20 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all bg-white"
                 placeholder="Your company name (optional)"
                 disabled={isSubmitting}
               />
             </div>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="subject" className="form-label">
+          <div>
+            <label htmlFor="subject" className="block text-sm font-semibold text-navy/80 mb-2">
               Legal Matter *
             </label>
             <select
@@ -204,7 +178,7 @@ export default function ContactForm() {
               value={formData.subject}
               onChange={handleChange}
               required
-              className="form-input"
+              className="w-full px-4 py-3 rounded-lg border border-brand/20 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all bg-white"
               disabled={isSubmitting}
             >
               <option value="">Select your legal matter</option>
@@ -221,8 +195,8 @@ export default function ContactForm() {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="message" className="form-label">
+          <div>
+            <label htmlFor="message" className="block text-sm font-semibold text-navy/80 mb-2">
               Message *
             </label>
             <textarea
@@ -231,7 +205,7 @@ export default function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               required
-              className="form-textarea"
+              className="w-full px-4 py-3 rounded-lg border border-brand/20 focus:border-brand focus:ring-2 focus:ring-brand/20 outline-none transition-all resize-none bg-white"
               placeholder="Please describe your legal situation in detail. Include any relevant dates, parties involved, and specific questions you have..."
               rows={6}
               disabled={isSubmitting}
@@ -241,30 +215,16 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="form-button"
-            style={{
-              width: "100%",
-              position: "relative",
-              background: isSubmitting ? "#a0aec0" : "#1a365d",
-            }}
+            className="w-full bg-gradient-to-r from-navy to-navy-800 text-white font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
           >
             {isSubmitting ? (
               <>
-                <span style={{ opacity: 0.7 }}>Sending Message...</span>
-                <div
-                  style={{
-                    position: "absolute",
-                    right: "1rem",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    width: "20px",
-                    height: "20px",
-                    border: "2px solid #ffffff40",
-                    borderTop: "2px solid #ffffff",
-                    borderRadius: "50%",
-                    animation: "spin 1s linear infinite",
-                  }}
-                ></div>
+                <span>Sending Message...</span>
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                  className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                />
               </>
             ) : (
               "Send Message"
@@ -272,49 +232,12 @@ export default function ContactForm() {
           </button>
         </form>
 
-        <div
-          style={{
-            marginTop: "1.5rem",
-            padding: "1rem",
-            background: "#f7fafc",
-            borderRadius: "8px",
-            fontSize: "0.9rem",
-            color: "#666",
-          }}
-        >
-          <p style={{ margin: 0 }}>
-            🔒 Your information is secure and confidential. We respect attorney-client privilege and will never
-            share your details with third parties.
+        <div className="mt-6 p-4 bg-gray-50 rounded-lg text-sm text-gray-600">
+          <p className="mb-0">
+            🔒 Your information is secure and confidential. We respect attorney-client privilege and will never share your details with third parties.
           </p>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes spin {
-          0% { transform: translateY(-50%) rotate(0deg); }
-          100% { transform: translateY(-50%) rotate(360deg); }
-        }
-        
-        .loading-overlay {
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(255, 255, 255, 0.8);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 10px;
-          z-index: 10;
-        }
-        
-        .form-disabled {
-          opacity: 0.6;
-          pointer-events: none;
-        }
-      `}</style>
     </div>
   )
 }
-

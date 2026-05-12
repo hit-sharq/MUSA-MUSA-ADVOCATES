@@ -14,7 +14,7 @@ export default function ContactClient() {
           </p>
         </div>
 
-        <div className="grid grid-2" style={{ gap: "4rem", alignItems: "start" }}>
+        <div className="grid grid-cols-2" style={{ gap: "4rem", alignItems: "start" }}>
           {/* Contact Form */}
           <ContactForm />
 
@@ -216,7 +216,7 @@ export default function ContactClient() {
         {/* FAQ Section */}
         <div style={{ marginTop: "4rem" }}>
           <h2 className="section-title">Frequently Asked Questions</h2>
-          <div className="grid grid-2" style={{ gap: "2rem" }}>
+          <div className="grid grid-cols-2" style={{ gap: "2rem" }}>
             <div className="card">
               <h4 style={{ color: "#1a365d", marginBottom: "1rem" }}>How quickly will you respond to my inquiry?</h4>
               <p style={{ color: "#666", margin: 0 }}>

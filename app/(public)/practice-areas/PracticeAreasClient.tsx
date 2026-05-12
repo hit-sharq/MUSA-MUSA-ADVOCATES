@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
+import { motion } from "framer-motion"
+import { Scale } from "lucide-react"
 
 interface PracticeArea {
   id: string
@@ -35,7 +37,7 @@ export default function PracticeAreasClient() {
   return (
     <div className="section">
       <div className="container">
-        <h1 className="section-title">Practice Areas</h1>
+        <h1 className="section-title">Our Practice Areas</h1>
         <p className="section-subtitle">
           Comprehensive legal services tailored to meet your specific needs. With experience and a commitment
           to excellence, our dedicated team provides expert representation across various areas of law.
@@ -43,130 +45,73 @@ export default function PracticeAreasClient() {
 
         {loading ? (
           <div className="text-center" style={{ padding: "4rem" }}>
-            <div className="loading" style={{ margin: "0 auto" }}></div>
-            <p style={{ marginTop: "1rem", color: "#64748b" }}>Loading practice areas...</p>
+            <div className="spinner mx-auto mb-4" />
+            <p className="text-navy/70">Loading practice areas...</p>
           </div>
         ) : (
-          <div className="practice-areas-grid">
-            {practiceAreas.map((area) => (
-              <Link key={area.id} href={`/practice-areas/${area.slug}`} style={{ textDecoration: "none" }}>
-                <article className="practice-area-card">
-                  <div className="practice-area-icon">
-                    {area.icon || "⚖️"}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {practiceAreas.map((area, index) => (
+              <motion.div
+                key={area.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+              >
+                <Link href={`/practice-areas/${area.slug}`} className="group block h-full">
+                  <div className="h-full bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl border border-brand/10 hover:border-brand/30 transition-all duration-300">
+                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand/20 to-brand/10 flex items-center justify-center text-brand-800 mb-6 group-hover:scale-110 transition-transform duration-300">
+                      {area.icon ? (
+                        <span className="text-3xl">{area.icon}</span>
+                      ) : (
+                        <Scale className="w-8 h-8" />
+                      )}
+                    </div>
+                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-brand-800 transition-colors">
+                      {area.title}
+                    </h3>
+                    <p className="text-navy/70 leading-relaxed line-clamp-3">
+                      {area.description}
+                    </p>
+                    <div className="mt-6 inline-flex items-center text-brand-800 font-semibold text-sm group-hover:gap-2 transition-all">
+                      <span>Learn More</span>
+                      <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </div>
                   </div>
-                  <h3 className="practice-area-title">{area.title}</h3>
-                  <p className="practice-area-description">{area.description}</p>
-                  <span className="read-more-btn">Read More</span>
-                </article>
-              </Link>
+                </Link>
+              </motion.div>
             ))}
           </div>
         )}
 
         {practiceAreas.length === 0 && !loading && (
-          <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
-            <h3>Practice Areas Coming Soon</h3>
-            <p>
-              We are currently updating our practice areas. Please contact us directly for information about our legal
-              services.
+          <div className="card text-center py-16">
+            <h3 className="text-navy mb-3">Practice Areas Coming Soon</h3>
+            <p className="text-gray-600 max-w-md mx-auto">
+              We are currently updating our practice areas. Please contact us directly for information about our legal services.
             </p>
           </div>
         )}
 
-        <div
-          style={{
-            background: "linear-gradient(135deg, #0a2540 0%, #1a3a5c 100%)",
-            color: "white",
-            padding: "3rem 2rem",
-            borderRadius: "15px",
-            textAlign: "center",
-            marginTop: "4rem",
-          }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6 }}
+          className="mt-16 text-center"
         >
-          <h3 style={{ color: "white", marginBottom: "1rem" }}>Don't See Your Legal Issue Listed?</h3>
-          <p style={{ marginBottom: "2rem", opacity: 0.9 }}>
-            We handle a wide range of legal matters beyond those listed above. Contact us to discuss your specific
-            situation and how we can assist you.
-          </p>
-          <a href="/contact" className="cta-button">
-            Contact Us Today
-          </a>
-        </div>
+          <div className="relative inline-block">
+            <div className="absolute -top-8 -right-8 w-full h-full bg-gradient-to-br from-brand to-brand-800 rounded-3xl opacity-20 blur-xl" />
+            <Link
+              href="/contact"
+              className="relative inline-block bg-gradient-to-r from-navy to-navy-800 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+            >
+              Discuss Your Case
+            </Link>
+          </div>
+        </motion.div>
       </div>
-
-      <style jsx>{`
-        .practice-areas-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-          gap: 24px;
-        }
-
-        .practice-area-card {
-          background: white;
-          border-radius: 12px;
-          padding: 2rem;
-          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-          transition: all 0.3s ease;
-          cursor: pointer;
-          border: 1px solid #e2e8f0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-        }
-
-        .practice-area-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .practice-area-icon {
-          font-size: 3rem;
-          margin-bottom: 1.5rem;
-          text-align: center;
-        }
-
-        .practice-area-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #0a2540;
-          margin-bottom: 1rem;
-          line-height: 1.3;
-        }
-
-        .practice-area-description {
-          font-size: 0.95rem;
-          line-height: 1.6;
-          color: #666;
-          margin-bottom: 1.5rem;
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .read-more-btn {
-          color: #d32f2f;
-          font-weight: 600;
-          font-size: 0.9rem;
-          background: none;
-          border: none;
-          cursor: pointer;
-          transition: color 0.3s ease;
-          padding: 0;
-        }
-
-        .read-more-btn:hover {
-          color: #b71c1c;
-        }
-
-        @media (max-width: 768px) {
-          .practice-areas-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </div>
   )
 }
-
