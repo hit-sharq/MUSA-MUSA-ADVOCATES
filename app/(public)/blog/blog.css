@@ -192,7 +192,7 @@
 /* Featured post spans 2 columns */
 .blog-grid .blog-card.featured {
   grid-column: span 2;
-  grid-row: span 2;
+  grid-row: span 1;
 }
 
 @media (max-width: 1024px) {
@@ -234,7 +234,7 @@
 }
 
 .blog-card.featured .blog-card-image {
-  height: 350px;
+  height: 300px;
 }
 
 .blog-card-image img {
@@ -276,6 +276,10 @@
   padding: 1.75rem;
 }
 
+.blog-card.featured .blog-card-content {
+  padding: 1.5rem;
+}
+
 .blog-card-date {
   font-size: 0.8rem;
   color: var(--text-muted);
@@ -298,7 +302,7 @@
 }
 
 .blog-card.featured .blog-card-title {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   -webkit-line-clamp: 3;
 }
 
