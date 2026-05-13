@@ -3,10 +3,9 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Shield, Scale, Gavel, FileText, Users, Heart } from "lucide-react"
 import TestimonialsSection from "@/components/TestimonialsSection"
-import Navbar from "@/components/Navbar"
 
 interface PracticeArea {
   id: string
@@ -86,27 +85,17 @@ export default function HomePage() {
 
   return (
     <>
-      <Navbar />
-
       {/* HERO SECTION */}
       <section className="relative min-h-[calc(100vh-80px)] flex items-center overflow-hidden bg-gradient-to-br from-navy via-navy-200 to-navy pt-20">
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand/10 rounded-full blur-3xl"
-            animate={{
-              x: [0, 30, 0],
-              y: [0, -30, 0],
-              scale: [1, 1.1, 1],
-            }}
+            animate={{ x: [0, 30, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
             transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-800/10 rounded-full blur-3xl"
-            animate={{
-              x: [0, -20, 0],
-              y: [0, 20, 0],
-              scale: [1, 1.15, 1],
-            }}
+            animate={{ x: [0, -20, 0], y: [0, 20, 0], scale: [1, 1.15, 1] }}
             transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           />
           <div
@@ -205,7 +194,7 @@ export default function HomePage() {
                   <div className="text-xs text-white/60 uppercase tracking-wider font-medium">Justice</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-brand mb-1">★</div>
+                  <div className="text-2xl font-bold text-brand mb-1">✦</div>
                   <div className="text-xs text-white/60 uppercase tracking-wider font-medium">Excellence</div>
                 </div>
               </motion.div>
@@ -223,7 +212,7 @@ export default function HomePage() {
 
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
                   <Image
-                    src="/Musa.jpg"
+                    src="/logo.png"
                     alt="Musa & Musa Advocates"
                     width={600}
                     height={700}
@@ -232,16 +221,6 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
                 </div>
-
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.8, duration: 0.6 }}
-                  className="absolute -bottom-8 -right-8 bg-gradient-to-br from-navy to-navy-200 text-white px-6 py-4 rounded-2xl shadow-xl border border-brand/20"
-                >
-                  <div className="text-2xl font-bold text-brand mb-0.5">✦</div>
-                  <div className="text-sm font-semibold">Excellence</div>
-                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -269,17 +248,29 @@ export default function HomePage() {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl">
                 <Image
-                  src="/Musa.jpg"
+                  src="/Logo.png"
                   alt="Musa & Musa Advocates Office"
                   width={600}
                   height={450}
                   className="w-full h-auto object-cover"
                 />
               </div>
+
               <div className="absolute -bottom-8 -right-8 bg-gradient-to-br from-brand to-brand-800 p-6 rounded-2xl shadow-2xl border border-white/10">
-                <div className="text-4xl font-bold text-white mb-1">✦</div>
-                <div className="text-white font-semibold">15+ Years</div>
-                <div className="text-brand text-sm">of Excellence</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-white mb-1">⚖</div>
+                    <div className="text-xs text-white/80 uppercase tracking-wider font-semibold">Integrity</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-white mb-1">★</div>
+                    <div className="text-xs text-white/80 uppercase tracking-wider font-semibold">Justice</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-4xl font-bold text-white mb-1">✦</div>
+                    <div className="text-xs text-white/80 uppercase tracking-wider font-semibold">Excellence</div>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -670,10 +661,7 @@ export default function HomePage() {
         <div className="absolute inset-0 overflow-hidden">
           <motion.div
             className="absolute top-1/2 left-1/4 w-96 h-96 bg-brand/20 rounded-full blur-3xl"
-            animate={{
-              x: [0, 40, 0],
-              y: [0, -40, 0],
-            }}
+            animate={{ x: [0, 40, 0], y: [0, -40, 0] }}
             transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
