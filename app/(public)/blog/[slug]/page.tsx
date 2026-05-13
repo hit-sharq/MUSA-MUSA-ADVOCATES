@@ -2,6 +2,42 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { prisma } from "@/lib/prisma"
+import type { Metadata } from "next"
+import BlogPostClient from "../BlogPostClient"
+import "../blog-post.css"
+
+export async function generateStaticParams() {
+  const posts = await prisma.blogPost.findMany({
+    where: { published: true },
+    select: { slug: true },
+  })
+  return posts.map((post) => ({ slug: post.slug }))
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const post = await prisma.blogPost.findUnique({
+    where: { slug, published: true },
+  })
+
+  if (!post) {
+    return {
+      title: "Article Not Found | Musa & Musa Advocates",
+    }
+  }
+
+  return {
+    title: `${post.title} | Musa & Musa Advocates Blog`,
+    description: post.summary || post.content.substring(0, 160),
+    openGraph: {
+      title: post.title,
+      description: post.summary || post.content.substring(0, 160),
+      type: "article",
+      publishedTime: post.createdAt.toISOString(),
+    },
+    robots: { index: true, follow: true },
+  }
+}
 
 async function getBlogPost(slug: string) {
   return await prisma.blogPost.findUnique({
@@ -12,113 +48,31 @@ async function getBlogPost(slug: string) {
   })
 }
 
-import type { Metadata } from "next"
-
-export const metadata: Metadata = {
-  robots: {
-    index: true,
-    follow: true,
-  },
+async function getRelatedPosts(currentSlug: string, limit: number = 3) {
+  return await prisma.blogPost.findMany({
+    where: {
+      published: true,
+      slug: { not: currentSlug }
+    },
+    orderBy: {
+      createdAt: "desc"
+    },
+    take: limit
+  })
 }
 
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const post = await getBlogPost(params.slug)
+  const { slug } = await params
+  const post = await getBlogPost(slug)
+  const relatedPosts = post ? await getRelatedPosts(slug) : []
 
   if (!post) {
     notFound()
   }
 
-  return (
-    <div className="section">
-      <div className="container">
-        <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-          <Link href="/blog" className="btn btn-secondary" style={{ marginBottom: "2rem" }}>
-            ← Back to Blog
-          </Link>
-
-          <article>
-            <header style={{ marginBottom: "3rem", textAlign: "center" }}>
-              <h1
-                style={{
-                  fontSize: "2.5rem",
-                  marginBottom: "1rem",
-                  color: "#1a365d",
-                  lineHeight: "1.2",
-                }}
-              >
-                {post.title}
-              </h1>
-
-              <div
-                style={{
-                  color: "#666",
-                  fontSize: "1.1rem",
-                  marginBottom: "2rem",
-                }}
-              >
-                Published on{" "}
-                {new Date(post.createdAt).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </div>
-
-              {post.image && (
-                <Image
-                  src={post.image || "/placeholder.svg"}
-                  alt={post.title}
-                  width={800}
-                  height={400}
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    borderRadius: "10px",
-                    marginBottom: "2rem",
-                  }}
-                />
-              )}
-            </header>
-
-            <div
-              style={{
-                fontSize: "1.1rem",
-                lineHeight: "1.8",
-                color: "#333",
-              }}
-            >
-              {post.content.split("\n").map((paragraph, index) => (
-                <p key={index} style={{ marginBottom: "1.5rem" }}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-          </article>
-
-          <div
-            style={{
-              background: "#f7fafc",
-              padding: "2rem",
-              borderRadius: "10px",
-              marginTop: "3rem",
-              textAlign: "center",
-            }}
-          >
-            <h3 style={{ color: "#1a365d", marginBottom: "1rem" }}>Need Legal Assistance?</h3>
-            <p style={{ marginBottom: "2rem", color: "#666" }}>
-              If you have questions about this topic or need legal representation, don't hesitate to contact us for a
-              consultation.
-            </p>
-            <Link href="/contact" className="btn btn-primary">
-              Schedule Consultation
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
+  return <BlogPostClient post={post} relatedPosts={relatedPosts} />
 }

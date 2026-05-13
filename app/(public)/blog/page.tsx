@@ -2,6 +2,7 @@
 import type { Metadata } from "next"
 import { prisma } from "@/lib/prisma"
 import BlogClient from "./BlogClient"
+import "./blog.css"
 
 interface BlogPost {
   id: string
@@ -39,22 +40,7 @@ export const metadata = {
 } satisfies Metadata
 
 export default async function BlogPage() {
-
   return (
-    <>
-      <div className="section">
-        <div className="container">
-          <h1 className="section-title">Legal Insights & Updates</h1>
-          <p className="section-subtitle">
-            Stay informed with our latest legal insights, case studies, and updates on important legal developments that
-            may affect you.
-          </p>
-
-          <BlogClient posts={await getBlogPosts()} />
-
-        </div>
-      </div>
-
-    </>
+    <BlogClient posts={await getBlogPosts()} />
   )
 }

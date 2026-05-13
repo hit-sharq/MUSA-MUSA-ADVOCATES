@@ -1,5 +1,7 @@
+
 import type { Metadata } from "next"
 import ContactClient from "./ContactClient"
+import "./contact.css"
 
 export const metadata: Metadata = {
   title: "Contact Us | Musa & Musa Advocates - Free Consultation",
@@ -24,4 +26,3 @@ robots: {
 export default function ContactPage() {
   return <ContactClient />
 }
-
