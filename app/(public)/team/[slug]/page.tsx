@@ -17,16 +17,27 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     }
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.musadvocates.co.ke"
+
   return {
     title: `${teamMember.name} | Musa & Musa Advocates`,
     description: teamMember.bio.substring(0, 160),
+    robots: {
+      index: true,
+      follow: true,
+    },
+    alternates: {
+      canonical: `${baseUrl}/team/${teamMember.slug}`,
+    },
     openGraph: {
       title: teamMember.name,
       description: teamMember.bio.substring(0, 160),
       type: "profile",
+      url: `${baseUrl}/team/${teamMember.slug}`,
     },
   }
 }
+
 
 export default async function TeamMemberPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
