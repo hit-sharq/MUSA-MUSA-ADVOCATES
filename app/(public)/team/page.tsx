@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -48,61 +49,19 @@ export default async function TeamPage() {
 
   return (
     <div className="team-page">
-      {/* SEO: render member list server-side so crawlers see the links */}
-
-      {/* Hero Section (static markup; you can re-add animations later) */}
-      <section className="team-hero">
-        <div className="team-hero-content">
-          <div className="team-hero-badge">
-            <Users className="w-4 h-4" />
-            <span>Our Team</span>
-          </div>
-          <h1 className="team-hero-title">
-            Meet Our <span>Attorneys</span>
-          </h1>
-          <p className="team-hero-subtitle">
-            A diverse team of seasoned legal professionals united by a shared commitment to justice,
-            excellence, and client success.
-          </p>
-          <Link href="/contact" className="team-hero-btn-primary">
-            <span>Schedule Consultation</span>
-          </Link>
-        </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
-      </section>
-
-      {/* Stats */}
-      <section className="team-stats">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="team-stats-grid">
-            {stats.map((stat) => {
-              const Icon = stat.icon
-              return (
-                <div key={stat.label} className="team-stat-item">
-                  <div className="team-stat-value">
-                    <Icon className="w-6 h-6" />
-                    {stat.value}
-                  </div>
-                  <div className="team-stat-label">{stat.label}</div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Grid */}
+      {/* Compact server-rendered page with small profile cards */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
-              <Award className="w-4 h-4 text-brand-dark fill-brand-dark" />
-              <span className="text-sm font-bold text-brand-dark uppercase tracking-wider">Our Attorneys</span>
+              <Users className="w-4 h-4 text-brand-800" />
+              <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">Our Legal Team</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">Legal Experts You Can Trust</h2>
+
+            <h1 className="text-4xl md:text-5xl font-bold text-navy mb-5">Meet Our Attorneys</h1>
+
             <p className="text-xl text-navy/70 max-w-2xl mx-auto">
-              Experienced advocates dedicated to protecting your rights and achieving the best outcomes
+              Our dedicated team of attorneys is ready to help you with legal matters.
             </p>
           </div>
 
@@ -114,30 +73,35 @@ export default async function TeamPage() {
               </p>
             </div>
           ) : (
-            <div className="team-grid">
-              {teamMembers.map((member) => (
-                <div key={member.id} className="team-card">
-                  <div className="team-card-image">
+            <div className="grid md:grid-cols-3 gap-8">
+              {teamMembers.map((member, index) => (
+                <div
+                  key={member.id}
+                  className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300"
+                >
+                  <div className="relative h-72 overflow-hidden">
                     <Image
                       src={member.image || "/placeholder.svg?height=300&width=300"}
                       alt={member.name}
                       fill
-                      className="object-cover"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
-                    <div className="team-card-image-overlay" />
-                    <div className="team-card-name">
-                      <h3>{member.name}</h3>
-                      <p className="team-card-title">{member.title}</p>
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
                   </div>
 
-                  <div className="team-card-content">
-                    <div className="team-card-bio">
-                      <p className="line-clamp-3">{member.bio}</p>
-                      <Link href={`/team/${member.slug}`} className="team-card-link">
-                        <span>View Full Profile</span>
-                        <span>→</span>
+                  <div className="p-8 -mt-16 relative">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-brand/10">
+                      <h3 className="text-2xl font-bold text-navy mb-2">{member.name}</h3>
+                      <p className="text-brand-800 font-semibold mb-3">{member.title}</p>
+                      <p className="text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4">{member.bio}</p>
+
+                      <Link
+                        href={`/team/${member.slug}`}
+                        className="inline-flex items-center text-brand-800 font-semibold text-sm group/link"
+                      >
+                        <span>View Profile</span>
+                        <span className="ml-2 group-hover/link:translate-x-1 transition-transform">→</span>
                       </Link>
                     </div>
                   </div>
@@ -145,15 +109,11 @@ export default async function TeamPage() {
               ))}
             </div>
           )}
-
-          <div className="team-cta">
-            <Link href="/contact" className="team-cta-btn">
-              <Star className="w-5 h-5" />
-              <span>Join Our Team</span>
-            </Link>
-          </div>
         </div>
       </section>
+
+
+
 
       {/* Bottom CTA */}
       <section className="team-bottom-cta">
