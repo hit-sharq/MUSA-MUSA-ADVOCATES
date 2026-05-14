@@ -211,7 +211,7 @@ export default function AboutPage() {
 
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
                   <Image
-                    src="/Logo.png"
+                    src="/mm.jpg"
                     alt="Musa & Musa Advocates"
                     width={600}
                     height={700}
@@ -324,7 +324,7 @@ export default function AboutPage() {
             >
               <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
                 <Image
-                  src="/moses.png"
+                  src="/favicon.ico"
                   alt="Musa & Musa Advocates Office"
                   width={600}
                   height={450}
