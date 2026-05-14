@@ -561,101 +561,6 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* TESTIMONIALS */}
-      <TestimonialsSection />
-
-      {/* BLOG */}
-      {recentPosts.length > 0 && (
-        <section className="py-24 bg-gradient-to-b from-brand/5 to-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-16"
-            >
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand/10 border border-brand/20 rounded-full mb-6">
-                <FileText className="w-4 h-4 text-brand-800" />
-                <span className="text-sm font-bold text-brand-800 uppercase tracking-wider">
-                  Legal Insights
-                </span>
-              </div>
-
-              <h2 className="text-4xl md:text-5xl font-bold text-navy mb-5">
-                Latest Legal Insights
-              </h2>
-
-              <p className="text-xl text-navy/70 max-w-2xl mx-auto">
-                Stay informed with our latest legal insights and updates
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-3 gap-8">
-              {recentPosts.map((post, index) => (
-                <motion.article
-                  key={post.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -8 }}
-                  className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300"
-                >
-                  <div className="relative h-56 overflow-hidden">
-                    <Image
-                      src={post.image || "/placeholder.svg?height=300&width=500"}
-                      alt={post.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
-                    <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-navy">
-                      {new Date(post.createdAt).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
-                    </div>
-                  </div>
-                  <div className="p-8">
-                    <h3 className="text-xl font-bold text-navy mb-3 line-clamp-2 group-hover:text-brand-800 transition-colors">
-                      {post.title}
-                    </h3>
-                    <p className="text-navy/70 text-sm leading-relaxed line-clamp-3 mb-6">
-                      {post.summary}
-                    </p>
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-brand-800 font-semibold group/link"
-                    >
-                      <span>Read Article</span>
-                      <span className="ml-2 group-hover/link:translate-x-1 transition-transform">→</span>
-                    </Link>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.6 }}
-              className="text-center mt-16"
-            >
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-navy to-navy-200 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300"
-              >
-                <span>View All Articles</span>
-                <span>→</span>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
       {/* CTA SECTION */}
       <section className="relative py-32 bg-gradient-to-br from-navy via-navy-200 to-navy overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
@@ -711,6 +616,9 @@ export default function HomePage() {
 
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
       </section>
+
+      {/* TESTIMONIALS */}
+      <TestimonialsSection />
     </>
   )
 }

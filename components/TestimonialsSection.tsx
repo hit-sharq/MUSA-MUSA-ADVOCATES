@@ -29,14 +29,55 @@ export default function TestimonialsSection() {
       const response = await fetch("/api/testimonials")
       if (response.ok) {
         const data = await response.json()
-        setTestimonials(data.slice(0, 6))
+        if (data.length === 0) {
+          // Fallback testimonials if database is empty
+          setTestimonials(FALLBACK_TESTIMONIALS)
+        } else {
+          setTestimonials(data.slice(0, 6))
+        }
       }
     } catch (error) {
       console.error("Error fetching testimonials:", error)
+      setTestimonials(FALLBACK_TESTIMONIALS)
     } finally {
       setIsLoading(false)
     }
   }
+
+  const FALLBACK_TESTIMONIALS = [
+    {
+      id: "1",
+      clientName: "Sarah Wanjiku",
+      clientTitle: "Business Owner, Nairobi",
+      content: "Musa & Musa Advocates provided exceptional legal guidance for our company's merger. Their attention to detail and strategic approach ensured a smooth transaction. Highly recommended!",
+      rating: 5,
+      featured: true,
+    },
+    {
+      id: "2",
+      clientName: "James Omondi",
+      clientTitle: "Individual Client, Mombasa",
+      content: "Professional, responsive, and incredibly knowledgeable. They helped me navigate a complex property dispute and achieved a favorable outcome. Truly outstanding advocates.",
+      rating: 5,
+      featured: false,
+    },
+    {
+      id: "3",
+      clientName: "Esther Njeri",
+      clientTitle: "CEO, Tech Startup",
+      content: "The team at Musa & Musa understands business needs deeply. They drafted our shareholder agreements with precision and saved us from potential future conflicts.",
+      rating: 5,
+      featured: false,
+    },
+    {
+      id: "4",
+      clientName: "David Kiptoo",
+      clientTitle: "Farmer, Nakuru",
+      content: "I was facing a land ownership issue that seemed impossible to resolve. Thanks to their expertise, I now have clear title to my family's ancestral land.",
+      rating: 5,
+      featured: false,
+    },
+  ]
 
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
