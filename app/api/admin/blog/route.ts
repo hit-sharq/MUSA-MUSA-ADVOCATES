@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   try {
     await requireAdmin()
 
-    const { title, content, summary, image, published } = await request.json()
+    const { title, content, summary, image, published, category } = await request.json()
 
     // Generate slug from title
     const slug = title
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
         summary,
         image,
         published: published || false,
+        category,
       },
     })
 

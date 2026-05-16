@@ -16,6 +16,7 @@ export default function EditBlogPost({
     title: "",
     content: "",
     summary: "",
+    category: "",
     published: false,
   })
   const [image, setImage] = useState<File | null>(null)
@@ -29,12 +30,13 @@ export default function EditBlogPost({
         const response = await fetch(`/api/admin/blog/${unwrappedParams.id}`)
         if (response.ok) {
           const post = await response.json()
-          setFormData({
-            title: post.title,
-            content: post.content,
-            summary: post.summary || "",
-            published: post.published,
-          })
+setFormData({
+             title: post.title,
+             content: post.content,
+             summary: post.summary || "",
+             category: post.category || "",
+             published: post.published,
+           })
           setImageUrl(post.image || "")
         } else {
           router.push("/admin/blog")
@@ -151,6 +153,20 @@ export default function EditBlogPost({
               onChange={(e) => setFormData((prev) => ({ ...prev, summary: e.target.value }))}
               className="form-input"
               placeholder="Brief summary of the post"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <input
+              type="text"
+              id="category"
+              value={formData.category}
+              onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
+              className="form-input"
+              placeholder="e.g., Criminal Law, Family Law, etc."
             />
           </div>
 

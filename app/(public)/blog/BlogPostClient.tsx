@@ -13,6 +13,7 @@ interface BlogPost {
   content: string
   summary: string | null
   image: string | null
+  category: string | null
   published: boolean
   createdAt: Date
 }
@@ -24,6 +25,7 @@ interface RelatedPost {
   content: string
   summary: string | null
   image: string | null
+  category: string | null
   createdAt: Date
 }
 
@@ -40,19 +42,7 @@ const formatDate = (date: Date) => {
   })
 }
 
-const getCategoryFromContent = (content: string): string => {
-  const categories = ["criminal", "family", "corporate", "real estate", "personal injury", "immigration", "employment"]
-  const lowerContent = content.toLowerCase()
-  for (const category of categories) {
-    if (lowerContent.includes(category)) {
-      return category.charAt(0).toUpperCase() + category.slice(1) + " Law"
-    }
-  }
-  return "Legal Insights"
-}
-
 export default function BlogPostClient({ post, relatedPosts }: BlogPostClientProps) {
-  const category = getCategoryFromContent(post.content)
 
   return (
     <div className="blog-post-page">
@@ -69,7 +59,7 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
         >
           <div className="blog-post-badge">
             <Tag className="w-4 h-4" fill="currentColor" />
-            <span>{category}</span>
+            <span>{post.category || "General"}</span>
           </div>
 
           <h1>{post.title}</h1>
@@ -117,10 +107,10 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
               )}
 
               <div className="blog-article-content">
-                <div className="article-category-badge">
-                  <Tag className="w-4 h-4" fill="currentColor" />
-                  <span>{category}</span>
-                </div>
+<div className="article-category-badge">
+                   <Tag className="w-4 h-4" fill="currentColor" />
+                   <span>{post.category || "General"}</span>
+                 </div>
 
                 <h1 className="article-title">{post.title}</h1>
 
@@ -231,9 +221,9 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
                         />
                       </div>
                       <div className="related-card-content">
-                        <span className="related-card-category">
-                          {getCategoryFromContent(relatedPost.content)}
-                        </span>
+<span className="related-card-category">
+                           {relatedPost.category || "General"}
+                         </span>
                         <h3 className="related-card-title">{relatedPost.title}</h3>
                         <p className="related-card-excerpt">
                           {relatedPost.summary || relatedPost.content.substring(0, 120) + "..."}

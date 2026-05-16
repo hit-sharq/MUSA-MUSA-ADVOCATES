@@ -29,7 +29,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     const unwrappedParams = await params
 
-    const { title, content, summary, image, published } = await request.json()
+    const { title, content, summary, image, published, category } = await request.json()
 
     // Generate slug from title
     const slug = title
@@ -46,6 +46,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
         summary,
         image,
         published,
+        category,
       },
     })
 

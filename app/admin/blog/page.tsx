@@ -8,6 +8,7 @@ interface BlogPost {
   title: string
   slug: string
   summary: string | null
+  category: string | null
   published: boolean
   createdAt: string
   updatedAt: string
@@ -84,14 +85,15 @@ export default function BlogManager() {
           </div>
         ) : (
           <table className="table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+<thead>
+               <tr>
+                 <th>Title</th>
+                 <th>Category</th>
+                 <th>Status</th>
+                 <th>Created</th>
+                 <th>Actions</th>
+               </tr>
+             </thead>
             <tbody>
               {posts.map((post) => (
                 <tr key={post.id}>
@@ -103,6 +105,7 @@ export default function BlogManager() {
                       </div>
                     )}
                   </td>
+                  <td>{post.category || "—"}</td>
                   <td>
                     <span
                       style={{

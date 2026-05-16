@@ -11,6 +11,7 @@ export default function NewBlogPost() {
     title: "",
     content: "",
     summary: "",
+    category: "",
     published: false,
   })
   const [image, setImage] = useState<File | null>(null)
@@ -110,6 +111,20 @@ export default function NewBlogPost() {
               onChange={(e) => setFormData((prev) => ({ ...prev, summary: e.target.value }))}
               className="form-input"
               placeholder="Brief summary of the post"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="category" className="form-label">
+              Category
+            </label>
+            <input
+              type="text"
+              id="category"
+              value={formData.category}
+              onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
+              className="form-input"
+              placeholder="e.g., Criminal Law, Family Law, etc."
             />
           </div>
 

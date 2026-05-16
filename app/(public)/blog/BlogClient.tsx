@@ -13,6 +13,7 @@ interface BlogPost {
   content: string
   summary: string | null
   image: string | null
+  category: string | null
   published: boolean
   createdAt: Date
 }
@@ -58,7 +59,7 @@ export default function BlogClient({ posts }: BlogClientProps) {
 
   const filteredPosts = activeCategory === "All Posts"
     ? posts
-    : posts.filter(post => post.content.toLowerCase().includes(activeCategory.toLowerCase()))
+    : posts.filter(post => post.category === activeCategory)
 
   const featuredPost = posts[0]
   const regularPosts = filteredPosts.slice(1)
@@ -69,16 +70,6 @@ export default function BlogClient({ posts }: BlogClientProps) {
       setSubscribed(true)
       setEmail("")
     }
-  }
-
-  const getCategoryFromContent = (content: string): string => {
-    const lowerContent = content.toLowerCase()
-    for (const category of categories) {
-      if (category !== "All Posts" && lowerContent.includes(category.toLowerCase().split(" ")[0])) {
-        return category
-      }
-    }
-    return "General"
   }
 
   return (
@@ -245,9 +236,9 @@ export default function BlogClient({ posts }: BlogClientProps) {
                         className="object-cover"
                       />
                       <div className="blog-card-image-overlay" />
-                      <span className="blog-card-category">
-                        {getCategoryFromContent(post.content)}
-                      </span>
+<span className="blog-card-category">
+                         {post.category || "General"}
+                       </span>
                     </div>
                     <div className="blog-card-content">
                       <div className="blog-card-date">
@@ -356,9 +347,9 @@ export default function BlogClient({ posts }: BlogClientProps) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <span className="inline-block px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-navy mb-3">
-                      {getCategoryFromContent(selectedPost.content)}
-                    </span>
+<span className="inline-block px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-semibold text-navy mb-3">
+                       {selectedPost.category || "General"}
+                     </span>
                     <h2 className="text-3xl font-bold text-white leading-tight">
                       {selectedPost.title}
                     </h2>
