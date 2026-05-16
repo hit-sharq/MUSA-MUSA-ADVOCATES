@@ -4,6 +4,7 @@ import type React from "react"
 
 import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import RichTextEditor from "@/components/RichTextEditor"
 
 export default function EditBlogPost({
   params,
@@ -188,14 +189,10 @@ setFormData({
             <label htmlFor="content" className="form-label">
               Content *
             </label>
-            <textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.content}
+              onChange={(content) => setFormData((prev) => ({ ...prev, content }))}
               placeholder="Write your blog post content here..."
-              rows={15}
             />
           </div>
 

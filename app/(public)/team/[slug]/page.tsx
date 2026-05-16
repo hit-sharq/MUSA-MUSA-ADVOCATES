@@ -104,7 +104,7 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
               </p>
 
               <p className="text-lg text-white/90 leading-relaxed mb-8">
-                {teamMember.bio}
+                <span dangerouslySetInnerHTML={{ __html: teamMember.bio }} />
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">

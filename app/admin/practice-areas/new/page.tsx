@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import RichTextEditor from "@/components/RichTextEditor"
 
 const EMOJI_OPTIONS = [
   "⚖️",
@@ -116,14 +117,10 @@ export default function NewPracticeArea() {
             <label htmlFor="description" className="form-label">
               Description *
             </label>
-            <textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.description}
+              onChange={(description) => setFormData((prev) => ({ ...prev, description }))}
               placeholder="Describe this practice area..."
-              rows={6}
             />
           </div>
 

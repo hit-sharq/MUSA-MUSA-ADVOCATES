@@ -5,6 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import RichTextEditor from "@/components/RichTextEditor"
 
 interface Testimonial {
   id: string
@@ -226,12 +227,9 @@ export default function EditTestimonial({ params }: { params: Promise<{ id: stri
 
           <div className="form-group">
             <label htmlFor="content">Testimonial Content *</label>
-            <textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-              required
-              rows={6}
+            <RichTextEditor
+              content={formData.content}
+              onChange={(content) => setFormData({ ...formData, content })}
               placeholder="Enter the client's testimonial..."
             />
           </div>

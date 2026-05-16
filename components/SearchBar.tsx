@@ -85,28 +85,27 @@ export default function SearchBar() {
   return (
     <div ref={searchRef} style={{ position: "relative", width: "100%", maxWidth: "400px" }}>
       <div style={{ position: "relative" }}>
-        <input
-          type="text"
-          placeholder="Search our website..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => query.length >= 2 && setIsOpen(true)}
-          style={{
-            width: "100%",
-            padding: "0.75rem 1rem 0.75rem 2.5rem",
-            border: "2px solid #e2e8f0",
-            borderRadius: "25px",
-            fontSize: "1rem",
-            outline: "none",
-            transition: "border-color 0.2s",
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = "#1a365d"
-            query.length >= 2 && setIsOpen(true)
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = "#e2e8f0"
-          }}
+<input
+           type="text"
+           placeholder="Search our website..."
+           value={query}
+           onChange={(e) => setQuery(e.target.value)}
+           style={{
+             width: "100%",
+             padding: "0.75rem 1rem 0.75rem 2.5rem",
+             border: "2px solid #e2e8f0",
+             borderRadius: "25px",
+             fontSize: "1rem",
+             outline: "none",
+             transition: "border-color 0.2s",
+           }}
+           onFocus={(e) => {
+             e.target.style.borderColor = "#1a365d"
+             query.length >= 2 && setIsOpen(true)
+           }}
+           onBlur={(e) => {
+             e.target.style.borderColor = "#e2e8f0"
+           }}
         />
         <div
           style={{

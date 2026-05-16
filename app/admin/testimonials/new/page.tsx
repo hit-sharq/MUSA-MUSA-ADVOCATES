@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import RichTextEditor from "@/components/RichTextEditor"
 
 export default function NewTestimonial() {
   const router = useRouter()
@@ -120,14 +121,10 @@ export default function NewTestimonial() {
             <label htmlFor="content" className="form-label">
               Testimonial Content *
             </label>
-            <textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.content}
+              onChange={(content) => setFormData((prev) => ({ ...prev, content }))}
               placeholder="Enter the client's testimonial..."
-              rows={6}
             />
           </div>
 

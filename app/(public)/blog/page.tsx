@@ -11,6 +11,7 @@ interface BlogPost {
   content: string
   summary: string | null
   image: string | null
+  category: string | null
   published: boolean
   createdAt: Date
   updatedAt?: Date

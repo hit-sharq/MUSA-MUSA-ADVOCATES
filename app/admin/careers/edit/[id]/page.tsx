@@ -5,6 +5,7 @@ import type React from "react"
 
 import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import RichTextEditor from "@/components/RichTextEditor"
 
 export default function EditCareer({
   params,
@@ -164,14 +165,10 @@ export default function EditCareer({
             <label htmlFor="description" className="form-label">
               Job Description *
             </label>
-            <textarea
-              id="description"
-              value={formData.description}
-              onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.description}
+              onChange={(description) => setFormData((prev) => ({ ...prev, description }))}
               placeholder="Describe the role and responsibilities..."
-              rows={8}
             />
           </div>
 
@@ -179,14 +176,10 @@ export default function EditCareer({
             <label htmlFor="requirements" className="form-label">
               Requirements *
             </label>
-            <textarea
-              id="requirements"
-              value={formData.requirements}
-              onChange={(e) => setFormData((prev) => ({ ...prev, requirements: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.requirements}
+              onChange={(requirements) => setFormData((prev) => ({ ...prev, requirements }))}
               placeholder="List the required qualifications and skills..."
-              rows={8}
             />
           </div>
 

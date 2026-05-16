@@ -57,6 +57,10 @@ export default function BlogClient({ posts }: BlogClientProps) {
     })
   }
 
+  const stripHtml = (html: string) => {
+    return html.replace(/<[^>]*>/g, "").substring(0, 150)
+  }
+
   const filteredPosts = activeCategory === "All Posts"
     ? posts
     : posts.filter(post => post.category === activeCategory)
@@ -199,9 +203,9 @@ export default function BlogClient({ posts }: BlogClientProps) {
                         {formatDate(featuredPost.createdAt)}
                       </div>
                       <h2 className="blog-card-title">{featuredPost.title}</h2>
-                      <p className="blog-card-excerpt">
-                        {featuredPost.summary || featuredPost.content.substring(0, 180) + "..."}
-                      </p>
+<p className="blog-card-excerpt">
+                         {featuredPost.summary || stripHtml(featuredPost.content) + "..."}
+                       </p>
                       <div className="blog-card-footer">
                         <div className="blog-card-author">
                           <div className="blog-card-author-avatar">MM</div>
@@ -246,9 +250,9 @@ export default function BlogClient({ posts }: BlogClientProps) {
                         {formatDate(post.createdAt)}
                       </div>
                       <h2 className="blog-card-title">{post.title}</h2>
-                      <p className="blog-card-excerpt">
-                        {post.summary || post.content.substring(0, 150) + "..."}
-                      </p>
+<p className="blog-card-excerpt">
+                         {post.summary || stripHtml(post.content) + "..."}
+                       </p>
                       <div className="blog-card-footer">
                         <div className="blog-card-author">
                           <div className="blog-card-author-avatar">MM</div>

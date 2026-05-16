@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { uploadImage } from "@/lib/cloudinary"
+import RichTextEditor from "@/components/RichTextEditor"
 
 export default function NewTeamMember() {
   const router = useRouter()
@@ -130,14 +131,10 @@ export default function NewTeamMember() {
             <label htmlFor="bio" className="form-label">
               Bio *
             </label>
-            <textarea
-              id="bio"
-              value={formData.bio}
-              onChange={(e) => setFormData((prev) => ({ ...prev, bio: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.bio}
+              onChange={(bio) => setFormData((prev) => ({ ...prev, bio }))}
               placeholder="Write a brief bio for this team member..."
-              rows={8}
             />
           </div>
 

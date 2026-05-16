@@ -5,6 +5,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useUser } from "@clerk/nextjs"
+import RichTextEditor from "@/components/RichTextEditor"
 
 interface UserProfile {
   id: string
@@ -175,13 +176,10 @@ export default function ProfileSettings() {
               <label htmlFor="bio" className="form-label">
                 Bio
               </label>
-              <textarea
-                id="bio"
-                value={formData.bio || ""}
-                onChange={(e) => setFormData((prev) => ({ ...prev, bio: e.target.value }))}
-                className="form-textarea"
+              <RichTextEditor
+                content={formData.bio || ""}
+                onChange={(bio) => setFormData((prev) => ({ ...prev, bio }))}
                 placeholder="Write a brief bio about yourself..."
-                rows={6}
               />
               <small style={{ color: "#666", marginTop: "0.5rem", display: "block" }}>
                 This bio will be displayed on the About page.

@@ -107,10 +107,10 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
               )}
 
               <div className="blog-article-content">
-<div className="article-category-badge">
-                   <Tag className="w-4 h-4" fill="currentColor" />
-                   <span>{post.category || "General"}</span>
-                 </div>
+                <div className="article-category-badge">
+                  <Tag className="w-4 h-4" fill="currentColor" />
+                  <span>{post.category || "General"}</span>
+                </div>
 
                 <h1 className="article-title">{post.title}</h1>
 
@@ -135,9 +135,7 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
                       {post.summary}
                     </p>
                   )}
-                  {post.content.split("\n").map((paragraph, index) => (
-                    paragraph.trim() && <p key={index}>{paragraph}</p>
-                  ))}
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
                 </div>
 
                 {/* Share Buttons */}
@@ -225,9 +223,9 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
                            {relatedPost.category || "General"}
                          </span>
                         <h3 className="related-card-title">{relatedPost.title}</h3>
-                        <p className="related-card-excerpt">
-                          {relatedPost.summary || relatedPost.content.substring(0, 120) + "..."}
-                        </p>
+<p className="related-card-excerpt">
+                           {relatedPost.summary || relatedPost.content.replace(/<[^>]*>/g, "").substring(0, 120) + "..."}
+                         </p>
                         <div className="related-card-footer">
                           <Calendar className="w-4 h-4" />
                           <span>{formatDate(relatedPost.createdAt)}</span>

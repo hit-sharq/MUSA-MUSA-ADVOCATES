@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import RichTextEditor from "@/components/RichTextEditor"
 
 export default function NewBlogPost() {
   const router = useRouter()
@@ -146,14 +147,10 @@ export default function NewBlogPost() {
             <label htmlFor="content" className="form-label">
               Content *
             </label>
-            <textarea
-              id="content"
-              value={formData.content}
-              onChange={(e) => setFormData((prev) => ({ ...prev, content: e.target.value }))}
-              required
-              className="form-textarea"
+            <RichTextEditor
+              content={formData.content}
+              onChange={(content) => setFormData((prev) => ({ ...prev, content }))}
               placeholder="Write your blog post content here..."
-              rows={15}
             />
           </div>
 
