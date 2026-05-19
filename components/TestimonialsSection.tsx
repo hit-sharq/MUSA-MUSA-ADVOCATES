@@ -183,9 +183,7 @@ export default function TestimonialsSection() {
                   </div>
 
                   {/* Quote */}
-                  <blockquote className="text-xl md:text-2xl text-navy/90 leading-relaxed font-serif italic mb-8">
-                    &ldquo;{featured.content}&rdquo;
-                  </blockquote>
+                  <blockquote className="text-xl md:text-2xl text-navy/90 leading-relaxed font-serif italic mb-8 rich-prose" dangerouslySetInnerHTML={{ __html: `&ldquo;${featured.content}&rdquo;` }} />
 
                   {/* Author */}
                   <div className="flex items-center gap-5">
@@ -247,9 +245,7 @@ export default function TestimonialsSection() {
                   {renderStars(testimonial.rating)}
                 </div>
 
-                <blockquote className="text-navy/90 leading-relaxed mb-6 line-clamp-4">
-                  &ldquo;{testimonial.content}&rdquo;
-                </blockquote>
+<blockquote className="text-navy/90 leading-relaxed mb-6 line-clamp-4 rich-prose" dangerouslySetInnerHTML={{ __html: `&ldquo;${testimonial.content}&rdquo;` }} />
 
                 <div className="flex items-center gap-4 border-t border-brand/10 pt-5">
                   {testimonial.image ? (

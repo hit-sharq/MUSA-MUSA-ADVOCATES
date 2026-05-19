@@ -195,7 +195,10 @@ export default function TeamClient() {
                   {/* Content */}
                   <div className="team-card-content">
                     <div className="team-card-bio">
-                      <p className="line-clamp-3">{member.bio}</p>
+<div
+  className="rich-prose text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4"
+  dangerouslySetInnerHTML={{ __html: member.bio }}
+/>
                       <Link href={`/team/${member.slug}`} className="team-card-link">
                         <span>View Full Profile</span>
                         <span>→</span>

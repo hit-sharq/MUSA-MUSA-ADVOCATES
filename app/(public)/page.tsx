@@ -509,9 +509,10 @@ export default function HomePage() {
                       <p className="text-brand-800 font-semibold mb-3">
                         {member.title}
                       </p>
-                      <p className="text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4">
-                        {member.bio}
-                      </p>
+<div
+  className="rich-prose text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4"
+  dangerouslySetInnerHTML={{ __html: member.bio }}
+/>
                       <Link
                         href="/team"
                         className="inline-flex items-center text-brand-800 font-semibold text-sm group/link"

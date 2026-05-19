@@ -71,9 +71,7 @@ export default function PracticeAreasClient() {
                     <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-brand-800 transition-colors">
                       {area.title}
                     </h3>
-                    <p className="text-navy/70 leading-relaxed line-clamp-3">
-                      {area.description}
-                    </p>
+                    <div className="text-navy/70 leading-relaxed line-clamp-3 rich-prose" dangerouslySetInnerHTML={{ __html: area.description }} />
                     <div className="mt-6 inline-flex items-center text-brand-800 font-semibold text-sm group-hover:gap-2 transition-all">
                       <span>Learn More</span>
                       <span className="group-hover:translate-x-1 transition-transform">→</span>

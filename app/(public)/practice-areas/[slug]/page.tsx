@@ -111,11 +111,7 @@ export default async function PracticeAreaPage({ params }: Props) {
                   </h2>
                 </div>
 
-                <div className="text-base text-navy/70 leading-relaxed space-y-4">
-                  {area.description.split("\n").map((para, i) => (
-                    <p key={i}>{para}</p>
-                  ))}
-                </div>
+                <div className="text-base text-navy/70 leading-relaxed space-y-4" dangerouslySetInnerHTML={{ __html: area.description }} />
 
                 <div className="mt-10 p-6 md:p-8 bg-gradient-to-br from-navy-50/50 to-brand/5 rounded-2xl border border-brand/10">
                   <h3 className="text-xl font-bold text-navy mb-6 flex items-center gap-3">

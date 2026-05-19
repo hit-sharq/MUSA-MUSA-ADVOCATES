@@ -91,6 +91,16 @@ body {
 .rich-prose p {
   margin: 0.75rem 0;
   color: var(--rich-prose-fg);
+  text-indent: 1.5rem; /* indent blog paragraphs */
+}
+
+/* first/last paragraphs spacing */
+.rich-prose p:first-child {
+  margin-top: 0;
+}
+
+.rich-prose p:last-child {
+  margin-bottom: 0;
 }
 
 .rich-prose strong {
@@ -130,6 +140,16 @@ body {
 }
 
 .rich-prose li > p:empty {
+  display: none;
+}
+
+/* Hide list items with only empty paragraphs inside */
+.rich-prose li:has(p:empty) {
+  display: none;
+}
+
+.rich-prose ul:empty,
+.rich-prose ol:empty {
   display: none;
 }
 

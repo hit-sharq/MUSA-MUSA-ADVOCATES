@@ -226,6 +226,37 @@
   margin-bottom: 0.6rem;
 }
 
+/* Rich text HTML styling */
+.team-card-bio ul,
+.team-card-bio ol {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.team-card-bio li {
+  margin: 0.25rem 0;
+}
+
+.team-card-bio strong,
+.team-card-bio b {
+  font-weight: 600;
+  color: var(--navy-default);
+}
+
+.team-card-bio em,
+.team-card-bio i {
+  font-style: italic;
+}
+
+.team-card-bio h1,
+.team-card-bio h2,
+.team-card-bio h3,
+.team-card-bio h4 {
+  margin: 0.75rem 0 0.5rem;
+  font-weight: 600;
+  color: var(--navy-default);
+}
+
 .team-card-link {
   display: inline-flex;
   align-items: center;

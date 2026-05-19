@@ -77,9 +77,7 @@ export default function CareersClient() {
                   <p className="text-brand-800 text-sm mb-3 flex items-center gap-2">
                     📍 {career.location}
                   </p>
-                  <p className="text-navy/70 text-sm leading-relaxed line-clamp-3 mb-6">
-                    {career.description}
-                  </p>
+                  <div className="text-navy/70 text-sm leading-relaxed line-clamp-3 mb-6 rich-prose" dangerouslySetInnerHTML={{ __html: career.description }} />
 <Link
   href={`/careers/${career.slug}`}
   className="inline-flex items-center text-brand-800 font-semibold text-sm group"
