@@ -239,7 +239,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="grid lg:grid-cols-2 gap-16 items-center"
           >
-            <motion.div
+<motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -254,23 +254,6 @@ export default function HomePage() {
                   height={450}
                   className="w-full h-auto object-cover"
                 />
-              </div>
-
-              <div className="absolute -bottom-8 -right-8 bg-gradient-to-br from-brand to-brand-800 p-6 rounded-2xl shadow-2xl border border-white/10">
-                <div className="flex items-center gap-6">
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-1">⚖</div>
-                    <div className="text-xs text-white/80 uppercase tracking-wider font-semibold">Integrity</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-1">★</div>
-                    <div className="text-xs text-white/80 uppercase tracking-wider font-semibold">Justice</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-4xl font-bold text-white mb-1">✦</div>
-                    <div className="text-xs text-white/80 uppercase tracking-wider font-semibold">Excellence</div>
-                  </div>
-                </div>
               </div>
             </motion.div>
 

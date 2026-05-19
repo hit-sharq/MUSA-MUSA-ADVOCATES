@@ -52,6 +52,26 @@ export default function BlogManager() {
     }
   }
 
+  const handleTogglePublish = async (id: string, currentStatus: boolean) => {
+    try {
+      const response = await fetch(`/api/admin/blog/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ published: !currentStatus }),
+      })
+
+      if (response.ok) {
+        setPosts(posts.map((post) =>
+          post.id === id ? { ...post, published: !currentStatus } : post
+        ))
+      }
+    } catch (error) {
+      console.error("Error updating publish status:", error)
+    }
+  }
+
   if (loading) {
     return (
       <div>
@@ -121,16 +141,23 @@ export default function BlogManager() {
                     </span>
                   </td>
                   <td>{new Date(post.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
-                      <Link href={`/admin/blog/edit/${post.id}`} className="btn btn-secondary">
-                        Edit
-                      </Link>
-                      <button onClick={() => handleDelete(post.id)} className="btn btn-danger">
-                        Delete
-                      </button>
-                    </div>
-                  </td>
+<td>
+                     <div style={{ display: "flex", gap: "0.5rem" }}>
+                       <Link href={`/admin/blog/edit/${post.id}`} className="btn btn-secondary">
+                         Edit
+                       </Link>
+                       <button
+                         onClick={() => handleTogglePublish(post.id, post.published)}
+                         className={post.published ? "btn btn-warning" : "btn btn-success"}
+                         style={{ fontSize: "0.75rem", padding: "0.25rem 0.5rem" }}
+                       >
+                         {post.published ? "Unpublish" : "Publish"}
+                       </button>
+                       <button onClick={() => handleDelete(post.id)} className="btn btn-danger">
+                         Delete
+                       </button>
+                     </div>
+                   </td>
                 </tr>
               ))}
             </tbody>
