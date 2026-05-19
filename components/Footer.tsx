@@ -170,10 +170,10 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 mb-8">
               {[
-                { href: "https://facebook.com/mutukumoses", icon: Facebook, label: "Facebook" },
-                { href: "https://x.com/musa_mutuku", icon: Twitter, label: "Twitter" },
-                { href: "https://www.linkedin.com/in/musa-mutuku-b4b3a6201/", icon: Linkedin, label: "LinkedIn" },
-                { href: "https://www.instagram.com/mwanamutuku/", icon: Instagram, label: "Instagram" },
+                { href: "https://www.linkedin.com/company/113122278/admin/dashboard/", icon: Facebook, label: "Facebook" },
+                { href: "https://x.com/MUSAMWANAMUTUKU", icon: Twitter, label: "Twitter" },
+                { href: "https://www.linkedin.com/company/113122278/admin/dashboard/", icon: Linkedin, label: "LinkedIn" },
+                { href: "https://www.linkedin.com/company/113122278/admin/dashboard/", icon: Instagram, label: "Instagram" },
               ].map((social) => (
                 <a
                   key={social.label}
