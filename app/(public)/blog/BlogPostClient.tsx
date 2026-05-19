@@ -135,7 +135,7 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
                       {post.summary}
                     </p>
                   )}
-                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+<div className="rich-prose" dangerouslySetInnerHTML={{ __html: post.content }} />
                 </div>
 
                 {/* Share Buttons */}

@@ -92,9 +92,11 @@ export default async function TeamPage() {
 
                   <div className="p-8 -mt-16 relative">
                     <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-brand/10">
-                      <h3 className="text-2xl font-bold text-navy mb-2">{member.name}</h3>
+<h3 className="text-2xl font-bold text-navy mb-2">{member.name}</h3>
                       <p className="text-brand-800 font-semibold mb-3">{member.title}</p>
-                      <p className="text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4">{member.bio}</p>
+                      <p className="text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4">
+                        <div className="rich-prose" dangerouslySetInnerHTML={{ __html: member.bio }} />
+                      </p>
 
                       <Link
                         href={`/team/${member.slug}`}

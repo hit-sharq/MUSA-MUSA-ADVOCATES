@@ -7,6 +7,10 @@
 
 /* CSS Variables - Premium Law Firm Theme */
 :root {
+  --rich-prose-fg: rgba(10, 37, 64, 0.92);
+  --rich-prose-muted: rgba(71, 85, 105, 0.85);
+
+
   /* Primary Brand Colors */
   --brand-blue: #BDDDFC;
   --brand-blue-dark: #8BC4F9;
@@ -74,6 +78,61 @@ body {
 }
 
 /* Reduce motion for accessibility */
+.rich-prose ul,
+.rich-prose ol {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.rich-prose li {
+  margin: 0.35rem 0;
+}
+
+.rich-prose p {
+  margin: 0.75rem 0;
+  color: var(--rich-prose-fg);
+}
+
+.rich-prose strong {
+  color: var(--rich-prose-fg);
+}
+
+.rich-prose em {
+  color: var(--rich-prose-muted);
+}
+
+.rich-prose a {
+  color: var(--brand-blue);
+  text-decoration: underline;
+}
+
+.rich-prose h1,
+.rich-prose h2,
+.rich-prose h3 {
+  margin: 1.25rem 0 0.5rem;
+  color: var(--rich-prose-fg);
+}
+
+.rich-prose blockquote {
+  border-left: 4px solid var(--brand-blue);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--rich-prose-muted);
+}
+
+/* Hide empty paragraphs/list items produced by the editor */
+.rich-prose p:empty {
+  display: none;
+}
+
+.rich-prose li:empty {
+  display: none;
+}
+
+.rich-prose li > p:empty {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
