@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
+import { revalidatePath } from "next/cache"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -50,6 +51,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
       },
     })
 
+    // Revalidate the public blog pages
+    revalidatePath('/blog')
+    revalidatePath(`/blog/${slug}`)
+    
     return NextResponse.json(post)
   } catch (error) {
     console.error("Error updating blog post:", error)
@@ -66,6 +71,13 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     await prisma.blogPost.delete({
       where: { id: unwrappedParams.id },
     })
+
+    // Revalidate the public blog pages
+    revalidatePath("/blog")
+
+    // In this app the blog list and blog post pages are rendered from server components
+    // so revalidating /blog is the critical part. Additional revalidation is safe.
+    revalidatePath("/blog/[slug]")
 
     return NextResponse.json({ message: "Blog post deleted successfully" })
   } catch (error) {

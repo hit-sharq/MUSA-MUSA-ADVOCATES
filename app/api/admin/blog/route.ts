@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
+import { revalidatePath } from "next/cache"
 
 export async function GET() {
   try {
@@ -39,6 +40,11 @@ export async function POST(request: NextRequest) {
         category,
       },
     })
+
+    // Invalidate cached public blog pages so the new post shows up immediately
+    revalidatePath("/blog")
+    revalidatePath(`/blog/${slug}`)
+    revalidatePath("/blog/[slug]")
 
     return NextResponse.json(post, { status: 201 })
   } catch (error) {
