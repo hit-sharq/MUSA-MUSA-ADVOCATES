@@ -188,7 +188,7 @@ export default async function PracticeAreaPage({ params }: Props) {
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 text-navy/70">
                       <Calendar className="w-4 h-4 text-brand-800" />
-                      <span className="text-sm">Available Mon–Sat, 8am–6pm</span>
+                      <span className="text-sm">Available Mon–Fri, 8am–6pm</span>
                     </div>
                     <div className="flex items-center gap-3 text-navy/70">
                       <Users className="w-4 h-4 text-brand-800" />

@@ -143,21 +143,13 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Office Hours */}
+{/* Office Hours */}
           <div>
             <h4 className="text-lg font-bold text-brand mb-6 uppercase tracking-wider">Office Hours</h4>
             <ul className="space-y-3 mb-8 text-sm">
-              <li className="flex justify-between text-white/70 border-b border-white/10 pb-2">
-                <span>Monday - Friday</span>
-                <span className="text-white">8:00 AM - 6:00 PM</span>
-              </li>
-              <li className="flex justify-between text-white/70 border-b border-white/10 pb-2">
-                <span>Saturday</span>
-                <span className="text-white">9:00 AM - 2:00 PM</span>
-              </li>
               <li className="flex justify-between text-white/70 pb-2">
-                <span>Sunday</span>
-                <span className="text-white">Closed</span>
+                <span>Monday - Friday</span>
+                <span className="text-white">8:00 AM - 5:00 PM</span>
               </li>
             </ul>
           </div>
