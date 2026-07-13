@@ -34,6 +34,8 @@ const stats = [
   { value: "15+", label: "Practice Areas", icon: Star },
 ]
 
+export const dynamic = "force-dynamic"
+
 export default async function TeamPage() {
   const teamMembers = await prisma.teamMember.findMany({
     orderBy: { order: "asc" },
@@ -77,9 +79,9 @@ export default async function TeamPage() {
               {teamMembers.map((member, index) => (
                 <div
                   key={member.id}
-                  className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300"
+                  className="group bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-brand/10 transition-all duration-300 h-full flex flex-col"
                 >
-                  <div className="relative h-72 overflow-hidden">
+                  <div className="relative h-72 overflow-hidden flex-shrink-0">
                     <Image
                       src={member.image || "/placeholder.svg?height=300&width=300"}
                       alt={member.name}
@@ -90,15 +92,15 @@ export default async function TeamPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-transparent to-transparent" />
                   </div>
 
-                  <div className="p-8 -mt-16 relative">
-                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-brand/10">
-<h3 className="text-2xl font-bold text-navy mb-2">{member.name}</h3>
+                  <div className="p-8 -mt-16 relative flex-1 flex flex-col">
+                    <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-brand/10 flex flex-col flex-1">
+                      <h3 className="text-2xl font-bold text-navy mb-2">{member.name}</h3>
                       <p className="text-brand-800 font-semibold mb-3">{member.title}</p>
-                      <div className="rich-prose text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: member.bio }} />
+                      <div className="rich-prose text-navy/70 text-sm line-clamp-3 leading-relaxed mb-4 flex-1" dangerouslySetInnerHTML={{ __html: member.bio }} />
 
                       <Link
                         href={`/team/${member.slug}`}
-                        className="inline-flex items-center text-brand-800 font-semibold text-sm group/link"
+                        className="inline-flex items-center text-brand-800 font-semibold text-sm group/link mt-auto"
                       >
                         <span>View Profile</span>
                         <span className="ml-2 group-hover/link:translate-x-1 transition-transform">→</span>

@@ -30,24 +30,26 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
 
     const { name, title, bio, image, order } = await request.json()
 
-    // Regenerate slug based on name (handles name changes and fixes bad slugs)
-    const baseSlug = slugify(name)
-    let slug = baseSlug
-    let counter = 1
-    while (await prisma.teamMember.findUnique({ where: { slug } })) {
-      slug = `${baseSlug}-${counter++}`
+    const existing = await prisma.teamMember.findUnique({
+      where: { id: params.id },
+      select: { name: true },
+    })
+
+    const data: Record<string, unknown> = { name, title, bio, image, order: order || 0 }
+
+    if (existing && existing.name !== name) {
+      const baseSlug = slugify(name)
+      let slug = baseSlug
+      let counter = 1
+      while (await prisma.teamMember.findFirst({ where: { slug, NOT: { id: params.id } } })) {
+        slug = `${baseSlug}-${counter++}`
+      }
+      data.slug = slug
     }
 
     const teamMember = await prisma.teamMember.update({
       where: { id: params.id },
-      data: {
-        slug,
-        name,
-        title,
-        bio,
-        image,
-        order: order || 0,
-      },
+      data,
     })
 
     return NextResponse.json(teamMember)

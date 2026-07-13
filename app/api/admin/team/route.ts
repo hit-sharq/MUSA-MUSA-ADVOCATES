@@ -13,7 +13,12 @@ export async function GET() {
 
     return NextResponse.json(teamMembers)
   } catch (error) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    const message = error instanceof Error ? error.message : "Unknown error"
+    if (message.includes("Unauthorized")) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+    console.error("Error fetching team members:", error)
+    return NextResponse.json({ error: "Failed to fetch team members" }, { status: 500 })
   }
 }
 

@@ -61,6 +61,7 @@ export async function GET(request: NextRequest) {
         name: true,
         title: true,
         bio: true,
+        slug: true,
       },
       take: 3,
     })
@@ -85,7 +86,7 @@ export async function GET(request: NextRequest) {
         id: member.id,
         title: member.name,
         type: "team" as const,
-        url: "/team",
+        url: `/team/${member.slug}`,
         excerpt: `${member.title} - ${member.bio.substring(0, 80)}...`,
       })),
     ]
