@@ -1,7 +1,8 @@
 "use client"
 
 import ContactForm from "@/components/ContactForm"
-import { Mail, Phone, MapPin, Clock, Shield, ArrowRight, Send } from "lucide-react"
+import WhatsAppButton from "@/components/WhatsAppButton"
+import { Mail, Phone, MapPin, Clock, Shield, ArrowRight, Send, MessageCircle } from "lucide-react"
 import { motion } from "framer-motion"
 
 const contactInfo = [
@@ -16,6 +17,12 @@ const contactInfo = [
     title: "Phone",
     value: "+254 758 251 399",
     href: "tel:+254758251399",
+  },
+  {
+    icon: MessageCircle,
+    title: "WhatsApp",
+    value: "+254 757 833 787",
+    href: "https://wa.me/254757833787?text=Hello%20Musa%20%26%20Musa%20Advocates",
   },
   {
     icon: MapPin,
@@ -84,6 +91,7 @@ export default function ContactClient() {
                 <Phone className="w-5 h-5" />
                 <span>Call Now</span>
               </a>
+              <WhatsAppButton size="lg" />
               <a href="mailto:info@musadvocates.co.ke" className="contact-btn contact-btn-secondary">
                 <Mail className="w-5 h-5" />
                 <span>Send Email</span>

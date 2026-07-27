@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import "./admin/admin-styles.css"
+import WhatsAppButton from "@/components/WhatsAppButton"
 
 
 const inter = Inter({ subsets: ["latin"] })
@@ -91,17 +92,20 @@ export default function RootLayout({
   }
 
   return (
-<html lang="en" suppressHydrationWarning={true}>
-  <head>
-    <link rel="icon" href="/favicon.ico" />
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-    />
-  </head>
-  <body className={inter.className} suppressHydrationWarning>
-    <ClerkProvider>{children}</ClerkProvider>
-  </body>
-</html>
+    <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body className={inter.className} suppressHydrationWarning>
+        <ClerkProvider>{children}</ClerkProvider>
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+          <WhatsAppButton size="sm" message="Hello, Musa & Musa Advocates. I need legal assistance." />
+        </div>
+      </body>
+    </html>
   )
 }

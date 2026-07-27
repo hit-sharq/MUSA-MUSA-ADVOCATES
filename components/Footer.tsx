@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { Shield, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, ArrowRight } from "lucide-react"
+import { Shield, Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, ArrowRight, MessageCircle } from "lucide-react"
 
 interface PracticeArea {
   id: string
@@ -75,6 +75,15 @@ export default function Footer() {
               >
                 <Phone className="w-4 h-4 text-brand" />
                 <span>+254 758 251 399</span>
+              </a>
+              <a
+                href="https://wa.me/254757833787?text=Hello%20Musa%20%26%20Musa%20Advocates"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-white/70 hover:text-brand transition-colors text-sm"
+              >
+                <MessageCircle className="w-4 h-4 text-brand" />
+                <span>+254 757 833 787</span>
               </a>
               <div className="flex items-center gap-3 text-white/70 text-sm">
                 <MapPin className="w-4 h-4 text-brand" />
