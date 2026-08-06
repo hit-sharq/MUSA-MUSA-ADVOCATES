@@ -269,16 +269,20 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
-                A Tradition of <span className="text-brand-800">Legal Excellence</span>
+               <h2 className="text-4xl md:text-5xl font-bold text-navy mb-6 leading-tight">
+                Committed to <span className="text-brand-800">Justice & Integrity</span>
               </h2>
 
               <p className="text-lg text-navy/70 leading-relaxed mb-5">
-                Musa & Musa Advocates is a premier law firm based in Nairobi, Kenya, dedicated to providing exceptional legal services with integrity, professionalism, and a client-centered approach.
+                A leading law firm committed to delivering exceptional legal services with integrity, professionalism, and an unwavering dedication to justice.
+              </p>
+
+              <p className="text-lg text-navy/70 leading-relaxed mb-5">
+                We also take pride in assisting foreign tourists, international visitors, expatriates, and overseas investors with accident claims, compensation matters, litigation, and legal issues arising in Kenya.
               </p>
 
               <p className="text-lg text-navy/70 leading-relaxed mb-8">
-                Our team of experienced advocates is committed to delivering personalized legal solutions tailored to meet the unique needs of each client.
+                Accordingly, we meticulously pursue outcomes that reflect fairness and clarity for every client we represent.
               </p>
 
               <div className="grid grid-cols-2 gap-5 mb-10">
