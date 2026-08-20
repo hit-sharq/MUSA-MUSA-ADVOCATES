@@ -6,6 +6,8 @@ import type { Metadata } from "next"
 import BlogPostClient from "../BlogPostClient"
 import "../blog-post.css"
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.musadvocates.co.ke"
+
 export async function generateStaticParams() {
   const posts = await prisma.blogPost.findMany({
     where: { published: true },
@@ -29,6 +31,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: `${post.title} | Musa & Musa Advocates Blog`,
     description: post.summary || post.content.substring(0, 160),
+    alternates: {
+      canonical: `${SITE_URL}/blog/${post.slug}`,
+    },
     openGraph: {
       title: post.title,
       description: post.summary || post.content.substring(0, 160),
@@ -74,5 +79,32 @@ export default async function BlogPostPage({
     notFound()
   }
 
-  return <BlogPostClient post={post} relatedPosts={relatedPosts} />
+  const articleUrl = `${SITE_URL}/blog/${post.slug}`
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.summary || post.content.replace(/<[^>]+>/g, "").slice(0, 200),
+    image: post.image || undefined,
+    datePublished: post.createdAt.toISOString(),
+    dateModified: post.updatedAt ? post.updatedAt.toISOString() : post.createdAt.toISOString(),
+    author: { "@type": "Organization", name: "Musa & Musa Advocates" },
+    publisher: {
+      "@type": "Organization",
+      name: "Musa & Musa Advocates",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/og-image.jpg` },
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+    keywords: post.category || undefined,
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <BlogPostClient post={post} relatedPosts={relatedPosts} />
+    </>
+  )
 }
