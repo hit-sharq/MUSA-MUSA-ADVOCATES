@@ -6,11 +6,13 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { uploadImage } from "@/lib/cloudinary"
 import RichTextEditor from "@/components/RichTextEditor"
+import SlugField from "@/components/SlugField"
 
 export default function NewTeamMember() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: "",
+    slug: "",
     title: "",
     bio: "",
     order: 0,
@@ -52,6 +54,7 @@ export default function NewTeamMember() {
         },
         body: JSON.stringify({
           ...formData,
+          slug: formData.slug || undefined,
           image: finalImageUrl,
         }),
       })
@@ -97,6 +100,13 @@ export default function NewTeamMember() {
               placeholder="Enter team member's name"
             />
           </div>
+
+          <SlugField
+            source={formData.name}
+            value={formData.slug}
+            onChange={(slug) => setFormData((prev) => ({ ...prev, slug }))}
+            prefix="/team/"
+          />
 
           <div className="form-group">
             <label htmlFor="title" className="form-label">

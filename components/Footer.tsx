@@ -204,7 +204,7 @@ export default function Footer() {
               <p className="text-white/40 text-xs mt-1">
                 System managed by{" "}
                 <a
-                  href="https://lumyn-tech.vercel.app/"
+                  href="https://www.lumyn.co.ke/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-brand/80 hover:text-brand transition-colors"

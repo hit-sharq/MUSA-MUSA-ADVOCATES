@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
+import { slugify } from "@/lib/slugify"
 import { revalidatePath } from "next/cache"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -30,13 +31,28 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     const unwrappedParams = await params
 
-    const { title, content, summary, image, published, category } = await request.json()
+    const { title, content, summary, image, published, category, slug: providedSlug } = await request.json()
 
-    // Generate slug from title
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "")
+    // Only change the slug when the editor provides one or the title changed,
+    // so existing shareable URLs don't break on every edit.
+    const existing = await prisma.blogPost.findUnique({
+      where: { id: unwrappedParams.id },
+      select: { slug: true, title: true },
+    })
+
+    let slug = existing?.slug ?? ""
+
+    const slugChanged = providedSlug && slugify(providedSlug) !== existing?.slug
+    const titleChanged = title && title !== existing?.title
+
+    if (slugChanged || (titleChanged && !providedSlug)) {
+      const baseSlug = slugify(providedSlug || title)
+      slug = baseSlug
+      let counter = 1
+      while (await prisma.blogPost.findFirst({ where: { slug, NOT: { id: unwrappedParams.id } } })) {
+        slug = `${baseSlug}-${counter++}`
+      }
+    }
 
     const post = await prisma.blogPost.update({
       where: { id: unwrappedParams.id },

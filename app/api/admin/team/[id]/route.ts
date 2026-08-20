@@ -28,17 +28,20 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ id:
     await requireAdmin()
     const params = await context.params
 
-    const { name, title, bio, image, order } = await request.json()
+    const { name, title, bio, image, order, slug: providedSlug } = await request.json()
 
     const existing = await prisma.teamMember.findUnique({
       where: { id: params.id },
-      select: { name: true },
+      select: { name: true, slug: true },
     })
 
     const data: Record<string, unknown> = { name, title, bio, image, order: order || 0 }
 
-    if (existing && existing.name !== name) {
-      const baseSlug = slugify(name)
+    const slugChanged = providedSlug && slugify(providedSlug) !== existing?.slug
+    const nameChanged = name && name !== existing?.name
+
+    if (slugChanged || (nameChanged && !providedSlug)) {
+      const baseSlug = slugify(providedSlug || name)
       let slug = baseSlug
       let counter = 1
       while (await prisma.teamMember.findFirst({ where: { slug, NOT: { id: params.id } } })) {

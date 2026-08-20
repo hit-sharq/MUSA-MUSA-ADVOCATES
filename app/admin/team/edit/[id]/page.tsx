@@ -5,6 +5,7 @@ import type React from "react"
 import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import RichTextEditor from "@/components/RichTextEditor"
+import SlugField from "@/components/SlugField"
 
 export default function EditTeamMember({
   params,
@@ -15,6 +16,7 @@ export default function EditTeamMember({
   const router = useRouter()
   const [formData, setFormData] = useState({
     name: "",
+    slug: "",
     title: "",
     bio: "",
     order: 0,
@@ -32,6 +34,7 @@ export default function EditTeamMember({
           const member = await response.json()
           setFormData({
             name: member.name,
+            slug: member.slug || "",
             title: member.title,
             bio: member.bio,
             order: member.order,
@@ -86,6 +89,7 @@ export default function EditTeamMember({
         },
         body: JSON.stringify({
           ...formData,
+          slug: formData.slug || undefined,
           image: finalImageUrl,
         }),
       })
@@ -144,6 +148,13 @@ export default function EditTeamMember({
               placeholder="Enter team member's name"
             />
           </div>
+
+          <SlugField
+            source={formData.name}
+            value={formData.slug}
+            onChange={(slug) => setFormData((prev) => ({ ...prev, slug }))}
+            prefix="/team/"
+          />
 
           <div className="form-group">
             <label htmlFor="title" className="form-label">

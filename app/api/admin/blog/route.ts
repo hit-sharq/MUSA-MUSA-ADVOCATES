@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
+import { slugify } from "@/lib/slugify"
 import { revalidatePath } from "next/cache"
 
 export async function GET() {
@@ -21,13 +22,15 @@ export async function POST(request: NextRequest) {
   try {
     await requireAdmin()
 
-    const { title, content, summary, image, published, category } = await request.json()
+    const { title, content, summary, image, published, category, slug: providedSlug } = await request.json()
 
-    // Generate slug from title
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)/g, "")
+    // Generate a unique, URL-friendly slug
+    const baseSlug = slugify(providedSlug || title)
+    let slug = baseSlug
+    let counter = 1
+    while (await prisma.blogPost.findUnique({ where: { slug } })) {
+      slug = `${baseSlug}-${counter++}`
+    }
 
     const post = await prisma.blogPost.create({
       data: {

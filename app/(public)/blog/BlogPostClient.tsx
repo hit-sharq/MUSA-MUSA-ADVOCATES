@@ -1,10 +1,11 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { Calendar, Clock, ArrowLeft, Twitter, Linkedin, Mail, Phone, Tag } from "lucide-react"
+import { Calendar, Clock, ArrowLeft, Twitter, Linkedin, Mail, Phone, Tag, Facebook, Link2, Share2, Check, MessageCircle } from "lucide-react"
+import { optimizeCloudinaryUrl } from "@/lib/image"
 
 interface BlogPost {
   id: string
@@ -43,7 +44,72 @@ const formatDate = (date: Date) => {
 }
 
 export default function BlogPostClient({ post, relatedPosts }: BlogPostClientProps) {
+  const [copied, setCopied] = useState(false)
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.musadvocates.co.ke"
+  const shareUrl = `${siteUrl}/blog/${post.slug}`
+  const shareText = post.title
+
+  const openShare = (url: string) => {
+    window.open(url, "_blank", "noopener,noreferrer,width=600,height=540")
+  }
+
+  const handleNativeShare = async () => {
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({
+          title: post.title,
+          text: post.summary || post.title,
+          url: shareUrl,
+        })
+      } catch {
+        /* user cancelled */
+      }
+    }
+  }
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      /* clipboard unavailable */
+    }
+  }
+
+  const shareLinks = [
+    {
+      name: "X",
+      icon: Twitter,
+      color: "#000000",
+      href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+    },
+    {
+      name: "LinkedIn",
+      icon: Linkedin,
+      color: "#0a66c2",
+      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
+    },
+    {
+      name: "Facebook",
+      icon: Facebook,
+      color: "#1877f2",
+      href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+    },
+    {
+      name: "WhatsApp",
+      icon: MessageCircle,
+      color: "#25d366",
+      href: `https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`,
+    },
+    {
+      name: "Email",
+      icon: Mail,
+      color: "#0a2540",
+      href: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(`I thought you might find this article interesting:\n\n${shareText}\n${shareUrl}`)}`,
+    },
+  ]
   return (
     <div className="blog-post-page">
       {/* HERO SECTION */}
@@ -93,18 +159,18 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
 
             {/* Article Card */}
             <article className="blog-article-card">
-              {post.image && (
-                <div className="blog-article-image">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  <div className="blog-article-image-overlay" />
-                </div>
-              )}
+                {post.image && (
+                  <div className="blog-article-image">
+                    <Image
+                      src={optimizeCloudinaryUrl(post.image, { width: 1200 })}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                    <div className="blog-article-image-overlay" />
+                  </div>
+                )}
 
               <div className="blog-article-content">
                 <div className="article-category-badge">
@@ -140,20 +206,50 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
 
                 {/* Share Buttons */}
                 <div className="article-actions">
-                  <div>
-                    <span className="article-share-label">Share this article:</span>
+                  <div className="article-share">
+                    <span className="article-share-label">Share this article</span>
                     <div className="article-share-buttons">
-                      <button className="share-button" title="Share on Twitter">
-                        <Twitter className="w-5 h-5" />
+                      <button
+                        type="button"
+                        className="share-button share-button-native"
+                        title="Share"
+                        onClick={handleNativeShare}
+                      >
+                        <Share2 className="w-5 h-5" />
                       </button>
-                      <button className="share-button" title="Share on LinkedIn">
-                        <Linkedin className="w-5 h-5" />
-                      </button>
-                      <button className="share-button" title="Share via Email">
-                        <Mail className="w-5 h-5" />
+
+                      {shareLinks.map((link) => {
+                        const Icon = link.icon
+                        return (
+                          <button
+                            key={link.name}
+                            type="button"
+                            className="share-button"
+                            title={`Share on ${link.name}`}
+                            style={
+                              {
+                                "--share-color": link.color,
+                              } as React.CSSProperties
+                            }
+                            onClick={() => openShare(link.href)}
+                          >
+                            <Icon className="w-5 h-5" />
+                          </button>
+                        )
+                      })}
+
+                      <button
+                        type="button"
+                        className={`share-button ${copied ? "share-button-copied" : ""}`}
+                        title={copied ? "Link copied!" : "Copy link"}
+                        onClick={handleCopy}
+                      >
+                        {copied ? <Check className="w-5 h-5" /> : <Link2 className="w-5 h-5" />}
                       </button>
                     </div>
                   </div>
+
+                  {copied && <span className="article-share-copied">Link copied to clipboard!</span>}
                 </div>
               </div>
             </article>
@@ -212,7 +308,7 @@ export default function BlogPostClient({ post, relatedPosts }: BlogPostClientPro
                     <Link href={`/blog/${relatedPost.slug}`} className="related-card">
                       <div className="related-card-image">
                         <Image
-                          src={relatedPost.image || "/placeholder.svg?height=300&width=500"}
+                          src={optimizeCloudinaryUrl(relatedPost.image, { width: 600 })}
                           alt={relatedPost.title}
                           fill
                           className="object-cover"

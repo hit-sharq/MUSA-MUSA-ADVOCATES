@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 import { requireAdmin } from "@/lib/auth"
+import { slugify } from "@/lib/slugify"
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   try {
@@ -25,16 +26,36 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   try {
     await requireAdmin()
 
-    const { title, description, icon, order } = await request.json()
+    const { title, description, icon, order, slug: providedSlug } = await request.json()
+
+    const existing = await prisma.practiceArea.findUnique({
+      where: { id: params.id },
+      select: { title: true, slug: true },
+    })
+
+    const data: Record<string, unknown> = {
+      title,
+      description,
+      icon,
+      order: order || 0,
+    }
+
+    const slugChanged = providedSlug && slugify(providedSlug) !== existing?.slug
+    const titleChanged = title && title !== existing?.title
+
+    if (slugChanged || (titleChanged && !providedSlug)) {
+      const baseSlug = slugify(providedSlug || title)
+      let slug = baseSlug
+      let counter = 1
+      while (await prisma.practiceArea.findFirst({ where: { slug, NOT: { id: params.id } } })) {
+        slug = `${baseSlug}-${counter++}`
+      }
+      data.slug = slug
+    }
 
     const practiceArea = await prisma.practiceArea.update({
       where: { id: params.id },
-      data: {
-        title,
-        description,
-        icon,
-        order: order || 0,
-      },
+      data,
     })
 
     return NextResponse.json(practiceArea)

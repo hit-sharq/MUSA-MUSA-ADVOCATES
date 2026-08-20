@@ -5,6 +5,7 @@ import type React from "react"
 import { use, useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import RichTextEditor from "@/components/RichTextEditor"
+import SlugField from "@/components/SlugField"
 
 export default function EditBlogPost({
   params,
@@ -15,6 +16,7 @@ export default function EditBlogPost({
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
     content: "",
     summary: "",
     category: "",
@@ -32,12 +34,13 @@ export default function EditBlogPost({
         if (response.ok) {
           const post = await response.json()
 setFormData({
-             title: post.title,
-             content: post.content,
-             summary: post.summary || "",
-             category: post.category || "",
-             published: post.published,
-           })
+              title: post.title,
+              slug: post.slug || "",
+              content: post.content,
+              summary: post.summary || "",
+              category: post.category || "",
+              published: post.published,
+            })
           setImageUrl(post.image || "")
         } else {
           router.push("/admin/blog")
@@ -84,6 +87,7 @@ setFormData({
         },
         body: JSON.stringify({
           ...formData,
+          slug: formData.slug || undefined,
           image: finalImageUrl,
         }),
       })
@@ -142,6 +146,13 @@ setFormData({
               placeholder="Enter blog post title"
             />
           </div>
+
+          <SlugField
+            source={formData.title}
+            value={formData.slug}
+            onChange={(slug) => setFormData((prev) => ({ ...prev, slug }))}
+            prefix="/blog/"
+          />
 
           <div className="form-group">
             <label htmlFor="summary" className="form-label">

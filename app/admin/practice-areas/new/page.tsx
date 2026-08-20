@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import RichTextEditor from "@/components/RichTextEditor"
+import SlugField from "@/components/SlugField"
 
 const EMOJI_OPTIONS = [
   "⚖️",
@@ -33,6 +34,7 @@ export default function NewPracticeArea() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
     description: "",
     icon: "⚖️",
     order: 0,
@@ -49,7 +51,10 @@ export default function NewPracticeArea() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          slug: formData.slug || undefined,
+        }),
       })
 
       if (response.ok) {
@@ -84,6 +89,13 @@ export default function NewPracticeArea() {
               placeholder="E.g., Criminal Law, Family Law, etc."
             />
           </div>
+
+          <SlugField
+            source={formData.title}
+            value={formData.slug}
+            onChange={(slug) => setFormData((prev) => ({ ...prev, slug }))}
+            prefix="/practice-areas/"
+          />
 
           <div className="form-group">
             <label htmlFor="icon" className="form-label">

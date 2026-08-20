@@ -65,6 +65,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem; /* offset for the fixed navbar on anchored jumps */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -75,6 +76,33 @@ body {
   color: var(--text-primary);
   background-color: var(--bg-white);
   overflow-x: hidden;
+}
+
+/* ==================== */
+/* Light polish: consistent interaction & media defaults */
+/* ==================== */
+
+:focus-visible {
+  outline: 2px solid var(--brand-blue);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+::selection {
+  background: rgba(189, 221, 252, 0.35);
+  color: var(--navy-default);
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
 }
 
 /* Reduce motion for accessibility */

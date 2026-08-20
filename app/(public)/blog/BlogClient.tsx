@@ -5,6 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Calendar, ArrowRight, BookOpen, Mail, Send, Clock, Tag } from "lucide-react"
+import { optimizeCloudinaryUrl } from "@/lib/image"
 
 interface BlogPost {
   id: string
@@ -189,7 +190,7 @@ export default function BlogClient({ posts }: BlogClientProps) {
                   <Link href={`/blog/${featuredPost.slug}`}>
                     <div className="blog-card-image">
                       <Image
-                        src={featuredPost.image || "/placeholder.svg?height=400&width=800"}
+                        src={optimizeCloudinaryUrl(featuredPost.image, { width: 1200 })}
                         alt={featuredPost.title}
                         fill
                         className="object-cover"
@@ -234,7 +235,7 @@ export default function BlogClient({ posts }: BlogClientProps) {
                   <Link href={`/blog/${post.slug}`}>
                     <div className="blog-card-image">
                       <Image
-                        src={post.image || "/placeholder.svg?height=300&width=500"}
+                        src={optimizeCloudinaryUrl(post.image, { width: 600 })}
                         alt={post.title}
                         fill
                         className="object-cover"

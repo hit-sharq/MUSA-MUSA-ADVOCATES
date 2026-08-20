@@ -5,11 +5,13 @@ import type React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import RichTextEditor from "@/components/RichTextEditor"
+import SlugField from "@/components/SlugField"
 
 export default function NewBlogPost() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     title: "",
+    slug: "",
     content: "",
     summary: "",
     category: "",
@@ -55,6 +57,7 @@ export default function NewBlogPost() {
         },
         body: JSON.stringify({
           ...formData,
+          slug: formData.slug || undefined,
           image: finalImageUrl,
         }),
       })
@@ -100,6 +103,13 @@ export default function NewBlogPost() {
               placeholder="Enter blog post title"
             />
           </div>
+
+          <SlugField
+            source={formData.title}
+            value={formData.slug}
+            onChange={(slug) => setFormData((prev) => ({ ...prev, slug }))}
+            prefix="/blog/"
+          />
 
           <div className="form-group">
             <label htmlFor="summary" className="form-label">
