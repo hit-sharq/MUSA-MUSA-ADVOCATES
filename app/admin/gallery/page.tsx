@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
+import { cleanRichText } from "@/lib/richtext"
 
 interface GalleryImage {
   id: string
@@ -98,7 +99,9 @@ export default function GalleryManager() {
                   </div>
                   <div style={{ padding: "1rem" }}>
                     <h3 style={{ marginBottom: "0.5rem" }}>{image.title}</h3>
-                    {image.description && <p style={{ color: "#666", marginBottom: "1rem" }}>{image.description}</p>}
+                    {image.description && (
+                      <p style={{ color: "#666", marginBottom: "1rem" }} dangerouslySetInnerHTML={{ __html: cleanRichText(image.description) }} />
+                    )}
                     <div style={{ display: "flex", gap: "0.5rem" }}>
                       <Link href={`/admin/gallery/edit/${image.id}`} className="btn btn-secondary">
                         Edit

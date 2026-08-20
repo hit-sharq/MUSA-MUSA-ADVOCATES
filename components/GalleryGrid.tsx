@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import React from "react"
+import { cleanRichText } from "@/lib/richtext"
 
 interface GalleryImage {
   id: string
@@ -55,7 +56,10 @@ export default function GalleryGrid({ images }: GalleryGridProps) {
                 {image.title}
               </h4>
               {image.description && (
-                <p style={{ fontSize: "0.8rem" }}>{image.description}</p>
+                <div
+                  style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}
+                  dangerouslySetInnerHTML={{ __html: cleanRichText(image.description) }}
+                />
               )}
             </div>
           </div>
