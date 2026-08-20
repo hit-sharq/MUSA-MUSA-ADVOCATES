@@ -31,16 +31,24 @@ export default function TeamClient() {
   const isTeamInView = useInView(teamRef, { once: true, margin: "-100px" })
 
   useEffect(() => {
-    fetchTeamMembers()
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8000)
+    fetchTeamMembers(controller.signal)
+    return () => {
+      clearTimeout(timeout)
+      controller.abort()
+    }
   }, [])
 
-  const fetchTeamMembers = async () => {
+  const fetchTeamMembers = async (signal?: AbortSignal) => {
     try {
-      const response = await fetch("/api/team-members")
+      const response = await fetch("/api/team-members", { signal })
       const data = await response.json()
       setTeamMembers(data.sort((a: TeamMember, b: TeamMember) => a.order - b.order))
     } catch (error) {
-      console.error("Error fetching team members:", error)
+      if (!(error instanceof DOMException && error.name === "AbortError")) {
+        console.error("Error fetching team members:", error)
+      }
     } finally {
       setLoading(false)
     }

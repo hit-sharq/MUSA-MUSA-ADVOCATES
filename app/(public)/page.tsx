@@ -22,29 +22,20 @@ interface TeamMember {
   image?: string | null
 }
 
-interface BlogPost {
-  id: string
-  title: string
-  slug: string
-  summary: string
-  image?: string | null
-  createdAt: string
-  published: boolean
-}
-
 export default function HomePage() {
   const [practiceAreas, setPracticeAreas] = useState<PracticeArea[]>([])
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
-  const [recentPosts, setRecentPosts] = useState<BlogPost[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8000)
+
     async function fetchData() {
       try {
-        const [areasRes, teamRes, postsRes] = await Promise.all([
-          fetch("/api/practice-areas"),
-          fetch("/api/team-members"),
-          fetch("/api/blog-posts"),
+        const [areasRes, teamRes] = await Promise.all([
+          fetch("/api/practice-areas", { signal: controller.signal }),
+          fetch("/api/team-members", { signal: controller.signal }),
         ])
 
         if (areasRes.ok) {
@@ -55,33 +46,21 @@ export default function HomePage() {
           const team = await teamRes.json()
           setTeamMembers(team.slice(0, 3))
         }
-        if (postsRes.ok) {
-          const posts = await postsRes.json()
-          setRecentPosts(posts.filter((p: BlogPost) => p.published).slice(0, 3))
-        }
       } catch (error) {
-        console.error("Error fetching data:", error)
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          console.error("Error fetching data:", error)
+        }
       } finally {
         setIsLoading(false)
       }
     }
     fetchData()
-  }, [])
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center pt-20">
-        <div className="text-center">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-12 h-12 border-4 border-brand/30 border-t-brand rounded-full mx-auto mb-4"
-          />
-          <p className="text-navy/70">Loading...</p>
-        </div>
-      </div>
-    )
-  }
+    return () => {
+      clearTimeout(timeout)
+      controller.abort()
+    }
+  }, [])
 
   return (
     <>
@@ -346,7 +325,20 @@ export default function HomePage() {
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {practiceAreas.map((area, index) => (
+            {isLoading && practiceAreas.length === 0 ? (
+              Array.from({ length: 3 }).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-full bg-white rounded-3xl p-8 shadow-lg border border-brand/10 animate-pulse"
+                >
+                  <div className="w-16 h-16 rounded-2xl bg-brand/10 mb-6" />
+                  <div className="h-6 bg-brand/10 rounded mb-3 w-2/3" />
+                  <div className="h-4 bg-brand/10 rounded mb-2" />
+                  <div className="h-4 bg-brand/10 rounded w-5/6" />
+                </div>
+              ))
+            ) : practiceAreas.length > 0 ? (
+              practiceAreas.map((area, index) => (
               <motion.div
                 key={area.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -373,7 +365,8 @@ export default function HomePage() {
                   </div>
                 </Link>
               </motion.div>
-            ))}
+            ))
+            ) : null}
           </div>
 
           <motion.div

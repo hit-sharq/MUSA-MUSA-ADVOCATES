@@ -19,16 +19,24 @@ export default function PracticeAreasClient() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchPracticeAreas()
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8000)
+    fetchPracticeAreas(controller.signal)
+    return () => {
+      clearTimeout(timeout)
+      controller.abort()
+    }
   }, [])
 
-  const fetchPracticeAreas = async () => {
+  const fetchPracticeAreas = async (signal?: AbortSignal) => {
     try {
-      const response = await fetch("/api/practice-areas")
+      const response = await fetch("/api/practice-areas", { signal })
       const data = await response.json()
       setPracticeAreas(data)
     } catch (error) {
-      console.error("Error fetching practice areas:", error)
+      if (!(error instanceof DOMException && error.name === "AbortError")) {
+        console.error("Error fetching practice areas:", error)
+      }
     } finally {
       setLoading(false)
     }

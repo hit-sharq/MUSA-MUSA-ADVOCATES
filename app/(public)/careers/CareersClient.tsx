@@ -21,16 +21,24 @@ export default function CareersClient() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchCareers()
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 8000)
+    fetchCareers(controller.signal)
+    return () => {
+      clearTimeout(timeout)
+      controller.abort()
+    }
   }, [])
 
-  const fetchCareers = async () => {
+  const fetchCareers = async (signal?: AbortSignal) => {
     try {
-      const response = await fetch("/api/careers")
+      const response = await fetch("/api/careers", { signal })
       const data = await response.json()
       setCareers(data)
     } catch (error) {
-      console.error("Error fetching careers:", error)
+      if (!(error instanceof DOMException && error.name === "AbortError")) {
+        console.error("Error fetching careers:", error)
+      }
     } finally {
       setLoading(false)
     }
